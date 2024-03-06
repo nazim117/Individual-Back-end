@@ -14,7 +14,3 @@ test:
   stage: test
   script:
     - ./gradlew test
-
-Job1:
-  script:
-    -echo "This is a first Demo job"
