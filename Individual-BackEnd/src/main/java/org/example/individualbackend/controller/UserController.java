@@ -24,7 +24,7 @@ public class UserController{
     public ResponseEntity<GetAllUsersResponse> getUsers(){
         return ResponseEntity.ok(getUsersUseCase.getUsers());
     }
-    
+
     @GetMapping("{id}")
     public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") final Integer id){
         UserEntity user = getUserUseCase.getUser(id);
@@ -33,7 +33,7 @@ public class UserController{
         }
         return ResponseEntity.ok().body(user);
     }
-
+//test runner
     @PostMapping
     public ResponseEntity<CreateUserResponse> createUser(@RequestBody @Valid CreateUserRequest request){
         CreateUserResponse response = createUserUseCase.createUser(request);
