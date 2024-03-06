@@ -18,7 +18,3 @@ test:
     - ls
     - pwd
     - ./gradlew test
-
-Job1:
-  script:
-    - echo "check if works"
