@@ -24,7 +24,7 @@ public class UserController{
     public ResponseEntity<GetAllUsersResponse> getUsers(){
         return ResponseEntity.ok(getUsersUseCase.getUsers());
     }
-
+//test
     @GetMapping("{id}")
     public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") final Integer id){
         UserEntity user = getUserUseCase.getUser(id);
