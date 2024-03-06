@@ -26,7 +26,7 @@ public class UserController{
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserEntity> getMatch(@PathVariable(value = "id") final Integer id){
+    public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") final Integer id){
         UserEntity user = getUserUseCase.getUser(id);
         if(user == null){
             return  ResponseEntity.notFound().build();
