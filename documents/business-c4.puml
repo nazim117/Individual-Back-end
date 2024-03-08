@@ -1,0 +1,96 @@
+@startuml
+class business.impl.UpdateUserUseCaseImpl {
+- UserRepo userRepo
++ void updateUser(UpdateUserRequest)
+- void updateFields(UpdateUserRequest,UserEntity)
+}
+
+
+interface business.GetMatchesUseCase {
+~ GetAllMatchesResponse getMatches()
+}
+
+interface business.DeleteUserUseCase {
+~ void deleteUser(Integer)
+}
+
+interface business.UpdateUserUseCase {
+~ void updateUser(UpdateUserRequest)
+}
+
+class business.iml.MatchConverter {
++ {static} Match convert(MatchEntity)
+}
+
+class business.iml.GetUserUseCaseImpl {
+- UserRepo userRepo
++ UserEntity getUser(Integer)
+}
+
+
+interface business.CreateUserUseCase {
+~ CreateUserResponse createUser(CreateUserRequest)
+}
+
+class business.iml.GetMatchesUseCaseImpl {
+- MatchRepo matchRepo
++ GetAllMatchesResponse getMatches()
+}
+
+
+interface business.GetUsersUseCase {
+~ GetAllUsersResponse getUsers()
+}
+
+class business.iml.GetMatchUseCaseImpl {
+- MatchRepo matchRepo
++ MatchEntity getMatch(Integer)
+}
+
+
+class business.iml.UserConverter {
++ {static} User convert(UserEntity)
+}
+
+class business.iml.CreateUserUseCaseImpl {
+- UserRepo userRepo
++ CreateUserResponse createUser(CreateUserRequest)
+- UserEntity saveNewUser(CreateUserRequest)
+}
+
+
+interface business.GetUserUseCase {
+~ UserEntity getUser(Integer)
+}
+
+interface business.GetTicketsUseCase {
+}
+class business.iml.GetUsersUseCaseImpl {
+- UserRepo userRepo
++ GetAllUsersResponse getUsers()
+}
+
+
+class business.iml.DeleteUserUseCaseImpl {
+- UserRepo userRepo
++ void deleteUser(Integer)
+}
+
+
+interface business.GetMatchUseCase {
+~ MatchEntity getMatch(Integer)
+}
+
+class business.iml.GetTicketsUseCaseImpl {
+}
+
+
+business.UpdateUserUseCase <|.. business.iml.UpdateUserUseCaseImpl
+business.GetUserUseCase <|.. business.iml.GetUserUseCaseImpl
+business.GetMatchesUseCase <|.. business.iml.GetMatchesUseCaseImpl
+business.GetMatchUseCase <|.. business.iml.GetMatchUseCaseImpl
+business.CreateUserUseCase <|.. business.iml.CreateUserUseCaseImpl
+business.GetUsersUseCase <|.. business.iml.GetUsersUseCaseImpl
+business.DeleteUserUseCase <|.. business.iml.DeleteUserUseCaseImpl
+business.GetTicketsUseCase <|.. business.iml.GetTicketsUseCaseImpl
+@enduml

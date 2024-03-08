@@ -1,4 +1,4 @@
-package org.example.individualbackend.business.iml;
+package org.example.individualbackend.business.impl;
 
 import org.example.individualbackend.domain.Match;
 import org.example.individualbackend.persistance.entity.MatchEntity;
@@ -6,10 +6,11 @@ import org.example.individualbackend.persistance.entity.MatchEntity;
 public class MatchConverter {
     public static Match convert(MatchEntity match){
         return Match.builder().id(match.getId())
-                .homeTeamName(match.getHomeTeamName())
-                .awayTeamName(match.getAwayTeamName())
-                .location(match.getLocation())
-                .time(match.getTime())
+                .id(match.getId())
+                .name(match.getName())
+                .code(match.getCode())
+                .logo(match.getLogo())
+                .founded(match.getFounded())
                 .build();
     }
 }

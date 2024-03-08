@@ -9,8 +9,8 @@ import java.time.LocalDate;
 @Data
 public class MatchEntity {
     private Integer id;
-    private String homeTeamName;
-    private String awayTeamName;
-    private String location;
-    private LocalDate time;
+    private String name;
+    private String code;
+    private Integer founded;
+    private String logo;
 }

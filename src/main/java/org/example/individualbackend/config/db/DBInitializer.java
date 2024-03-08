@@ -23,16 +23,18 @@ public class DBInitializer {
     public void populateWithMatchDummyData(){
         if (matchRepo.count() == 0) {
             matchRepo.save(MatchEntity.builder()
-                    .homeTeamName("PSV")
-                    .awayTeamName("Ajax")
+                    .id(1)
+                    .code("MU")
+                    .name("Manchester United")
+                    .logo("manu.logo")
+                    .founded(1892)
                     .build());
             matchRepo.save(MatchEntity.builder()
-                    .homeTeamName("Bayern Munich")
-                    .awayTeamName("Borusia Dortmund")
-                    .build());
-            matchRepo.save(MatchEntity.builder()
-                    .homeTeamName("Real Madrid")
-                    .awayTeamName("Barcelona")
+                    .id(2)
+                    .code("RMA")
+                    .name("Real Madrid")
+                    .logo("realM.logo")
+                    .founded(1923)
                     .build());
         }
     }
@@ -42,6 +44,7 @@ public class DBInitializer {
         if (userRepo.count() == 0){
             userRepo.save(UserEntity
                     .builder()
+                    .email("ivan@dimitrov.com")
                     .fName("Ivan")
                     .lName("Dimitrov")
                     .password("1234")
@@ -50,6 +53,7 @@ public class DBInitializer {
                     .build());
             userRepo.save(UserEntity
                     .builder()
+                    .email("john@doe.com")
                     .fName("John")
                     .lName("Doe")
                     .password("5678")
@@ -58,6 +62,7 @@ public class DBInitializer {
                     .build());
             userRepo.save(UserEntity
                     .builder()
+                    .email("michael@smith.com")
                     .fName("Michael")
                     .lName("Smith")
                     .password("4321")

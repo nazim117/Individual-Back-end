@@ -1,13 +1,11 @@
-package org.example.individualbackend.business.iml;
+package org.example.individualbackend.business.impl;
 
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.UpdateUserUseCase;
 import org.example.individualbackend.domain.update.UpdateUserRequest;
 import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.entity.UserEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @AllArgsConstructor

@@ -5,11 +5,8 @@ import org.example.individualbackend.persistance.entity.MatchEntity;
 import java.util.List;
 
 public interface MatchRepo {
-    List<MatchEntity> getAll();
+    List<MatchEntity> getAllMatches(String leagueId, String seasonId);
     MatchEntity findById(Integer id);
-    public MatchEntity save(MatchEntity match);
-    MatchEntity update(MatchEntity match);
-    void delete(Integer id);
-
+    MatchEntity save(MatchEntity match);
     int count();
 }

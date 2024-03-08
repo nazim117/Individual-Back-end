@@ -1,7 +1,6 @@
-package org.example.individualbackend.business.iml;
+package org.example.individualbackend.business.impl;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.example.individualbackend.business.GetUsersUseCase;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.users.User;

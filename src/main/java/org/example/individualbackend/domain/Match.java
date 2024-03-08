@@ -15,9 +15,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Match {
     private Integer id;
-    private String homeTeamName;
-    private String awayTeamName;
-    private LocalDate time;
-    private String location;
+    private String name;
+    private String code;
+    private Integer founded;
+    private String logo;
 
 }

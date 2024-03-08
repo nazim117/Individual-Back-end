@@ -1,0 +1,79 @@
+@startuml
+class persistance.entity.UserEntity {
+- Integer id
+- String fName
+- String lName
+- String picture
+- String password
+- List<Ticket> tickets
+}
+
+interface persistance.TicketRepo {
+}
+class persistance.impl.FakeTicketRepoImpl {
+}
+class persistance.impl.ReadAPIKey {
+- {static} String API_KEY_FILE_PATH
++ String readApiKeyFromFile()
+}
+
+
+interface persistance.UserRepo {
+~ List<UserEntity> getAll()
+~ UserEntity findById(Integer)
++ UserEntity save(UserEntity)
+~ UserEntity update(UserEntity)
+~ void delete(Integer)
+~ int count()
+~ boolean isSavedByPassword(String)
+}
+
+class persistance.impl.FakeMatchRepoImpl {
+- List<MatchEntity> savedMatches
+- ReadAPIKey readAPIKey
+- String API_KEY
+- {static} String FOOTBALL_API_TEAMS_URL
+- {static} Integer NEXT_ID
++ List<MatchEntity> getAllMatches(String,String)
++ MatchEntity findById(Integer)
++ MatchEntity save(MatchEntity)
++ int count()
+}
+
+
+class persistance.entity.TicketEntity {
+}
+interface persistance.MatchRepo {
+~ List<MatchEntity> getAllMatches(String,String)
+~ MatchEntity findById(Integer)
+~ MatchEntity save(MatchEntity)
+~ int count()
+}
+
+class persistance.impl.FakeUserRepoImpl {
+- {static} Integer NEXT_ID
+- List<UserEntity> savedUsers
++ List<UserEntity> getAll()
++ UserEntity findById(Integer)
++ UserEntity save(UserEntity)
++ UserEntity update(UserEntity)
++ void delete(Integer)
++ int count()
++ boolean isSavedByPassword(String)
+}
+
+
+class persistance.entity.MatchEntity {
+- Integer id
+- String name
+- String code
+- Integer founded
+- String logo
+}
+
+
+
+persistance.TicketRepo <|.. persistance.impl.FakeTicketRepoImpl
+persistance.MatchRepo <|.. persistance.impl.FakeMatchRepoImpl
+persistance.UserRepo <|.. persistance.impl.FakeUserRepoImpl
+@enduml

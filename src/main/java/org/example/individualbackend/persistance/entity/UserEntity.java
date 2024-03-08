@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public class UserEntity {
     private Integer id;
+    private String email;
     private String fName;
     private String lName;
     private String picture;

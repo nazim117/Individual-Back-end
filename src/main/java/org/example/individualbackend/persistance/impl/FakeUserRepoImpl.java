@@ -59,9 +59,9 @@ public class FakeUserRepoImpl implements UserRepo {
     }
 
     @Override
-    public boolean isSavedByPassword(String password) {
+    public boolean isSavedByEmail(String email) {
         return savedUsers
                 .stream()
-                .anyMatch(userEntity -> userEntity.getId().equals(password));
+                .anyMatch(userEntity -> userEntity.getEmail().equals(email));
     }
 }

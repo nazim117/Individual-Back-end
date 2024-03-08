@@ -1,0 +1,10 @@
+@startuml
+class config.db.DBInitializer {
+- MatchRepo matchRepo
+- UserRepo userRepo
++ void populateWithMatchDummyData()
++ void populateWithUserDummyData()
+}
+
+
+@enduml

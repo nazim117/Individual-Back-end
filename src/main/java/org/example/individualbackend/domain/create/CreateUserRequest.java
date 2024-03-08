@@ -17,6 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 public class CreateUserRequest {
     @NotBlank
+    private String email;
+    @NotBlank
     private String fName;
     @NotBlank
     private String lName;

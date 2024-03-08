@@ -1,9 +1,7 @@
-package org.example.individualbackend.business.iml;
+package org.example.individualbackend.business.impl;
 
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.GetUserUseCase;
-import org.example.individualbackend.business.GetUsersUseCase;
-import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.springframework.stereotype.Service;

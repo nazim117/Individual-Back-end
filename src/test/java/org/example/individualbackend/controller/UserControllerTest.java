@@ -1,6 +1,5 @@
 package org.example.individualbackend.controller;
 
-import com.sun.source.tree.ModuleTree;
 import org.example.individualbackend.business.*;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.create.CreateUserRequest;
@@ -9,11 +8,12 @@ import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.update.UpdateUserRequest;
 import org.example.individualbackend.domain.users.User;
 import org.example.individualbackend.persistance.entity.UserEntity;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,9 +21,9 @@ import org.springframework.test.context.ContextConfiguration;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest
 @ContextConfiguration(classes = {TestConfig.class})
 class UserControllerTest{
     @InjectMocks
@@ -39,6 +39,10 @@ class UserControllerTest{
     @Mock
     private DeleteUserUseCase deleteUserUseCase;
 
+    @BeforeEach
+    void setUp(){
+        MockitoAnnotations.initMocks(this);
+    }
     @Test
     public void testGetUsers(){
         Mockito.when(getUsersUseCase.getUsers()).thenReturn(createMockGetAllUsersResponse());

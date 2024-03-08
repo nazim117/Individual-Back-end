@@ -1,8 +1,7 @@
-package org.example.individualbackend.business.iml;
+package org.example.individualbackend.business.impl;
 
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.GetTicketsUseCase;
-import org.example.individualbackend.persistance.TicketRepo;
 import org.springframework.stereotype.Service;
 
 @Service

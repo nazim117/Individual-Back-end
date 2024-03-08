@@ -1,10 +1,9 @@
-package org.example.individualbackend.business.iml;
+package org.example.individualbackend.business.impl;
 
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.CreateUserUseCase;
 import org.example.individualbackend.domain.create.CreateUserRequest;
 import org.example.individualbackend.domain.create.CreateUserResponse;
-import org.example.individualbackend.domain.users.User;
 import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     private final UserRepo userRepo;
     @Override
     public CreateUserResponse createUser(CreateUserRequest request) {
-        if(userRepo.isSavedByPassword(request.getPassword())){
+        if(userRepo.isSavedByEmail(request.getEmail())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User exists");
         }
 
@@ -33,6 +32,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     private UserEntity saveNewUser(CreateUserRequest request) {
         UserEntity userEntity = UserEntity
                 .builder()
+                .email(request.getEmail())
                 .fName(request.getFName())
                 .lName(request.getLName())
                 .picture(request.getPicture())

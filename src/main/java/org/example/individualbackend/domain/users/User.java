@@ -15,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class User {
     private Integer id;
+    private String email;
     private String fName;
     private String lName;
     private String picture;
