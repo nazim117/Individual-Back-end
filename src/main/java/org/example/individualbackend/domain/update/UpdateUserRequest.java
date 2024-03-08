@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 public class UpdateUserRequest {
     private Integer id;
     @NotBlank
+    private String email;
+    @NotBlank
     private String fName;
     @NotBlank
     private String lName;
