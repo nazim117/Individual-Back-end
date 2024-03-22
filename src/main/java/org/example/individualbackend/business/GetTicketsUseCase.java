@@ -1,5 +1,7 @@
 package org.example.individualbackend.business;
 
-public interface GetTicketsUseCase {
+import org.example.individualbackend.domain.get.GetAllTicketsResponse;
 
+public interface GetTicketsUseCase {
+    GetAllTicketsResponse getTickets();
 }

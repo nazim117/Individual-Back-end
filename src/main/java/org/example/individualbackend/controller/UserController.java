@@ -33,7 +33,6 @@ public class UserController{
         }
         return ResponseEntity.ok().body(user);
     }
-//test runner
     @PostMapping
     public ResponseEntity<CreateUserResponse> createUser(@RequestBody @Valid CreateUserRequest request){
         CreateUserResponse response = createUserUseCase.createUser(request);

@@ -4,6 +4,7 @@ variables:
 stages:
   - build
   - test
+  - deploy
 
 build:
   stage: build
@@ -11,6 +12,8 @@ build:
     - ls
     - pwd
     - ./gradlew assemble
+    - ./gradlew jar
+    - docker build -t individual-back-end
 
 test:
   stage: test
@@ -18,3 +21,8 @@ test:
     - ls
     - pwd
     - ./gradlew test
+
+deploy:
+  stage: deploy
+  script:
+    - docker run -d -p 8090:8080 --net=individual_db_staging --env spring_profiles_active=staging --name=individual_back_end-staging individual_back_end

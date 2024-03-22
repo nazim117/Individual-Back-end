@@ -13,6 +13,5 @@ public class GetUserUseCaseImpl implements GetUserUseCase {
     @Override
     public UserEntity getUser(Integer id) {
         return userRepo.findById(id);
-
     }
 }
