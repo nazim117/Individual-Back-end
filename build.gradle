@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
+    id "org.sonarqube" version "4.4.1.3373"
 }
 
 group = 'org.example'
@@ -39,6 +40,14 @@ jar{
     }
 }
 
+sonar {
+    properties {
+        property "sonar.projectKey", "I499773_individual-back-end_39a8aa8d-7b35-49d1-a41e-7e33289f6d80"
+        property "sonar.projectName", "Individual-Back-end"
+        property "sonar.qualitygate.wait", true
+    }
+
+}
 tasks.named('test') {
     useJUnitPlatform()
 }
