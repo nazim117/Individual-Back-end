@@ -15,7 +15,7 @@ public class GetMatchesUseCaseImpl implements GetMatchesUseCase {
     private final MatchRepo matchRepo;
     @Override
     public GetAllMatchesResponse getMatches() {
-        List<Match> matches = matchRepo.getAllMatches("31", "1")
+        List<Match> matches = matchRepo.getAllMatches("39", "1")
                 .stream()
                 .map(MatchConverter::convert)
                 .toList();

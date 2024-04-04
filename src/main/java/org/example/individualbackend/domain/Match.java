@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.net.Inet4Address;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -15,9 +16,17 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Match {
     private Integer id;
-    private String name;
-    private String code;
-    private Integer founded;
-    private String logo;
+    private String timezone;
+    private LocalDateTime date;
+    private String venueName;
+    private String statusShort;
+    private String homeTeamName;
+    private String homeTeamLogo;
+    private Boolean homeTeamWinner;
+    private String awayTeamName;
+    private String awayTeamLogo;
+    private Boolean awayTeamWinner;
+    private Integer goalsHome;
+    private Integer goalsAway;
 
 }

@@ -1,4 +1,4 @@
-package org.example.individualbackend.config.db;
+package org.example.individualbackend.config.db.conrs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

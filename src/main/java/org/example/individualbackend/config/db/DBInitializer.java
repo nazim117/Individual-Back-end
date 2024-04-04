@@ -22,20 +22,7 @@ public class DBInitializer {
     @EventListener(ApplicationReadyEvent.class)
     public void populateWithMatchDummyData(){
         if (matchRepo.count() == 0) {
-            matchRepo.save(MatchEntity.builder()
-                    .id(1)
-                    .code("MU")
-                    .name("Manchester United")
-                    .logo("manu.logo")
-                    .founded(1892)
-                    .build());
-            matchRepo.save(MatchEntity.builder()
-                    .id(2)
-                    .code("RMA")
-                    .name("Real Madrid")
-                    .logo("realM.logo")
-                    .founded(1923)
-                    .build());
+            matchRepo.save();
         }
     }
 

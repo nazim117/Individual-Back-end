@@ -7,6 +7,6 @@ import java.util.List;
 public interface MatchRepo {
     List<MatchEntity> getAllMatches(String leagueId, String seasonId);
     MatchEntity findById(Integer id);
-    MatchEntity save(MatchEntity match);
+    boolean save();
     int count();
 }

@@ -39,6 +39,9 @@ public class FakeUserRepoImpl implements UserRepo {
     @Override
     public UserEntity update(UserEntity user) {
         UserEntity userEntity = findById(user.getId());
+        if(userEntity == null){
+            throw new RuntimeException("Error fetching data");
+        }
         userEntity.setFName(user.getFName());
         userEntity.setLName(user.getLName());
         userEntity.setPicture(user.getPicture());
