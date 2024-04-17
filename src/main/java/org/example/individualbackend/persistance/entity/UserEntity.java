@@ -2,6 +2,7 @@ package org.example.individualbackend.persistance.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 @Entity
-@Table(name="user")
+@Table(name="application_user")
 @Builder
 @Data
 @NoArgsConstructor
@@ -24,6 +25,7 @@ public class UserEntity {
     @NotBlank
     @Length(min = 5, max = 50)
     @Column(name = "email")
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9_-]+\\.[A-Za-z]{2,}$")
     private String email;
 
     @NotBlank

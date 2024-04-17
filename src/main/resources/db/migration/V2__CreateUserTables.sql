@@ -1,4 +1,4 @@
-CREATE TABLE `users`(
+CREATE TABLE application_user(
     id          int not null AUTO_INCREMENT PRIMARY KEY,
     email       varchar(50) NOT NULL,
     fName       varchar(50),

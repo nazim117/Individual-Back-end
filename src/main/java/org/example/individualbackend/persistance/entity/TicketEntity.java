@@ -38,7 +38,7 @@ public class TicketEntity {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="application_user_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private UserEntity user;

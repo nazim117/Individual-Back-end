@@ -3,10 +3,10 @@ CREATE TABLE ticket(
     price               double precision NOT NULL,
     rowNum              int,
     seatNumber          int,
-    user_id             int not null,
+    application_user_id             int not null,
     football_match_id    int not null,
-    UNIQUE (rowNum, seatNumber, user_id, football_match_id),
-    FOREIGN KEY (user_id) REFERENCES users (id),
+    UNIQUE (rowNum, seatNumber, application_user_id, football_match_id),
+    FOREIGN KEY (application_user_id) REFERENCES application_user (id),
     FOREIGN KEY (football_match_id) REFERENCES football_match (id)
 );
 
