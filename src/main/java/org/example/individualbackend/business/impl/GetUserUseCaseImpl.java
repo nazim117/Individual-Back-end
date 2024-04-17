@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.GetUserUseCase;
 import org.example.individualbackend.persistance.UserRepo;
@@ -10,8 +11,9 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class GetUserUseCaseImpl implements GetUserUseCase {
     private final UserRepo userRepo;
+    @Transactional
     @Override
     public UserEntity getUser(Integer id) {
-        return userRepo.findById(id);
+        return userRepo.getUserEntityById(id);
     }
 }

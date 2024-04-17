@@ -12,7 +12,6 @@ public class UserConverter {
                 .lName(user.getLName())
                 .password(user.getPassword())
                 .picture(user.getPicture())
-                .tickets(user.getTickets())
                 .build();
     }
 }

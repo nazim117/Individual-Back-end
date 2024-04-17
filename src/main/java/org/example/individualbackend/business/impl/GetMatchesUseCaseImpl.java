@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.GetMatchesUseCase;
 import org.example.individualbackend.domain.Match;
@@ -13,9 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class GetMatchesUseCaseImpl implements GetMatchesUseCase {
     private final MatchRepo matchRepo;
+    @Transactional
     @Override
     public GetAllMatchesResponse getMatches() {
-        List<Match> matches = matchRepo.getAllMatches("39", "1")
+        List<Match> matches = matchRepo.getMatchEntitiesBy()
                 .stream()
                 .map(MatchConverter::convert)
                 .toList();

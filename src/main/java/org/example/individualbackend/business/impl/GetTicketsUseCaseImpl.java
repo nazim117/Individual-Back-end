@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.GetTicketsUseCase;
 import org.example.individualbackend.domain.Ticket;
@@ -13,9 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class GetTicketsUseCaseImpl implements GetTicketsUseCase {
     private final TicketRepo ticketRepo;
+    @Transactional
     @Override
     public GetAllTicketsResponse getTickets() {
-        List<Ticket> tickets = ticketRepo.getAllTickets()
+        List<Ticket> tickets = ticketRepo.getTicketEntitiesBy()
                 .stream()
                 .map(TicketConverter::convert)
                 .toList();

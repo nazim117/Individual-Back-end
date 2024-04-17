@@ -20,6 +20,6 @@ public class User {
     private String lName;
     private String picture;
     private String password;
-    private List<Ticket> tickets;
+    private List<Ticket> boughtTickets;
 
 }

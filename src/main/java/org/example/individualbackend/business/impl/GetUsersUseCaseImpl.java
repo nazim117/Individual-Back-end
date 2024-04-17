@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.GetUsersUseCase;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
@@ -13,9 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class GetUsersUseCaseImpl implements GetUsersUseCase {
     private final UserRepo userRepo;
+    @Transactional
     @Override
     public GetAllUsersResponse getUsers() {
-        List<User> users = userRepo.getAll()
+        List<User> users = userRepo.getUserEntitiesBy()
                 .stream()
                 .map(UserConverter::convert)
                 .toList();

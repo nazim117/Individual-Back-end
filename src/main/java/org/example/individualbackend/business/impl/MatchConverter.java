@@ -9,7 +9,6 @@ public class MatchConverter {
     public static Match convert(MatchEntity match){
         return Match.builder()
                 .id(match.getId())
-                .timezone(match.getTimezone())
                 .date(match.getDate())
                 .venueName(match.getVenueName())
                 .statusShort(match.getStatusShort())

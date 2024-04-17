@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.UpdateTicketUseCase;
 import org.example.individualbackend.business.UpdateUserUseCase;
@@ -15,9 +16,10 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UpdateTicketUseCaseImpl implements UpdateTicketUseCase {
     private final TicketRepo ticketRepo;
+    @Transactional
     @Override
     public void updateTicket(UpdateTicketRequest request) {
-        TicketEntity ticketEntity = ticketRepo.findById(request.getId());
+        TicketEntity ticketEntity = ticketRepo.getTicketEntityById(request.getId());
         if(ticketEntity == null){
             throw new NullPointerException("User_ID_INVALID");
         }
@@ -30,6 +32,6 @@ public class UpdateTicketUseCaseImpl implements UpdateTicketUseCase {
         ticketEntity.setPrice(request.getPrice());
         ticketEntity.setRowNum(request.getRowNum());
         ticketEntity.setSeatNumber(request.getSeatNumber());
-        ticketRepo.update(ticketEntity);
+        ticketRepo.save(ticketEntity);
     }
 }

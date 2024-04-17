@@ -1,6 +1,8 @@
 package org.example.individualbackend.business.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.individualbackend.business.CreateUserUseCase;
 import org.example.individualbackend.domain.create.CreateUserRequest;
 import org.example.individualbackend.domain.create.CreateUserResponse;
@@ -11,12 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CreateUserUseCaseImpl implements CreateUserUseCase {
     private final UserRepo userRepo;
+    @Transactional
     @Override
     public CreateUserResponse createUser(CreateUserRequest request) {
-        if(userRepo.isSavedByEmail(request.getEmail())){
+        if(userRepo.existsByEmail(request.getEmail())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User exists");
         }
 

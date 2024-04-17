@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.UpdateUserUseCase;
 import org.example.individualbackend.domain.update.UpdateUserRequest;
@@ -11,9 +12,10 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
     private final UserRepo userRepo;
+    @Transactional
     @Override
     public void updateUser(UpdateUserRequest request) {
-        UserEntity userEntity = userRepo.findById(request.getId());
+        UserEntity userEntity = userRepo.getUserEntityById(request.getId());
         if(userEntity == null){
             throw new NullPointerException("User_ID_INVALID");
         }
@@ -27,6 +29,6 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
         user.setLName(request.getLName());
         user.setPassword(request.getPassword());
         user.setPicture(request.getPicture());
-        userRepo.update(user);
+        userRepo.save(user);
     }
 }
