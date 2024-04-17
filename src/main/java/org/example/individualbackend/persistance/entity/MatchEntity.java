@@ -73,6 +73,6 @@ public class MatchEntity {
     @Column(name = "goalsAway")
     private Integer goalsAway;
 
-    @OneToMany(mappedBy = "football_match")
+    @OneToMany(mappedBy = "footballMatch")
     private List<TicketEntity> availableTickets;
 }

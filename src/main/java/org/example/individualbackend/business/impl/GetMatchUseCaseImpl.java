@@ -1,6 +1,5 @@
 package org.example.individualbackend.business.impl;
 
-import io.swagger.v3.oas.models.examples.Example;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.GetMatchUseCase;

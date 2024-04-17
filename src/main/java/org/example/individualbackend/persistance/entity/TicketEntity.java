@@ -48,5 +48,5 @@ public class TicketEntity {
     @JoinColumn(name = "football_match_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private MatchEntity football_match;
+    private MatchEntity footballMatch;
 }
