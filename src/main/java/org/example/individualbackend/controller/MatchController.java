@@ -1,6 +1,5 @@
 package org.example.individualbackend.controller;
 
-import ch.qos.logback.core.util.InvocationGate;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.*;
 import org.example.individualbackend.domain.get.GetAllMatchesResponse;

@@ -1,11 +1,16 @@
 package org.example.individualbackend.business.impl;
 
+import lombok.NoArgsConstructor;
 import org.example.individualbackend.domain.Match;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 
 import java.time.LocalDateTime;
 
 public class MatchConverter {
+
+    private MatchConverter(){
+
+    }
     public static Match convert(MatchEntity match){
         return Match.builder()
                 .id(match.getId())
