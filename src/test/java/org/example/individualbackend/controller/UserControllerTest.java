@@ -8,12 +8,9 @@ import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.update.UpdateUserRequest;
 import org.example.individualbackend.domain.users.User;
 import org.example.individualbackend.persistance.entity.UserEntity;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ContextConfiguration(classes = {TestConfig.class})
 class UserControllerTest{
+
     @InjectMocks
     private UserController userController;
     @Mock
@@ -44,7 +42,7 @@ class UserControllerTest{
         MockitoAnnotations.initMocks(this);
     }
     @Test
-    public void testGetUsers(){
+    public void testGetUsers() {
         Mockito.when(getUsersUseCase.getUsers()).thenReturn(createMockGetAllUsersResponse());
 
         ResponseEntity<GetAllUsersResponse> response = userController.getUsers();

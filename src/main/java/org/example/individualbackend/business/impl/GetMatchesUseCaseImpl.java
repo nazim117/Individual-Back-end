@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.GetMatchesUseCase;
 import org.example.individualbackend.domain.Match;
 import org.example.individualbackend.domain.get.GetAllMatchesResponse;
-import org.example.individualbackend.persistance.MatchRepo;
+import org.example.individualbackend.externalAPI.FootballAPI;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class GetMatchesUseCaseImpl implements GetMatchesUseCase {
-    private final MatchRepo matchRepo;
+    private final FootballAPI footballAPI;
     @Transactional
     @Override
     public GetAllMatchesResponse getMatches() {
-        List<Match> matches = matchRepo.getMatchEntitiesBy()
+        List<Match> matches = footballAPI.getMatchesData()
                 .stream()
                 .map(MatchConverter::convert)
                 .toList();

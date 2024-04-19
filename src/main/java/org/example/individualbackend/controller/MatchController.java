@@ -6,12 +6,14 @@ import org.example.individualbackend.domain.get.GetAllMatchesResponse;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+
 @RestController
 @RequestMapping("/matches")
 @AllArgsConstructor
 public class MatchController {
     private final GetMatchesUseCase getMatchesUseCase;
     private final GetMatchUseCase getMatchUseCase;
+
     @GetMapping
     public ResponseEntity<GetAllMatchesResponse> getMatches(){
         return ResponseEntity.ok(getMatchesUseCase.getMatches());
