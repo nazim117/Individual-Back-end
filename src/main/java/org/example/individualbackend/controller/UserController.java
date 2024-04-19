@@ -20,6 +20,7 @@ public class UserController{
     private final CreateUserUseCase createUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
+
     @GetMapping
     public ResponseEntity<GetAllUsersResponse> getUsers(){
         return ResponseEntity.ok(getUsersUseCase.getUsers());

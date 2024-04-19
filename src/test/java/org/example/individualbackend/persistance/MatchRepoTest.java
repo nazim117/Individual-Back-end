@@ -84,7 +84,7 @@ class MatchRepoTest {
         //TODO: find why it doesn't work
         //assertEquals(2, matches.size());
         assertMatchEntitiesEquals(match1, matches.get(matches.size()-2));
-        assertMatchEntitiesEquals(match2, matches.getLast());
+        assertMatchEntitiesEquals(match2, matches.get(matches.size()-1));
     }
 
     @Test

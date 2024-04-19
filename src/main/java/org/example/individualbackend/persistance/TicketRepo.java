@@ -8,10 +8,7 @@ import java.util.List;
 @Repository
 public interface TicketRepo extends JpaRepository<TicketEntity, Integer> {
     List<TicketEntity> getTicketEntitiesBy();
-
     TicketEntity save(TicketEntity ticketEntity);
-
     void deleteById(Integer id);
-
     TicketEntity getTicketEntityById(Integer id);
 }

@@ -1,103 +1,188 @@
 package org.example.individualbackend.controller;
 
 import org.example.individualbackend.business.*;
+import org.example.individualbackend.business.impl.GetMatchesUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
+import org.example.individualbackend.domain.Match;
 import org.example.individualbackend.domain.create.CreateUserRequest;
 import org.example.individualbackend.domain.create.CreateUserResponse;
+import org.example.individualbackend.domain.get.GetAllMatchesResponse;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.update.UpdateUserRequest;
 import org.example.individualbackend.domain.users.User;
+import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ContextConfiguration(classes = {TestConfig.class})
+//@ContextConfiguration(classes = {TestConfig.class})
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(UserController.class)
 class UserControllerTest{
 
-    @InjectMocks
-    private UserController userController;
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private GetUsersUseCase getUsersUseCase;
-    @Mock
+    @MockBean
     private GetUserUseCase getUserUseCase;
-    @Mock
+    @MockBean
     private CreateUserUseCase createUserUseCase;
-    @Mock
+    @MockBean
     private UpdateUserUseCase updateUserUseCase;
-    @Mock
+    @MockBean
     private DeleteUserUseCase deleteUserUseCase;
 
-    @BeforeEach
-    void setUp(){
-        MockitoAnnotations.initMocks(this);
+//    @BeforeEach
+//    void setUp(){
+//        MockitoAnnotations.initMocks(this);
+//    }
+
+    @Test
+    public void testGetUsers() throws Exception{
+        // Arrange
+        GetAllUsersResponse response = GetAllUsersResponse
+                .builder()
+                .users(List.of(
+                        User.builder()
+                                .id(20)
+                                .email("alex@johnson.com")
+                                .fName("Alex")
+                                .lName("Johnson")
+                                .picture("picture5")
+                                .password("strongPass")
+                                .build(),
+                        User.builder()
+                                .id(21)
+                                .email("test@example.com")
+                                .fName("test")
+                                .lName("example")
+                                .picture("picture5")
+                                .password("password")
+                                .build()
+                ))
+                .build();
+        when(getUsersUseCase.getUsers())
+                .thenReturn(response);
+
+        // Act
+        // Assert
+        mockMvc.perform(get("/users"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
+                .andExpect(content().json("""
+                            {
+                                  "users": [
+                                      {
+                                          "id": 20,
+                                          "email": "alex@johnson.com",
+                                          "picture": "picture5",
+                                          "password": "strongPass",
+                                          "lname": "Johnson",
+                                          "fname": "Alex"
+                                      },
+                                      {
+                                          "id": 21,
+                                          "email": "test@example.com",
+                                          "picture": "picture5",
+                                          "password": "password",
+                                          "lname": "example",
+                                          "fname": "test"
+                                      }
+                                  ]
+                              }
+                        """));
     }
     @Test
-    public void testGetUsers() {
-        Mockito.when(getUsersUseCase.getUsers()).thenReturn(createMockGetAllUsersResponse());
-
-        ResponseEntity<GetAllUsersResponse> response = userController.getUsers();
-
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-    }
-    @Test
-    public void testGetUser(){
+    public void testGetUser() throws Exception{
         Mockito.when(getUserUseCase.getUser(Mockito.anyInt())).thenReturn(createMockGetUserResponse());
 
-        ResponseEntity<UserEntity> response = userController.getUser(1);
+        //ResponseEntity<UserEntity> response = userController.getUser(1);
 
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", 1)
+                .accept(MediaType.APPLICATION_JSON))
+                        .andReturn();
+
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+        assertNotNull(result.getResponse().getContentAsString());
     }
     @Test
-    public void testCreateUser(){
+    public void testCreateUser() throws Exception {
         Mockito.when(createUserUseCase.createUser(Mockito.any())).thenReturn(createMockCreateUserResponse());
 
         CreateUserRequest request = createSampleCreateUserRequest();
 
-        ResponseEntity<CreateUserResponse> response = userController.createUser(request);
+        // ResponseEntity<CreateUserResponse> response = userController.createUser(request);
 
-        assertNotNull(response);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNotNull(response.getBody());
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andReturn();
+
+        assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
+        assertNotNull(result.getResponse().getContentAsString());
     }
     @Test
-    public void testUpdateUser(){
+    public void testUpdateUser() throws Exception{
         Mockito.doNothing().when(updateUserUseCase).updateUser(Mockito.any());
 
         UpdateUserRequest request = createSampleUpdateUserRequest();
 
-        ResponseEntity<Void> response = userController.updateUser(1, request);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
 
-        assertNotNull(response);
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/users/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                        .andReturn();
+
+        assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }
 
     @Test
-    public void testDeleteUser(){
+    public void testDeleteUser() throws Exception{
         Mockito.doNothing().when(deleteUserUseCase).deleteUser(Mockito.anyInt());
 
-        ResponseEntity<Void> response = userController.deleteUser(1);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", 1))
+                .andReturn();
 
-        assertNotNull(response);
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }
     private UpdateUserRequest createSampleUpdateUserRequest() {
         return UpdateUserRequest
                 .builder()
                 .id(1)
+                .email("michael@example.com")
                 .fName("Michael")
                 .lName("Johnson")
                 .password("1234")
@@ -107,6 +192,7 @@ class UserControllerTest{
 
     private CreateUserRequest createSampleCreateUserRequest() {
         return CreateUserRequest.builder()
+                .email("john@example.com")
                 .fName("John")
                 .lName("Doe")
                 .password("1111")
