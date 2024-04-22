@@ -12,7 +12,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -28,23 +31,23 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ContextConfiguration(classes = {TestConfig.class})
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(MatchController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class MatchControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private GetMatchesUseCase getMatchesUseCase;
 
-    @Mock
+    @MockBean
     private GetMatchUseCase getMatchUseCase;
 
-    @BeforeEach
-    void setUp(){
-        MockitoAnnotations.initMocks(this);
-    }
+//    @BeforeEach
+//    void setUp(){
+//        MockitoAnnotations.initMocks(this);
+//    }
 
     @Test
     public void getMatch_ReturnsMatchEntityList() throws Exception {

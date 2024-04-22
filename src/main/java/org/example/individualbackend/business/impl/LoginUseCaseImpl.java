@@ -1,6 +1,7 @@
 package org.example.individualbackend.business.impl;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.example.individualbackend.business.LoginUseCase;
 import org.example.individualbackend.business.exception.InvalidCredentialsException;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class LoginUseCaseImpl implements LoginUseCase {
     private final UserRepo userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -28,10 +29,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
         UserEntity user = userRepository.findByEmail(loginRequest.getEmail());
-//        if (user.getUserRoles() != null) {
-//            Hibernate.initialize(user.getUserRoles());
-//            Hibernate.initialize(user.getFan());
-//        }
+
         if (user == null) {
             throw new InvalidCredentialsException();
         }
@@ -49,7 +47,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     private String generateAccessToken(UserEntity user) {
-        Long userId = user.getFan() != null ? user.getFan().getId() : null;
+        Integer userId = user.getFan() != null ? user.getFan().getId() : null;
         List<String> roles = user.getUserRoles().stream()
                 .map(userRole -> userRole.getRole().toString())
                 .toList();

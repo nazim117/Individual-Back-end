@@ -50,7 +50,7 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
-    @OneToOne(optional = true,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "fan_id")
     private FanEntity fan;
 

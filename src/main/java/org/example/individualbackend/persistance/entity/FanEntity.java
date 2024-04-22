@@ -18,7 +18,7 @@ public class FanEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @OneToMany(mappedBy = "fan")
     private List<TicketEntity> boughtTickets;

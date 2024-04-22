@@ -45,6 +45,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.4'
     testImplementation 'com.playtika.testcontainers:embedded-mysql:3.0.0-RC9'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 jar{
     manifest{
