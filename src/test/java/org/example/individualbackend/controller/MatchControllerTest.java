@@ -44,11 +44,6 @@ public class MatchControllerTest {
     @MockBean
     private GetMatchUseCase getMatchUseCase;
 
-//    @BeforeEach
-//    void setUp(){
-//        MockitoAnnotations.initMocks(this);
-//    }
-
     @Test
     public void getMatch_ReturnsMatchEntityList() throws Exception {
         //Arrange

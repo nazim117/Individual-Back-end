@@ -48,6 +48,15 @@ class GetMatchesUseCaseImplTest {
         assertEquals(match, response.getMatches());
     }
 
+    @Test
+    public void get_Matches_ReturnsEmptyMatchEntityArray(){
+        when(footballAPI.getMatchesData()).thenReturn(new ArrayList<>());
+
+        GetAllMatchesResponse response = getMatchesUseCase.getMatches();
+
+        assertEquals(0, response.getMatches().size());
+    }
+
     private List<MatchEntity> createMockMatches() {
         List<MatchEntity> matchEntityList = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
