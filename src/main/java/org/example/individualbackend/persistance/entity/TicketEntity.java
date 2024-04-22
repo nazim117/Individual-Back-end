@@ -38,10 +38,10 @@ public class TicketEntity {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name="application_user_id")
+    @JoinColumn(name="fan_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private UserEntity user;
+    private FanEntity fan;
 
     @NotNull
     @ManyToOne

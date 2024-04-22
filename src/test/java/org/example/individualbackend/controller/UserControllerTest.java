@@ -1,16 +1,11 @@
 package org.example.individualbackend.controller;
 
 import org.example.individualbackend.business.*;
-import org.example.individualbackend.business.impl.GetMatchesUseCaseImpl;
-import org.example.individualbackend.config.TestConfig;
-import org.example.individualbackend.domain.Match;
 import org.example.individualbackend.domain.create.CreateUserRequest;
 import org.example.individualbackend.domain.create.CreateUserResponse;
-import org.example.individualbackend.domain.get.GetAllMatchesResponse;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.update.UpdateUserRequest;
 import org.example.individualbackend.domain.users.User;
-import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,13 +15,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
@@ -40,7 +32,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@ContextConfiguration(classes = {TestConfig.class})
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
 class UserControllerTest{
@@ -58,11 +49,6 @@ class UserControllerTest{
     private UpdateUserUseCase updateUserUseCase;
     @MockBean
     private DeleteUserUseCase deleteUserUseCase;
-
-//    @BeforeEach
-//    void setUp(){
-//        MockitoAnnotations.initMocks(this);
-//    }
 
     @Test
     public void testGetUsers() throws Exception{

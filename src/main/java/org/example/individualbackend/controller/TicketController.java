@@ -1,5 +1,6 @@
 package org.example.individualbackend.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.*;
@@ -27,6 +28,7 @@ public class TicketController {
     }
 
     @GetMapping("{id}")
+    @RolesAllowed({"FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<TicketEntity> getTicket(@PathVariable(value = "id") final Integer id){
         TicketEntity ticket = getTicketUseCase.getTicket(id);
         if(ticket == null){
@@ -35,11 +37,13 @@ public class TicketController {
         return ResponseEntity.ok().body(ticket);
     }
     @PostMapping
+    @RolesAllowed({"FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<CreateTicketResponse> createTicket(@RequestBody @Valid CreateTicketRequest request){
         CreateTicketResponse response = createTicketUseCase.createTicket(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     @PutMapping("{id}")
+    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<Void> updateTicket(@PathVariable(value = "id") final Integer id,
                                            @RequestBody @Valid UpdateTicketRequest request){
         request.setId(id);
@@ -47,6 +51,7 @@ public class TicketController {
         return ResponseEntity.noContent().build();
     }
     @DeleteMapping("{id}")
+    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<Void> deleteTicket(@PathVariable(value = "id") final Integer id){
         deleteTicketUseCase.deleteTicket(id);
         return ResponseEntity.noContent().build();

@@ -5,8 +5,10 @@ CREATE TABLE application_user(
     lName       varchar(50),
     picture     varchar(255),
     password    varchar(255),
+    fan_id int not null,
     UNIQUE (email),
-    UNIQUE (password)
+    UNIQUE (password),
+    FOREIGN KEY (fan_id) REFERENCES fan (id)
 );
 
 /*INSERT INTO users(email, fName, lName, picture, password) VALUES

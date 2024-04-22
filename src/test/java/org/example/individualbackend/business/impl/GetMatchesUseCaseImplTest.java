@@ -3,11 +3,8 @@ package org.example.individualbackend.business.impl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.Match;
 import org.example.individualbackend.domain.get.GetAllMatchesResponse;
-import org.example.individualbackend.domain.get.GetAllUsersResponse;
-import org.example.individualbackend.domain.users.User;
 import org.example.individualbackend.externalAPI.FootballAPI;
 import org.example.individualbackend.persistance.entity.MatchEntity;
-import org.example.individualbackend.persistance.entity.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -16,11 +13,9 @@ import org.springframework.test.context.ContextConfiguration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {TestConfig.class})

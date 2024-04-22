@@ -1,5 +1,6 @@
 package org.example.individualbackend.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.*;
 import org.example.individualbackend.domain.get.GetAllMatchesResponse;
@@ -15,11 +16,13 @@ public class MatchController {
     private final GetMatchUseCase getMatchUseCase;
 
     @GetMapping
+    @RolesAllowed({"FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<GetAllMatchesResponse> getMatches(){
         return ResponseEntity.ok(getMatchesUseCase.getMatches());
     }
 
     @GetMapping("{id}")
+    @RolesAllowed({"FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<MatchEntity> getMatch(@PathVariable(value = "id") final Integer id){
         MatchEntity match = getMatchUseCase.getMatch(id);
         if(match == null){

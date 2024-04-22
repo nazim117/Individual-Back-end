@@ -1,5 +1,6 @@
 package org.example.individualbackend.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.*;
@@ -27,6 +28,7 @@ public class UserController{
     }
 
     @GetMapping("{id}")
+    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") final Integer id){
         UserEntity user = getUserUseCase.getUser(id);
         if(user == null){
@@ -35,12 +37,14 @@ public class UserController{
         return ResponseEntity.ok().body(user);
     }
     @PostMapping
-    public ResponseEntity<CreateUserResponse> createUser(@RequestBody @Valid CreateUserRequest request){
+    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
+    public ResponseEntity<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest request){
         CreateUserResponse response = createUserUseCase.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("{id}")
+    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<Void> updateUser(@PathVariable(value = "id") final Integer id,
                                                          @RequestBody @Valid UpdateUserRequest request){
         request.setId(id);
@@ -48,6 +52,7 @@ public class UserController{
         return ResponseEntity.noContent().build();
     }
     @DeleteMapping("{id}")
+    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<Void> deleteUser(@PathVariable(value = "id") final Integer id){
         deleteUserUseCase.deleteUser(id);
         return ResponseEntity.noContent().build();

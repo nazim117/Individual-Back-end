@@ -1,0 +1,3 @@
+CREATE TABLE fan(
+    id int not null AUTO_INCREMENT PRIMARY KEY
+)

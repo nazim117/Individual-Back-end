@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name="application_user")
 @Builder
@@ -48,6 +50,11 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<TicketEntity> boughtTickets;
+    @OneToOne(optional = true,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "fan_id")
+    private FanEntity fan;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "application_user_id")
+    private Set<UserRoleEntity> userRoles;
 }
