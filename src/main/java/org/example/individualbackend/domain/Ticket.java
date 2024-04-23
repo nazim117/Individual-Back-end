@@ -1,10 +1,8 @@
 package org.example.individualbackend.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.example.individualbackend.domain.users.User;
+import lombok.*;
+import org.example.individualbackend.persistance.entity.FanEntity;
+import org.example.individualbackend.persistance.entity.MatchEntity;
 
 @Data
 @Builder
@@ -15,6 +13,6 @@ public class Ticket {
     private Double price;
     private Integer rowNum;
     private Integer seatNumber;
-    private User user;
-    private Match match;
+    private FanEntity fan;
+    private MatchEntity footballMatch;
 }

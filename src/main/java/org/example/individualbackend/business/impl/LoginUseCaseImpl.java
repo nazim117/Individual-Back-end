@@ -30,10 +30,8 @@ public class LoginUseCaseImpl implements LoginUseCase {
     public LoginResponse login(LoginRequest loginRequest) {
         UserEntity user = userRepository.findByEmail(loginRequest.getEmail());
 
-        if (user == null) {
-            throw new InvalidCredentialsException();
-        }
-        if (!matchesPassword(loginRequest.getPassword(), user.getPassword())) {
+
+        if (user == null || !matchesPassword(loginRequest.getPassword(), user.getPassword())) {
             throw new InvalidCredentialsException();
         }
 

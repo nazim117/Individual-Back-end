@@ -2,22 +2,16 @@ package org.example.individualbackend.controller;
 
 import org.example.individualbackend.business.GetMatchUseCase;
 import org.example.individualbackend.business.GetMatchesUseCase;
-import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.Match;
 import org.example.individualbackend.domain.get.GetAllMatchesResponse;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 

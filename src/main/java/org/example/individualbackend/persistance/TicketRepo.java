@@ -11,4 +11,5 @@ public interface TicketRepo extends JpaRepository<TicketEntity, Integer> {
     TicketEntity save(TicketEntity ticketEntity);
     void deleteById(Integer id);
     TicketEntity getTicketEntityById(Integer id);
+    boolean existsByRowNumAndSeatNumber(Integer rowNum, Integer seatNum);
 }

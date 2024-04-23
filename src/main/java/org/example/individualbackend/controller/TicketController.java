@@ -22,6 +22,7 @@ public class TicketController {
     private final CreateTicketUseCase createTicketUseCase;
     private final UpdateTicketUseCase updateTicketUseCase;
     private final DeleteTicketUseCase deleteTicketUseCase;
+
     @GetMapping
     public ResponseEntity<GetAllTicketsResponse> getTickets(){
         return ResponseEntity.ok(getTicketsUseCase.getTickets());

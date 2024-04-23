@@ -21,6 +21,10 @@ public class LoginController {
     @PostMapping
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
         LoginResponse loginResponse = loginUseCase.login(loginRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(loginResponse);
+        if(loginResponse != null){
+            return ResponseEntity.status(HttpStatus.CREATED).body(loginResponse);
+        }
+        return  ResponseEntity.badRequest().build();
+
     }
 }
