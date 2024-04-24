@@ -151,7 +151,7 @@ class TicketControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andReturn();
-//TODO: find where it failss
+//TODO: find where it fails
         //assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }
 
