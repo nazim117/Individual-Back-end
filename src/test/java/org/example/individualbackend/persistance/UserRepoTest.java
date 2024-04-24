@@ -51,6 +51,7 @@ class UserRepoTest {
         assertEquals("Doe", user.getLName());
         assertEquals("profilePic.jpg", user.getPicture());
         assertEquals("password1234", user.getPassword());
+//TODO: test if the fan_id equals the user.fan_id
 
     }
 
@@ -145,7 +146,7 @@ class UserRepoTest {
         userRepo.save(user2);
 
         List<UserEntity> allUsers = userRepo.findAll();
-        //TODO: find why it gets 4 users
+//TODO: find why it gets 4 users
         assertEquals(3, allUsers.size());
     }
 

@@ -21,7 +21,7 @@ public class UpdateTicketUseCaseImpl implements UpdateTicketUseCase {
     public void updateTicket(UpdateTicketRequest request) {
         TicketEntity ticketEntity = ticketRepo.getTicketEntityById(request.getId());
         if(ticketEntity == null){
-            throw new NullPointerException("User_ID_INVALID");
+            throw new NullPointerException("Ticket_ID_INVALID");
         }
 
         updateFields(request, ticketEntity);

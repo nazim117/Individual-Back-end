@@ -1,6 +1,7 @@
 package org.example.individualbackend.domain.create;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,18 +14,18 @@ import org.example.individualbackend.persistance.entity.MatchEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateTicketRequest {
-    @NotBlank
-    private Double price;
+    @NotNull
+    private double price;
 
-    @NotBlank
+    @NotNull
     private Integer rowNum;
 
-    @NotBlank
+    @NotNull
     private Integer seatNumber;
 
-    @NotBlank
+    @NotNull
     private FanEntity fan;
 
-    @NotBlank
+    @NotNull
     private MatchEntity footballMatch;
 }

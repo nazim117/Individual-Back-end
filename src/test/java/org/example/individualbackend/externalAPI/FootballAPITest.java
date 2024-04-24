@@ -24,8 +24,6 @@ import static org.mockito.Mockito.*;
 class FootballAPITest {
     @Mock
     private MatchRepo matchRepo;
-    @InjectMocks
-    private FootballAPI footballAPI;
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);

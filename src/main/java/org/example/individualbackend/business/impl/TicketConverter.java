@@ -14,6 +14,8 @@ public class TicketConverter {
                 .price(ticket.getPrice())
                 .rowNum(ticket.getRowNum())
                 .seatNumber(ticket.getSeatNumber())
+                .fan(ticket.getFan())
+                .footballMatch(ticket.getFootballMatch())
                 .build();
     }
 }
