@@ -24,6 +24,8 @@ test:
     - ls
     - pwd
     - ./gradlew test
+    - echo "Testing database connectivity..."
+    - telnet localhost 3306
 
 deploy:
   stage: deploy
