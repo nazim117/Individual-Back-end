@@ -24,7 +24,7 @@ test:
     - ls
     - pwd
     - ./gradlew test
-    - echo "Testing database connectivity..."
+  #  - echo "Testing database connectivity..."
 
 deploy:
   stage: deploy
