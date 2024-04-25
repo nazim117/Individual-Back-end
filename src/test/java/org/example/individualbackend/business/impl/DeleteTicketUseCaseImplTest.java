@@ -28,7 +28,7 @@ class DeleteTicketUseCaseImplTest {
     }
 
     @Test
-    public void deleteTicket_ExistingTicket_TicketGetsDeleted(){
+     void deleteTicket_ExistingTicket_TicketGetsDeleted(){
         //Arrange
         int ticketId = 1;
 
@@ -40,7 +40,7 @@ class DeleteTicketUseCaseImplTest {
     }
 
     @Test
-    public void deleteUser_InvalidId_ThrowsException(){
+     void deleteUser_InvalidId_ThrowsException(){
         //Arrange
         int invalidTicketId = 1;
 

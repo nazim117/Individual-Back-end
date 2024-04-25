@@ -2,7 +2,6 @@ package org.example.individualbackend.business.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.example.individualbackend.business.CreateUserUseCase;
 import org.example.individualbackend.domain.create.CreateUserRequest;
 import org.example.individualbackend.domain.create.CreateUserResponse;

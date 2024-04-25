@@ -32,7 +32,7 @@ class GetTicketUseCaseImplTest {
     }
 
     @Test
-    public void getTickets_ValidId_ReturnsTicket(){
+     void getTickets_ValidId_ReturnsTicket(){
         Integer id = 1;
         TicketEntity ticketEntity = createMockTicket(1, 20.0, 5, 283, createFan(1), createMatchEntity(1,
                 "2023-08-11T19:00:00",
@@ -56,7 +56,7 @@ class GetTicketUseCaseImplTest {
     }
 
     @Test
-    public void getTicket_InvalidId_ReturnsNull(){
+     void getTicket_InvalidId_ReturnsNull(){
         Integer nonexistentId = 999;
         when(ticketRepo.getTicketEntityById(nonexistentId)).thenReturn(null);
 

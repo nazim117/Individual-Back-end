@@ -1,7 +1,6 @@
 package org.example.individualbackend.controller;
 
 import org.example.individualbackend.business.*;
-import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.create.CreateUserRequest;
 import org.example.individualbackend.domain.create.CreateUserResponse;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
@@ -13,12 +12,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -58,7 +55,7 @@ class UserControllerTest{
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void testGetUsers() throws Exception{
+     void testGetUsers() throws Exception{
         // Arrange
         GetAllUsersResponse response = GetAllUsersResponse
                 .builder()
@@ -115,7 +112,7 @@ class UserControllerTest{
     }
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void testGetUser() throws Exception{
+     void testGetUser() throws Exception{
         Mockito.when(getUserUseCase.getUser(Mockito.anyInt())).thenReturn(createMockGetUserResponse());
 
         //ResponseEntity<UserEntity> response = userController.getUser(1);
@@ -129,7 +126,7 @@ class UserControllerTest{
     }
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void testCreateUser() throws Exception {
+     void testCreateUser() throws Exception {
         Mockito.when(createUserUseCase.createUser(Mockito.any())).thenReturn(createMockCreateUserResponse());
 
         CreateUserRequest request = createSampleCreateUserRequest();
@@ -149,7 +146,7 @@ class UserControllerTest{
     }
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void testUpdateUser() throws Exception{
+     void testUpdateUser() throws Exception{
         Mockito.doNothing().when(updateUserUseCase).updateUser(Mockito.any());
 
         UpdateUserRequest request = createSampleUpdateUserRequest();
@@ -167,7 +164,7 @@ class UserControllerTest{
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void testDeleteUser() throws Exception{
+     void testDeleteUser() throws Exception{
         Mockito.doNothing().when(deleteUserUseCase).deleteUser(Mockito.anyInt());
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", 1))

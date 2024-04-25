@@ -34,7 +34,7 @@ class UpdateTicketUseCaseImplTest {
     }
 
     @Test
-    public void updateTicket_ValidRequest_UpdatesTicketFields_ReturnsTrue(){
+     void updateTicket_ValidRequest_UpdatesTicketFields_ReturnsTrue(){
         //Arrange
         Integer ticketId = 1;
 
@@ -57,7 +57,7 @@ class UpdateTicketUseCaseImplTest {
     }
 
     @Test
-    public void updateTicket_InvalidTicketId_ThrowsException(){
+     void updateTicket_InvalidTicketId_ThrowsException(){
         //Arrange
         Integer invalidTicketId = 998;
         UpdateTicketRequest request = createUpdateTicketRequest(invalidTicketId);

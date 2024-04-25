@@ -1,6 +1,5 @@
 package org.example.individualbackend.business.impl;
 
-import org.example.individualbackend.business.GetTicketsUseCase;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.Ticket;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -38,7 +36,7 @@ class GetTicketsUseCaseImplTest {
     }
 
     @Test
-    public void getTickets_SuccessfullyReceiveTickets(){
+     void getTickets_SuccessfullyReceiveTickets(){
         //Arrange
         List<TicketEntity> mockTickets = createTicketList();
         when(ticketRepo.getTicketEntitiesBy()).thenReturn(mockTickets);
@@ -59,7 +57,7 @@ class GetTicketsUseCaseImplTest {
     }
 
     @Test
-    public void getTickets_NoTicketsExist_ReturnsEmptyList(){
+     void getTickets_NoTicketsExist_ReturnsEmptyList(){
         when(ticketRepo.getTicketEntitiesBy()).thenReturn(new ArrayList<>());
 
         GetAllTicketsResponse response = getTicketsUseCase.getTickets();

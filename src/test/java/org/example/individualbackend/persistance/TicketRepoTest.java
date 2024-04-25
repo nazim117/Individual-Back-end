@@ -12,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
@@ -37,7 +36,7 @@ class TicketRepoTest {
     }
 
     @Test
-    public void save_ShouldSaveTicketWithAllFields(){
+     void save_ShouldSaveTicketWithAllFields(){
         TicketEntity ticketEntity = createTicketEntity(20.0, 5,721);
 
         entityManager.persist(ticketEntity);
@@ -67,7 +66,7 @@ class TicketRepoTest {
     }
 
     @Test
-    public void saveTicket_InvalidInput_ShouldThrowException(){
+     void saveTicket_InvalidInput_ShouldThrowException(){
         MatchEntity match = createMatchEntity(
                 1,
                 "2023-08-11T19:00:00",
@@ -97,7 +96,7 @@ class TicketRepoTest {
     }
 
     @Test
-    public void findById_ShouldReturnTicketEntity(){
+     void findById_ShouldReturnTicketEntity(){
         //Arrange
         TicketEntity ticketEntity = createTicketEntity(20.0, 5,721);
         ticketRepo.save(ticketEntity);
@@ -111,7 +110,7 @@ class TicketRepoTest {
     }
 
     @Test
-    public void findById_InvalidId_ShouldReturnNull(){
+     void findById_InvalidId_ShouldReturnNull(){
         //Arrange
         //Act
         TicketEntity ticketEntity = ticketRepo.findById(999).orElse(null);
@@ -121,7 +120,7 @@ class TicketRepoTest {
     }
 
     @Test
-    public void existsByRowNumAndSeatNumber_ValidTicket_ReturnsTrue(){
+     void existsByRowNumAndSeatNumber_ValidTicket_ReturnsTrue(){
         TicketEntity ticketEntity = createTicketEntity(20.0, 5,721);
 
         ticketRepo.save(ticketEntity);
@@ -132,7 +131,7 @@ class TicketRepoTest {
     }
 
     @Test
-    public void existsByRowNumAndSeatNumber_InvalidTicket_ReturnsFalse(){
+     void existsByRowNumAndSeatNumber_InvalidTicket_ReturnsFalse(){
         //Arrange
         //Act
         boolean exists = ticketRepo.existsByRowNumAndSeatNumber(4, 322);
@@ -142,7 +141,7 @@ class TicketRepoTest {
     }
 
     @Test
-    public void deleteById_ValidId_ReturnsTrue(){
+     void deleteById_ValidId_ReturnsTrue(){
         //Arrange
         TicketEntity ticketEntity = createTicketEntity(20.0, 5,721);
         ticketRepo.save(ticketEntity);
@@ -155,7 +154,7 @@ class TicketRepoTest {
     }
 
     @Test
-    public void findAllTickets_ReturnsAllTickets(){
+     void findAllTickets_ReturnsAllTickets(){
         TicketEntity ticketEntity1 = createTicketEntity(20.0, 5,721);
         TicketEntity ticketEntity2 = createTicketEntity(30.0, 2,112);
         TicketEntity ticketEntity3 = createTicketEntity(65.9, 1,20);

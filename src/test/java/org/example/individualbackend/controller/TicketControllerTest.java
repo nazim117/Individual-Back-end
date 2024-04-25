@@ -6,18 +6,15 @@ import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.create.CreateTicketResponse;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
 import org.example.individualbackend.domain.update.UpdateTicketRequest;
-import org.example.individualbackend.domain.update.UpdateUserRequest;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -36,6 +33,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+
+
+//TODO: finish with testing ticketcontroller
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -57,7 +57,7 @@ class TicketControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void getTickets_ReturnsListOfTickets() throws Exception{
+     void getTickets_ReturnsListOfTickets() throws Exception{
         GetAllTicketsResponse response = GetAllTicketsResponse.builder().tickets(createTicketList()).build();
         when(getTicketsUseCase.getTickets()).thenReturn(response);
 
@@ -68,7 +68,7 @@ class TicketControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void getTicket_WithValidId_ReturnsTicket() throws Exception{
+     void getTicket_WithValidId_ReturnsTicket() throws Exception{
         //Arrange
         TicketEntity ticketEntity = createTicketEntity(30.0, 5, 223);
         when(getTicketUseCase.getTicket(1)).thenReturn(ticketEntity);
@@ -81,7 +81,7 @@ class TicketControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void createTicket_WithValidRequest_ReturnsCreated() throws Exception{
+     void createTicket_WithValidRequest_ReturnsCreated() throws Exception{
         CreateTicketRequest request = CreateTicketRequest.builder()
                 .price(20.0)
                 .rowNum(5)
@@ -121,7 +121,7 @@ class TicketControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void updateTicket_WithValidRequest_Successful_ReturnsNoContent() throws Exception{
+     void updateTicket_WithValidRequest_Successful_ReturnsNoContent() throws Exception{
         UpdateTicketRequest request = UpdateTicketRequest.builder()
                 .id(1)
                 .price(20.0)

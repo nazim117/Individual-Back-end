@@ -28,7 +28,7 @@ class GetMatchUseCaseImplTest {
     }
 
     @Test
-    public void getMatch_ReturnsMatchEntity(){
+     void getMatch_ReturnsMatchEntity(){
         Integer matchId = 1;
         MatchEntity expectedMatchEntity = createMatchEntity(matchId);
 
@@ -40,7 +40,7 @@ class GetMatchUseCaseImplTest {
     }
 
     @Test
-    public void getMatch_ReturnsEmptyMatchEntity(){
+     void getMatch_ReturnsEmptyMatchEntity(){
         Integer matchId = 1;
 
         when(matchRepo.getMatchEntityById(matchId)).thenReturn(null);

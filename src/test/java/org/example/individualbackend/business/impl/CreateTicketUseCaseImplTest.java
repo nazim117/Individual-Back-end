@@ -14,8 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -40,7 +38,7 @@ class CreateTicketUseCaseImplTest {
     }
 
     @Test
-    public void createTicket_ValidTicketRequest_ReturnsResponse() {
+     void createTicket_ValidTicketRequest_ReturnsResponse() {
         CreateTicketRequest createTicketRequest = CreateTicketRequest.builder()
                 .price(20.0)
                 .rowNum(5)
@@ -88,7 +86,7 @@ class CreateTicketUseCaseImplTest {
     }
 
     @Test
-    public void createTicket_TicketAlreadyExists_ThrowsException() {
+     void createTicket_TicketAlreadyExists_ThrowsException() {
         CreateTicketRequest createTicketRequest = CreateTicketRequest.builder()
                 .price(20.0)
                 .rowNum(5)

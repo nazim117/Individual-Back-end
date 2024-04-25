@@ -5,7 +5,6 @@ import org.example.individualbackend.persistance.MatchRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -30,7 +29,7 @@ class FootballAPITest {
     }
 
     @Test
-    public void getMatches_RetrievesDataSuccessfully(){
+     void getMatches_RetrievesDataSuccessfully(){
         //Arrange
         //Act
         FootballAPI footballAPI = new FootballAPI(matchRepo);
@@ -43,7 +42,7 @@ class FootballAPITest {
     }
 
     @Test
-    public void getMatches_FailsToRetrieveData(){
+     void getMatches_FailsToRetrieveData(){
         //Arrange
         //Act
         FootballAPI footballAPI = new FootballAPI(matchRepo);
@@ -55,7 +54,7 @@ class FootballAPITest {
     }
 
     @Test
-    public void getMatches_PopulatesMatchRepoWithData(){
+     void getMatches_PopulatesMatchRepoWithData(){
         //Arrange
         FootballAPI footballAPI = new FootballAPI(matchRepo);
         FootballAPI footballAPIMock = Mockito.spy(footballAPI);
@@ -71,7 +70,7 @@ class FootballAPITest {
     }
 
     @Test
-    public void getMatches_returnsEmptyListWhenFetchFails(){
+     void getMatches_returnsEmptyListWhenFetchFails(){
         //Arrange
         FootballAPI footballAPI = new FootballAPI(matchRepo);
         FootballAPI footballAPIMock = Mockito.spy(footballAPI);

@@ -32,7 +32,7 @@ class LoginControllerTest {
     private LoginUseCase loginUseCase;
 
     @Test
-    public void login_UserLogsInSuccessfully() throws Exception {
+     void login_UserLogsInSuccessfully() throws Exception {
         LoginRequest loginRequest = LoginRequest.builder().email("testemail@example.com").password("password123").build();
         LoginResponse loginResponse = LoginResponse.builder().accessToken("token").build();
 
@@ -47,7 +47,7 @@ class LoginControllerTest {
     }
 
     @Test
-    public void login_InvalidCredetials_UserDoesNotLogIn() throws Exception {
+     void login_InvalidCredetials_UserDoesNotLogIn() throws Exception {
         LoginRequest loginRequest = LoginRequest.builder().email("testemail@example.com").password("incorrectPassword").build();
 
         when(loginUseCase.login(any(LoginRequest.class))).thenReturn(null);
