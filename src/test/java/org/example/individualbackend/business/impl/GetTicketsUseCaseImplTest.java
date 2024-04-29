@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ class GetTicketsUseCaseImplTest {
      void getTickets_SuccessfullyReceiveTickets(){
         //Arrange
         List<TicketEntity> mockTickets = createTicketList();
-        when(ticketRepo.getTicketEntitiesBy()).thenReturn(mockTickets);
+        when(ticketRepo.findAll()).thenReturn(mockTickets);
 
         List<Ticket> tickets = mockTickets
                 .stream()
@@ -58,7 +59,7 @@ class GetTicketsUseCaseImplTest {
 
     @Test
      void getTickets_NoTicketsExist_ReturnsEmptyList(){
-        when(ticketRepo.getTicketEntitiesBy()).thenReturn(new ArrayList<>());
+        when(ticketRepo.findAll()).thenReturn(new ArrayList<>());
 
         GetAllTicketsResponse response = getTicketsUseCase.getTickets();
 

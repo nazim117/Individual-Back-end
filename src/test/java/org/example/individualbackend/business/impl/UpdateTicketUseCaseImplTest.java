@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.mockito.Mock;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -52,8 +53,8 @@ class UpdateTicketUseCaseImplTest {
         assertEquals(request.getPrice(), existingTicket.getPrice());
         assertEquals(request.getRowNum(), existingTicket.getRowNum());
         assertEquals(request.getSeatNumber(), existingTicket.getSeatNumber());
-        assertEquals(request.getFan(), existingTicket.getFan());
-        assertEquals(request.getMatch(), existingTicket.getFootballMatch());
+        assertEquals(request.getFanId(), existingTicket.getFan().getId());
+        assertEquals(request.getMatchId(), existingTicket.getFootballMatch().getId());
     }
 
     @Test
@@ -100,19 +101,8 @@ class UpdateTicketUseCaseImplTest {
                 .price(30.0)
                 .rowNum(2)
                 .seatNumber(223)
-                .fan(FanEntity.builder().id(1).build())
-                .match(createMatchEntity(1,
-                        "2023-08-11T19:00:00",
-                        "Turf Moor",
-                        "FT",
-                        "Burnley",
-                        "https://media.api-sports.io/football/teams/44.png",
-                        false,
-                        "Manchester City",
-                        "https://media.api-sports.io/football/teams/50.png",
-                        true,
-                        0,
-                        3))
+                .fanId(1)
+                .matchId(1)
                 .build();
     }
 

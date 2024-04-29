@@ -12,7 +12,6 @@ public class JsonMapperConfig {
 
     @Bean
     public ObjectMapper getObjectMapper() {
-
         return new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)

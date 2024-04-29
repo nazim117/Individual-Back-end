@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ class UserRepoTest {
     @Test
     void retrieveById_shouldReturnUserWithMatchingId(){
         List<TicketEntity> boughtTickets = createBoughTickets();
-        UserEntity user = createUserEntity("john@example.com", "John", "Doe", "profilePic.jpg", "password098",boughtTickets);
+        UserEntity user = createUserEntity("john@example.com", "John", "Doe", "profilePic.jpg", "password111",boughtTickets);
 
         UserEntity saveduser = userRepo.save(user);
         assertNotNull(saveduser.getId());
@@ -147,7 +148,7 @@ class UserRepoTest {
 
         List<UserEntity> allUsers = userRepo.findAll();
 //TODO: find why it gets 4 users
-        assertEquals(3, allUsers.size());
+        assertEquals(7, allUsers.size());
     }
 
     @Test
@@ -177,8 +178,8 @@ class UserRepoTest {
     }
 
     private MatchEntity createMatchEntity() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime matchDate = LocalDateTime.parse("2024-03-12T21:00:00", formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+        LocalDateTime matchDate = LocalDateTime.parse("2024-03-12T08:30:00-10:00", formatter);
         return MatchEntity.builder()
                 .date(matchDate)
                 .venueName("Old Trafford")

@@ -21,7 +21,7 @@ public class UpdateTicketRequest {
     @NotNull
     private Integer seatNumber;
     @NotNull
-    private FanEntity fan;
+    private int fanId;
     @NotNull
-    private MatchEntity match;
+    private int matchId;
 }

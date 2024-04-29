@@ -20,6 +20,6 @@ public class FanEntity {
     @Column(name = "id")
     private Integer id;
 
-    @OneToMany(mappedBy = "fan")
+    @OneToMany(mappedBy = "fan", cascade = CascadeType.ALL)
     private List<TicketEntity> boughtTickets;
 }

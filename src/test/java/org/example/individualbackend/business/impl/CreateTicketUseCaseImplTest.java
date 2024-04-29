@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -43,19 +44,8 @@ class CreateTicketUseCaseImplTest {
                 .price(20.0)
                 .rowNum(5)
                 .seatNumber(290)
-                .fan(createFanEntity(1))
-                .footballMatch(createMatchEntity(1,
-                        "2023-08-11T19:00:00",
-                        "Turf Moor",
-                        "FT",
-                        "Burnley",
-                        "https://media.api-sports.io/football/teams/44.png",
-                        false,
-                        "Manchester City",
-                        "https://media.api-sports.io/football/teams/50.png",
-                        true,
-                        0,
-                        3))
+                .fanId(1)
+                .footballMatchId(1)
                 .build();
 
         TicketEntity ticketEntity = TicketEntity.builder()
@@ -91,19 +81,8 @@ class CreateTicketUseCaseImplTest {
                 .price(20.0)
                 .rowNum(5)
                 .seatNumber(290)
-                .fan(createFanEntity(1))
-                .footballMatch(createMatchEntity(1,
-                        "2023-08-11T19:00:00",
-                        "Turf Moor",
-                        "FT",
-                        "Burnley",
-                        "https://media.api-sports.io/football/teams/44.png",
-                        false,
-                        "Manchester City",
-                        "https://media.api-sports.io/football/teams/50.png",
-                        true,
-                        0,
-                        3))
+                .fanId(1)
+                .footballMatchId(1)
                 .build();
 
         when(ticketRepo.existsByRowNumAndSeatNumber(anyInt(), anyInt())).thenReturn(true);

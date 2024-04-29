@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class MatchControllerTest {
                 .matches(List.of(
                         Match.builder()
                                 .id(1)
-                                .date(LocalDateTime.parse("2023-08-11T19:00:00"))
+                                .date(LocalDateTime.parse("2023-08-11T09:30:00-05:00"))
                                 .venueName("Turf Moor")
                                 .statusShort("FT")
                                 .homeTeamName("Burnley")
@@ -60,7 +61,7 @@ public class MatchControllerTest {
                                 .build(),
                         Match.builder()
                                 .id(2)
-                                .date(LocalDateTime.parse("2023-08-12T11:30:00"))
+                                .date(LocalDateTime.parse("2023-08-11T09:30:00-05:00"))
                                 .venueName("Emirates Stadium")
                                 .statusShort("FT")
                                 .homeTeamName("Arsenal")
@@ -88,7 +89,7 @@ public class MatchControllerTest {
                                 "matches":[
                                 {
                                     "id": 1,
-                                        "date": "2023-08-11T19:00:00",
+                                        "date": "2023-08-11T09:30:00-05:00",
                                         "venueName": "Turf Moor",
                                         "statusShort":"FT",
                                         "homeTeamName": "Burnley",
@@ -102,7 +103,7 @@ public class MatchControllerTest {
                                 },
                                   {
                                     "id": 2,
-                                    "date": "2023-08-12T11:30:00",
+                                    "date": "2023-08-11T09:30:00-05:00",
                                     "venueName": "Emirates Stadium",
                                     "statusShort":"FT",
                                     "homeTeamName": "Arsenal",
@@ -122,7 +123,7 @@ public class MatchControllerTest {
     public void getMatch_ReturnsMatchEntity() throws Exception{
         MatchEntity mockMatchEntity = MatchEntity.builder()
                 .id(1)
-                .date(LocalDateTime.parse("2023-08-11T19:00:00"))
+                .date(LocalDateTime.parse("2023-08-11T09:30:00-05:00"))
                 .venueName("Turf Moor")
                 .statusShort("FT")
                 .homeTeamName("Burnley")

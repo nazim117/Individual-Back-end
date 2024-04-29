@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -36,8 +37,8 @@ class MatchRepoTest {
 
     @Test
     void save_shouldSaveMatchWithAllFields(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime matchDate = LocalDateTime.parse("2024-03-12T21:00:00", formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+        LocalDateTime matchDate = LocalDateTime.parse("2024-03-12T07:30:00-05:00", formatter);
         MatchEntity match = createSampleMatch(matchDate);
 
         MatchEntity savedMatch = matchRepo.save(match);
@@ -51,8 +52,8 @@ class MatchRepoTest {
 
     @Test
     void findById_shouldReturnMatchWhenExists(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime matchDate = LocalDateTime.parse("2024-03-12T21:00:00", formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+        LocalDateTime matchDate = LocalDateTime.parse("2024-03-12T12:00:00-05:00", formatter);
         MatchEntity match = createSampleMatch(matchDate);
         entityManager.persist(match);
 
@@ -69,9 +70,9 @@ class MatchRepoTest {
 
     @Test
     void findAll_shouldReturnListOfMatches(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime matchDate1 = LocalDateTime.parse("2024-03-12T21:00:00", formatter);
-        LocalDateTime matchDate2 = LocalDateTime.parse("2024-03-13T21:00:00", formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+        LocalDateTime matchDate1 = LocalDateTime.parse("2024-03-12T08:30:00-08:00", formatter);
+        LocalDateTime matchDate2 = LocalDateTime.parse("2024-03-13T10:30:00-05:00", formatter);
 
         MatchEntity match1 = createSampleMatch(matchDate1);
         MatchEntity match2 = createSampleMatch(matchDate2);
@@ -89,8 +90,8 @@ class MatchRepoTest {
 
     @Test
     void delete_shouldRemoveMatch(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime matchDate = LocalDateTime.parse("2024-03-12T21:00:00", formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+        LocalDateTime matchDate = LocalDateTime.parse("2024-03-12T08:55:00-05:00", formatter);
         MatchEntity match = createSampleMatch(matchDate);
         entityManager.persist(match);
 
@@ -101,8 +102,8 @@ class MatchRepoTest {
 
     @Test
     void deleteById_shouldRemoveMatchId(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime matchDate = LocalDateTime.parse("2024-03-12T21:00:00", formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+        LocalDateTime matchDate = LocalDateTime.parse("2024-03-12T10:30:00-05:00", formatter);
         MatchEntity match = createSampleMatch(matchDate);
         entityManager.persist(match);
 

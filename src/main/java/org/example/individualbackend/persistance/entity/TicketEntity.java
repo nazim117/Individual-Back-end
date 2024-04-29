@@ -1,5 +1,6 @@
 package org.example.individualbackend.persistance.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -22,7 +23,7 @@ public class TicketEntity {
     @Min(0)
     @Max(500)
     @Column(name = "price")
-    private Double price;
+    private double price;
 
     @NotNull
     @Min(1)
@@ -37,16 +38,18 @@ public class TicketEntity {
     private Integer seatNumber;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name="fan_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private FanEntity fan;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "football_match_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private MatchEntity footballMatch;
 }

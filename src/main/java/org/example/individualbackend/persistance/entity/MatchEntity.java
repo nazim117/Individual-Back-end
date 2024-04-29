@@ -1,5 +1,6 @@
 package org.example.individualbackend.persistance.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class MatchEntity {
     private Integer id;
 
     @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
     private LocalDateTime date;
 
     @NotBlank
@@ -73,6 +77,5 @@ public class MatchEntity {
     @Column(name = "goalsAway")
     private Integer goalsAway;
 
-    @OneToMany(mappedBy = "footballMatch")
-    private List<TicketEntity> availableTickets;
+    private int availableTickets;
 }

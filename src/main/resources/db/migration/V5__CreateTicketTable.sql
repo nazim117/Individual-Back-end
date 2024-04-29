@@ -1,16 +1,11 @@
-CREATE TABLE ticket(
+CREATE TABLE IF NOT EXISTS ticket(
     id                  int not null AUTO_INCREMENT PRIMARY KEY,
     price               double precision NOT NULL,
     rowNum              int,
     seatNumber          int,
-    fan_id int not null,
+    fan_id int,
     football_match_id   int not null,
     UNIQUE (rowNum, seatNumber, fan_id, football_match_id),
     FOREIGN KEY (fan_id) REFERENCES fan (id),
     FOREIGN KEY (football_match_id) REFERENCES football_match (id)
 );
-
-/*INSERT INTO ticket(price, rowNum, seatNumber, user_id, football_match_id) VALUES
-(50.0, 1, 10, 1, 1),
-(60.0, 2, 5, 2, 2),
-(70.0, 3, 15, 3, 3)*/

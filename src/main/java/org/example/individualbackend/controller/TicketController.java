@@ -38,10 +38,14 @@ public class TicketController {
         return ResponseEntity.ok().body(ticket);
     }
     @PostMapping
-    @RolesAllowed({"FAN", "ADMIN", "CUSTOMER_SERVICE"})
-    public ResponseEntity<CreateTicketResponse> createTicket(@RequestBody @Valid CreateTicketRequest request){
-        CreateTicketResponse response = createTicketUseCase.createTicket(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    //@RolesAllowed({"FAN", "ADMIN", "CUSTOMER_SERVICE"})
+    public ResponseEntity<?> createTicket(@Valid @RequestBody CreateTicketRequest request){
+        try{
+            CreateTicketResponse response = createTicketUseCase.createTicket(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create ticket: " + e.getMessage());
+        }
     }
     @PutMapping("{id}")
     @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})

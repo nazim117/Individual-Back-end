@@ -17,7 +17,7 @@ public class GetTicketsUseCaseImpl implements GetTicketsUseCase {
     @Transactional
     @Override
     public GetAllTicketsResponse getTickets() {
-        List<Ticket> tickets = ticketRepo.getTicketEntitiesBy()
+        List<Ticket> tickets = ticketRepo.findAll()
                 .stream()
                 .map(TicketConverter::convert)
                 .toList();

@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+//TODO: FIX TESTS
 @ContextConfiguration(classes = {TestConfig.class})
 class FootballAPITest {
     @Mock
@@ -77,15 +79,14 @@ class FootballAPITest {
         Mockito.when(footballAPIMock.fetchMatchesData()).thenThrow(new RuntimeException());
 
         //Act
-
         //Assert
         assertThrows(ResponseStatusException.class, () -> footballAPIMock.getMatchesData());
     }
 
     private List<MatchEntity> createMockMatchEntries() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime matchDate1 = LocalDateTime.parse("2024-03-12T21:00:00", formatter);
-        LocalDateTime matchDate2 = LocalDateTime.parse("2024-03-13T21:00:00", formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+        LocalDateTime matchDate1 = LocalDateTime.parse("2024-03-12T09:30:00-05:00", formatter);
+        LocalDateTime matchDate2 = LocalDateTime.parse("2024-03-13T10:30:00-05:00", formatter);
 
         List<MatchEntity> mockMatches = new ArrayList<>();
         mockMatches.add(MatchEntity.builder()
