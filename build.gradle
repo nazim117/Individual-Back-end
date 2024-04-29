@@ -76,12 +76,12 @@ test {
 jacocoTestReport {
     reports {
         xml.required = true
-        
+
     }
     def exclude = ["**/config/**", "**/domain/**", "**/exception/**", "**/entity/**", "**/resources/**"]
     afterEvaluate {
-        classDirectories = files(classDirectories.files.collect{
-            fileTree(dir: it, excludes: exclude)
-        })
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: exclude)
+        }))
     }
 }
