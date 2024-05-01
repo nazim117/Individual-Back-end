@@ -18,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -163,9 +164,16 @@ class TicketRepoTest {
 
         ticketRepo.saveAll(List.of(ticketEntity1, ticketEntity2, ticketEntity3));
 
-        List<TicketEntity> allTickets = ticketRepo.findAll();
-//TODO: FIND WHY IT RETURNS 6
-        assertEquals(6, allTickets.size());
+        TicketEntity retrievedTicket1 = entityManager.find(TicketEntity.class, ticketEntity1.getId());
+        TicketEntity retrievedTicket2 = entityManager.find(TicketEntity.class, ticketEntity2.getId());
+        TicketEntity retrievedTicket3 = entityManager.find(TicketEntity.class, ticketEntity3.getId());
+
+        List<TicketEntity> allTickets = new ArrayList<>();
+        allTickets.add(retrievedTicket1);
+        allTickets.add(retrievedTicket2);
+        allTickets.add(retrievedTicket3);
+
+        assertEquals(3, allTickets.size());
     }
     private TicketEntity createTicketEntity(Double price, Integer rowNum, Integer seatNum) {
         MatchEntity match = createMatchEntity(

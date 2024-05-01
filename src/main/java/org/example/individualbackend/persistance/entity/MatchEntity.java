@@ -26,7 +26,6 @@ public class MatchEntity {
     private Integer id;
 
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
     private LocalDateTime date;
 
     @NotBlank

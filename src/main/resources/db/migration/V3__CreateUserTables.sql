@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS application_user(
     lName       varchar(50),
     picture     varchar(255),
     password    varchar(255),
-    fan_id      int,
+    fan_id      int UNIQUE,
     UNIQUE (email),
     UNIQUE (password),
     FOREIGN KEY (fan_id) REFERENCES fan (id)

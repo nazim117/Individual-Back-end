@@ -5,13 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import lombok.AllArgsConstructor;
-import org.example.individualbackend.persistance.MatchRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,8 +16,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class FootballAPI {
-    private final MatchRepo matchRepo;
-
     public List<MatchEntity> fetchMatchesData() {
         List<MatchEntity> matchEntityList = new ArrayList<>();
         try {
@@ -51,30 +45,15 @@ public class FootballAPI {
                             .awayTeamWinner(fixtureNode.get("teams").get("away").get("winner").asBoolean())
                             .goalsHome(fixtureNode.get("goals").get("home").asInt())
                             .goalsAway(fixtureNode.get("goals").get("away").asInt())
+                            .availableTickets(5)
                             .build());
 
                 }
             }
-
             return matchEntityList;
+
         } catch(Exception e){
             throw new RuntimeException(e);
         }
-    }
-
-    public List<MatchEntity> getMatchesData(){
-        try {
-            List<MatchEntity> matchEntityList = fetchMatchesData();
-            if(matchEntityList.isEmpty()) return new ArrayList<>();
-
-            matchRepo.deleteAll();
-            matchRepo.saveAll(matchEntityList);
-
-            return matchEntityList;
-
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error fetching match data");
-        }
-
     }
 }

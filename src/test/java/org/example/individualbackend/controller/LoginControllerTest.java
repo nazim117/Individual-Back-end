@@ -1,6 +1,6 @@
 package org.example.individualbackend.controller;
 
-import org.example.individualbackend.business.LoginUseCase;
+import org.example.individualbackend.business.LoginService.Interface.LoginUseCase;
 import org.example.individualbackend.domain.login.LoginRequest;
 import org.example.individualbackend.domain.login.LoginResponse;
 import org.junit.jupiter.api.Test;
@@ -19,8 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//TODO:test if the methods work
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -33,7 +31,6 @@ class LoginControllerTest {
 
     @Test
      void login_UserLogsInSuccessfully() throws Exception {
-        LoginRequest loginRequest = LoginRequest.builder().email("testemail@example.com").password("password123").build();
         LoginResponse loginResponse = LoginResponse.builder().accessToken("token").build();
 
         when(loginUseCase.login(any(LoginRequest.class))).thenReturn(loginResponse);
@@ -47,8 +44,7 @@ class LoginControllerTest {
     }
 
     @Test
-     void login_InvalidCredetials_UserDoesNotLogIn() throws Exception {
-        LoginRequest loginRequest = LoginRequest.builder().email("testemail@example.com").password("incorrectPassword").build();
+     void login_InvalidCredentials_UserDoesNotLogIn() throws Exception {
 
         when(loginUseCase.login(any(LoginRequest.class))).thenReturn(null);
 

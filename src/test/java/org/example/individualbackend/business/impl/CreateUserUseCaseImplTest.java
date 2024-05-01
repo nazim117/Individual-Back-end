@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import org.example.individualbackend.business.UserService.Implementation.CreateUserUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.create.CreateUserRequest;
 import org.example.individualbackend.domain.create.CreateUserResponse;

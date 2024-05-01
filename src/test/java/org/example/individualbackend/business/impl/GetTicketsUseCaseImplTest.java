@@ -1,5 +1,7 @@
 package org.example.individualbackend.business.impl;
 
+import org.example.individualbackend.business.TicketService.Implementation.GetTicketsUseCaseImpl;
+import org.example.individualbackend.business.TicketService.Utilities.TicketConverter;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.Ticket;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
@@ -14,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

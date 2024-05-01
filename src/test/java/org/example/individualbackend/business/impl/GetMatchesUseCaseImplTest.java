@@ -1,5 +1,8 @@
 package org.example.individualbackend.business.impl;
 
+import org.example.individualbackend.business.MatchService.Implementation.GetMatchesUseCaseImpl;
+import org.example.individualbackend.business.MatchService.Implementation.SaveMatches;
+import org.example.individualbackend.business.MatchService.Utilities.MatchConverter;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.Match;
 import org.example.individualbackend.domain.get.GetAllMatchesResponse;
@@ -10,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(classes = {TestConfig.class})
 class GetMatchesUseCaseImplTest {
     @Mock
-    private FootballAPI footballAPI;
+    private SaveMatches saveMatches;
     @InjectMocks
     private GetMatchesUseCaseImpl getMatchesUseCase;
 
@@ -35,7 +37,7 @@ class GetMatchesUseCaseImplTest {
     void get_Matches_ReturnsAllMatches(){
         //Arrange
         List<MatchEntity> mockMatches = createMockMatches();
-        when(footballAPI.getMatchesData()).thenReturn(mockMatches);
+        when(saveMatches.getMatchesData()).thenReturn(mockMatches);
 
         List<Match> match = mockMatches.stream()
                 .map(MatchConverter::convert)
@@ -51,7 +53,7 @@ class GetMatchesUseCaseImplTest {
 
     @Test
     public void get_Matches_ReturnsEmptyMatchEntityArray(){
-        when(footballAPI.getMatchesData()).thenReturn(new ArrayList<>());
+        when(saveMatches.getMatchesData()).thenReturn(new ArrayList<>());
 
         GetAllMatchesResponse response = getMatchesUseCase.getMatches();
 

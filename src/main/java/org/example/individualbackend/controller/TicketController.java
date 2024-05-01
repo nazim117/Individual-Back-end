@@ -3,7 +3,7 @@ package org.example.individualbackend.controller;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.example.individualbackend.business.*;
+import org.example.individualbackend.business.TicketService.Interface.*;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.create.CreateTicketResponse;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
@@ -29,7 +29,7 @@ public class TicketController {
     }
 
     @GetMapping("{id}")
-    @RolesAllowed({"FAN", "ADMIN", "CUSTOMER_SERVICE"})
+    @RolesAllowed({"FOOTBALL_FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<TicketEntity> getTicket(@PathVariable(value = "id") final Integer id){
         TicketEntity ticket = getTicketUseCase.getTicket(id);
         if(ticket == null){
@@ -38,7 +38,7 @@ public class TicketController {
         return ResponseEntity.ok().body(ticket);
     }
     @PostMapping
-    //@RolesAllowed({"FAN", "ADMIN", "CUSTOMER_SERVICE"})
+    @RolesAllowed({"FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<?> createTicket(@Valid @RequestBody CreateTicketRequest request){
         try{
             CreateTicketResponse response = createTicketUseCase.createTicket(request);

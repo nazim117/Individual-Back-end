@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import org.example.individualbackend.business.UserService.Implementation.DeleteUserUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.persistance.UserRepo;
 import org.junit.jupiter.api.BeforeEach;

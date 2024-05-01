@@ -1,5 +1,7 @@
 package org.example.individualbackend.business.impl;
 
+import org.example.individualbackend.business.UserService.Implementation.GetUsersUseCaseImpl;
+import org.example.individualbackend.business.UserService.Utilities.UserConverter;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.users.User;

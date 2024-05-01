@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS football_match(
     id              int not null AUTO_INCREMENT PRIMARY KEY,
-    date            DATE NOT NULL,
+    date            DATETIME NOT NULL,
     venueName       varchar(255),
     statusShort     varchar(10),
     homeTeamName    varchar(50),

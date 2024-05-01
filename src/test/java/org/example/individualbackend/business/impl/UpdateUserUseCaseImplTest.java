@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import org.example.individualbackend.business.UserService.Implementation.UpdateUserUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.update.UpdateUserRequest;
 import org.example.individualbackend.persistance.UserRepo;

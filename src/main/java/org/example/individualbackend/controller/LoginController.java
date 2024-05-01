@@ -2,7 +2,7 @@ package org.example.individualbackend.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.individualbackend.business.LoginUseCase;
+import org.example.individualbackend.business.LoginService.Interface.LoginUseCase;
 import org.example.individualbackend.domain.login.LoginRequest;
 import org.example.individualbackend.domain.login.LoginResponse;
 import org.springframework.http.HttpStatus;

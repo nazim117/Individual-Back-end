@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import org.example.individualbackend.business.MatchService.Implementation.GetMatchUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.persistance.MatchRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
@@ -10,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

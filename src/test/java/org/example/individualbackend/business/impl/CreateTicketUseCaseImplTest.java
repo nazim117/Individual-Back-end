@@ -1,11 +1,12 @@
 package org.example.individualbackend.business.impl;
 
+import org.example.individualbackend.business.TicketService.Implementation.CreateTicketUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.create.CreateTicketResponse;
-import org.example.individualbackend.domain.create.CreateUserRequest;
+import org.example.individualbackend.persistance.FanRepo;
+import org.example.individualbackend.persistance.MatchRepo;
 import org.example.individualbackend.persistance.TicketRepo;
-import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
@@ -17,7 +18,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -30,6 +30,10 @@ import static org.mockito.Mockito.when;
 class CreateTicketUseCaseImplTest {
     @Mock
     private TicketRepo ticketRepo;
+    @Mock
+    private FanRepo fanRepo;
+    @Mock
+    private MatchRepo matchRepo;
     @InjectMocks
     private CreateTicketUseCaseImpl createTicketUseCase;
 
@@ -67,7 +71,21 @@ class CreateTicketUseCaseImplTest {
                         3))
                 .build();
 
+        //createFanEntity();
         when(ticketRepo.existsByRowNumAndSeatNumber(anyInt(), anyInt())).thenReturn(false);
+        when(fanRepo.findById(anyInt())).thenReturn(createFanEntity());
+        when(matchRepo.getMatchEntityById(anyInt())).thenReturn(createMatchEntity(1,
+                "2023-08-11T19:00:00",
+                "Turf Moor",
+                "FT",
+                "Burnley",
+                "https://media.api-sports.io/football/teams/44.png",
+                false,
+                "Manchester City",
+                "https://media.api-sports.io/football/teams/50.png",
+                true,
+                0,
+                3));
         when(ticketRepo.save(any(TicketEntity.class))).thenReturn(ticketEntity);
 
         CreateTicketResponse createTicketResponse = createTicketUseCase.createTicket(createTicketRequest);
@@ -88,6 +106,10 @@ class CreateTicketUseCaseImplTest {
         when(ticketRepo.existsByRowNumAndSeatNumber(anyInt(), anyInt())).thenReturn(true);
 
         assertThrows(ResponseStatusException.class, () -> createTicketUseCase.createTicket(createTicketRequest));
+    }
+
+    private FanEntity createFanEntity(){
+        return FanEntity.builder().id(1).boughtTickets(null).build();
     }
 
     private FanEntity createFanEntity(Integer _id) {

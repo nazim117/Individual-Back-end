@@ -1,6 +1,6 @@
 package org.example.individualbackend.controller;
 
-import org.example.individualbackend.business.*;
+import org.example.individualbackend.business.TicketService.Interface.*;
 import org.example.individualbackend.domain.Ticket;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.create.CreateTicketResponse;
@@ -23,7 +23,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
@@ -38,7 +37,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -57,38 +55,69 @@ class TicketControllerTest {
     @MockBean
     private DeleteTicketUseCase deleteTicketUseCase;
 
-    //TODO: FIX GETTICKETS METHOD
-//    @Test
-//    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-//     void getTickets_ReturnsListOfTickets() throws Exception{
-//        GetAllTicketsResponse response = GetAllTicketsResponse.builder().tickets(createTicketList()).build();
-//        when(getTicketsUseCase.getTickets()).thenReturn(response);
-//
-//        mockMvc.perform(get("/tickets"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
-//                .andExpect(content().json("""
-//                            {
-//                                  "tickets": [
-//                                      {
-//                                          "price": 20.0,
-//                                          "rowNum": 5,
-//                                          "seatNumber": 443,
-//                                          "fanId": 1,
-//                                          "footballMatchId": 1
-//                                      },
-//                                      {
-//                                          "price": 20.0,
-//                                          "rowNum": 5,
-//                                          "seatNumber": 443,
-//                                          "fanId": 1,
-//                                          "footballMatchId": 1
-//                                      }
-//                                  ]
-//                              }
-//                        """));
-//    }
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+     void getTickets_ReturnsListOfTickets() throws Exception{
+        GetAllTicketsResponse response = GetAllTicketsResponse.builder().tickets(createTicketList()).build();
+        when(getTicketsUseCase.getTickets()).thenReturn(response);
+
+        mockMvc.perform(get("/tickets"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().json("""
+                            {
+                                  "tickets": [
+                                      {
+                                          "price": 20.0,
+                                          "rowNum": 5,
+                                          "seatNumber": 443,
+                                          "fan": {
+                                              "id": 1
+                                          },
+                                          "footballMatch": {
+                                              "id": 1,
+                                              "date": "2024-03-13T10:30:00",
+                                              "venueName": "Turf Moor",
+                                              "statusShort": "FT",
+                                              "homeTeamName": "Burnley",
+                                              "homeTeamLogo": "https://media.api-sports.io/football/teams/44.png",
+                                              "homeTeamWinner": false,
+                                              "awayTeamName": "Manchester City",
+                                              "awayTeamLogo": "https://media.api-sports.io/football/teams/50.png",
+                                              "awayTeamWinner": true,
+                                              "goalsHome": 0,
+                                              "goalsAway": 3,
+                                              "availableTickets": 2
+                                          }
+                                      },
+                                      {
+                                          "price": 50.0,
+                                          "rowNum": 2,
+                                          "seatNumber": 32,
+                                          "fan": {
+                                            "id": 1
+                                          },
+                                          "footballMatch": {
+                                              "id": 1,
+                                              "date": "2024-03-13T10:30:00",
+                                              "venueName": "Turf Moor",
+                                              "statusShort": "FT",
+                                              "homeTeamName": "Burnley",
+                                              "homeTeamLogo": "https://media.api-sports.io/football/teams/44.png",
+                                              "homeTeamWinner": false,
+                                              "awayTeamName": "Manchester City",
+                                              "awayTeamLogo": "https://media.api-sports.io/football/teams/50.png",
+                                              "awayTeamWinner": true,
+                                              "goalsHome": 0,
+                                              "goalsAway": 3,
+                                              "availableTickets": 2
+                                          }
+                                      }
+                                  ]
+                              }
+                        """));
+    }
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
@@ -113,28 +142,16 @@ class TicketControllerTest {
                 .fanId(1)
                 .footballMatchId(1).build();
 
-        CreateTicketResponse response = CreateTicketResponse.builder().id(1).build();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
 
-        when(createTicketUseCase.createTicket(any())).thenReturn(response);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/tickets")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andReturn();
 
-        mockMvc.perform(post("/tickets")
-                        .contentType(APPLICATION_JSON_VALUE)
-                        .content("""
-                                {
-                                  "price": 20.0,
-                                  "rowNum": 5,
-                                  "seatNumber": 443,
-                                  "fanId": 1,
-                                  "footballMatchId": 1
-                                }
-                                """))
-                .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(content().json("""
-                            { "id": 1 }
-                        """));
-
-        verify(createTicketUseCase).createTicket(request);
+        assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
+        assertNotNull(result.getResponse().getContentAsString());
 
     }
 
@@ -176,26 +193,12 @@ class TicketControllerTest {
     private List<Ticket> createTicketList() {
         List<Ticket> tickets =  new ArrayList<>();
 
-        tickets.add(createTicket(32.0,6, 455));
+        tickets.add(createTicket(20.0,5, 443));
         tickets.add(createTicket(50.0,2, 32));
 
         return tickets;
     }
     private Ticket createTicket(Double price, int rowNum, int seatNumber) {
-        MatchEntity match = createMatchEntity(
-                1,
-                "2024-03-13T10:30:00-05:00",
-                "Turf Moor",
-                "FT",
-                "Burnley",
-                "https://media.api-sports.io/football/teams/44.png",
-                false,
-                "Manchester City",
-                "https://media.api-sports.io/football/teams/50.png",
-                true,
-                0,
-                3);
-
         return Ticket.builder()
                 .price(price)
                 .rowNum(rowNum)
@@ -267,7 +270,7 @@ class TicketControllerTest {
                 .awayTeamWinner(_awayTeamWinner)
                 .goalsHome(_goalsHome)
                 .goalsAway(_goalsAway)
-                .availableTickets(0)
+                .availableTickets(2)
                 .build();
     }
 

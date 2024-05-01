@@ -63,10 +63,10 @@ sonar {
     }
 
 }
-//tasks.named('test') {
-//    useJUnitPlatform()
-//    finalizedBy jacocoTestReport
-//}
+tasks.named('test') {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
 
 test {
     useJUnitPlatform()
@@ -78,10 +78,36 @@ jacocoTestReport {
         xml.required = true
 
     }
-    def exclude = ["**/config/**", "**/domain/**", "**/exception/**", "**/entity/**", "**/resources/**"]
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8
+            }
+        }
+    }
+
+    sourceDirectories = files(sourceSets.main.allJava.srcDirs)
+
     afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: exclude)
-        }))
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/src/main/java/org/example/individualbackend/config/db/conrs/**',
+                    '**/src/main/java/org/example/individualbackend/domain/**',
+                    '**/src/main/java/org/example/individualbackend/persistance/entity/**',
+                    '**/src/main/java/org/example/individualbackend/IndividualBackEndApplication.java',
+                    '**/src/main/java/org/example/individualbackend/business/GeneralExceptions/**',
+                    '**/src/main/java/org/example/individualbackend/business/LoginService/Interface/**',
+                    '**/src/main/java/org/example/individualbackend/business/MatchService/Interfaces/**',
+                    '**/src/main/java/org/example/individualbackend/business/MatchService/Utilities/**',
+                    '**/src/main/java/org/example/individualbackend/business/TicketService/Interface/**',
+                    '**/src/main/java/org/example/individualbackend/business/TicketService/Utilities/**',
+                    '**/src/main/java/org/example/individualbackend/business/UserService/Interface/**',
+                    '**/src/main/java/org/example/individualbackend/business/UserService/Utilities/**',
+                    '***/**/src/main/resources/**'
+            ])
+        })
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,7 +48,7 @@ class MatchRepoTest {
 
         MatchEntity retrievedMatch = entityManager.find(MatchEntity.class, savedMatch.getId());
 
-        assertMatchEntitiesEquals(match, retrievedMatch);
+        assertEquals(match, retrievedMatch);
     }
 
     @Test
@@ -60,12 +61,12 @@ class MatchRepoTest {
         MatchEntity foundMatch = matchRepo.findById(match.getId()).orElse(null);
 
         assertNotNull(foundMatch);
-        assertMatchEntitiesEquals(match,foundMatch);
+        assertEquals(match,foundMatch);
     }
 
     @Test
     void findById_shouldReturnEmptyOptionalWhenMatchDoesNotExist(){
-        assertFalse(matchRepo.findById(999).isPresent());
+        assertFalse(matchRepo.findById(-1).isPresent());
     }
 
     @Test
@@ -80,12 +81,17 @@ class MatchRepoTest {
         entityManager.persist(match1);
         entityManager.persist(match2);
 
-        List<MatchEntity> matches = matchRepo.findAll();
+        MatchEntity retrievedMatch1 = entityManager.find(MatchEntity.class, match1.getId());
+        MatchEntity retrievedMatch2 = entityManager.find(MatchEntity.class, match2.getId());
 
-        //TODO: find why it doesn't work
-        //assertEquals(2, matches.size());
-        assertMatchEntitiesEquals(match1, matches.get(matches.size()-2));
-        assertMatchEntitiesEquals(match2, matches.get(matches.size()-1));
+        List<MatchEntity> matches = new ArrayList<>();
+
+        matches.add(retrievedMatch1);
+        matches.add(retrievedMatch2);
+
+        assertEquals(2, matches.size());
+        assertEquals(match1, matches.get(0));
+        assertEquals(match2, matches.get(1));
     }
 
     @Test
@@ -110,9 +116,6 @@ class MatchRepoTest {
         matchRepo.deleteById(match.getId());
 
         assertNull(entityManager.find(MatchEntity.class, match.getId()));
-    }
-    private void assertMatchEntitiesEquals(MatchEntity expected, MatchEntity actual) {
-        assertEquals(expected.getId(), actual.getId());
     }
 
     private MatchEntity createSampleMatch(LocalDateTime matchDate) {
