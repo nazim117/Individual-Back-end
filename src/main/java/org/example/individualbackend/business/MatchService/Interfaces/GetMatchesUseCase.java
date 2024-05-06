@@ -1,7 +1,8 @@
 package org.example.individualbackend.business.MatchService.Interfaces;
 
-import org.example.individualbackend.domain.get.GetAllMatchesResponse;
+import org.example.individualbackend.domain.get.GetMatchesResponse;
 
 public interface GetMatchesUseCase {
-    GetAllMatchesResponse getMatches();
+    GetMatchesResponse getMatches();
+    GetMatchesResponse getTop3Matches();
 }

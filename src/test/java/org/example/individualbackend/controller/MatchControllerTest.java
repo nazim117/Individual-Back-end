@@ -3,7 +3,7 @@ package org.example.individualbackend.controller;
 import org.example.individualbackend.business.MatchService.Interfaces.GetMatchUseCase;
 import org.example.individualbackend.business.MatchService.Interfaces.GetMatchesUseCase;
 import org.example.individualbackend.domain.Match;
-import org.example.individualbackend.domain.get.GetAllMatchesResponse;
+import org.example.individualbackend.domain.get.GetMatchesResponse;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,7 +51,7 @@ class MatchControllerTest {
         //Arrange
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
-        GetAllMatchesResponse response = GetAllMatchesResponse
+        GetMatchesResponse response = GetMatchesResponse
                 .builder()
                 .matches(List.of(
                         Match.builder()

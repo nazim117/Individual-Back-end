@@ -1,5 +1,6 @@
 package org.example.individualbackend.persistance.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -21,9 +22,10 @@ public class UserRoleEntity {
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "application_user_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private UserEntity user;
 }

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.MatchService.Interfaces.GetMatchesUseCase;
 import org.example.individualbackend.business.MatchService.Utilities.MatchConverter;
 import org.example.individualbackend.domain.Match;
-import org.example.individualbackend.domain.get.GetAllMatchesResponse;
+import org.example.individualbackend.domain.get.GetMatchesResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,14 +16,24 @@ public class GetMatchesUseCaseImpl implements GetMatchesUseCase {
     private final SaveMatches saveMatches;
     @Transactional
     @Override
-    public GetAllMatchesResponse getMatches() {
+    public GetMatchesResponse getMatches() {
         List<Match> matches = saveMatches.getMatchesData()
                 .stream()
                 .map(MatchConverter::convert)
                 .toList();
 
-        return GetAllMatchesResponse.builder()
+        return GetMatchesResponse.builder()
                 .matches(matches)
                 .build();
+    }
+
+    @Override
+    public GetMatchesResponse getTop3Matches() {
+        List<Match> matches = saveMatches.getTop3MatchesData()
+                .stream()
+                .map(MatchConverter::convert)
+                .toList();
+
+        return GetMatchesResponse.builder().matches(matches).build();
     }
 }

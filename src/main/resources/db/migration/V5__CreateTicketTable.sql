@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS ticket(
     id                  int not null AUTO_INCREMENT PRIMARY KEY,
-    price               double precision NOT NULL,
+    price               double NOT NULL,
     rowNum              int,
     seatNumber          int,
-    fan_id int,
+    fan_id              int,
     football_match_id   int not null,
     UNIQUE (rowNum, seatNumber, fan_id, football_match_id),
     FOREIGN KEY (fan_id) REFERENCES fan (id),

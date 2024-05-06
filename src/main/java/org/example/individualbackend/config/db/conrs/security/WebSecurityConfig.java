@@ -36,7 +36,10 @@ public class WebSecurityConfig {
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(registry ->
                         registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/users", "/tokens").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/users", "/tokens", "/tickets").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/users", "/users/{id}", "/tickets", "/matches", "/matches/{id}", "/matches/upcoming").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/users", "/tickets").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/users", "/tickets").permitAll()
                                 .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
                                 .anyRequest().authenticated()
                 )
@@ -50,7 +53,10 @@ public class WebSecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:5173");
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("*")
+                        .allowedHeaders("*");
             }
         };
     }

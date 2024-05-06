@@ -3,7 +3,7 @@ package org.example.individualbackend.controller;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.MatchService.Interfaces.GetMatchUseCase;
 import org.example.individualbackend.business.MatchService.Interfaces.GetMatchesUseCase;
-import org.example.individualbackend.domain.get.GetAllMatchesResponse;
+import org.example.individualbackend.domain.get.GetMatchesResponse;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class MatchController {
     private final GetMatchUseCase getMatchUseCase;
 
     @GetMapping
-    public ResponseEntity<GetAllMatchesResponse> getMatches(){
+    public ResponseEntity<GetMatchesResponse> getMatches(){
         return ResponseEntity.ok(getMatchesUseCase.getMatches());
     }
 
@@ -27,5 +27,10 @@ public class MatchController {
             return  ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(match);
+    }
+//TODO: FINISH IMPLEMENTING (MAKE IT PAGEABLE)
+    @GetMapping("/upcoming")
+    public ResponseEntity<GetMatchesResponse> getUpcomingMatches(){
+        return ResponseEntity.ok(getMatchesUseCase.getTop3Matches());
     }
 }

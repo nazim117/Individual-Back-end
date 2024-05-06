@@ -10,6 +10,7 @@ import org.example.individualbackend.domain.create.CreateUserResponse;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.update.UpdateUserRequest;
 import org.example.individualbackend.domain.users.User;
+import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -195,6 +196,7 @@ class UserControllerTest{
                 .lName("Doe")
                 .password("1111")
                 .picture("nicePicture")
+                .role("FOOTBALL_FAN")
                 .build();
     }
 
@@ -207,10 +209,12 @@ class UserControllerTest{
     private UserEntity createMockGetUserResponse() {
         return UserEntity.builder()
                 .id(1)
+                .email("will@example.com")
                 .fName("Will")
                 .lName("Smith")
                 .password("1122")
                 .picture("beautifulPicture")
+                .fan(FanEntity.builder().id(1).build())
                 .build();
     }
 

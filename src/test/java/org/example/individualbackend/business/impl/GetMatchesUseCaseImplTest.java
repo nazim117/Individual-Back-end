@@ -5,8 +5,7 @@ import org.example.individualbackend.business.MatchService.Implementation.SaveMa
 import org.example.individualbackend.business.MatchService.Utilities.MatchConverter;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.Match;
-import org.example.individualbackend.domain.get.GetAllMatchesResponse;
-import org.example.individualbackend.externalAPI.FootballAPI;
+import org.example.individualbackend.domain.get.GetMatchesResponse;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,7 @@ class GetMatchesUseCaseImplTest {
                 .toList();
 
         //Act
-        GetAllMatchesResponse response = getMatchesUseCase.getMatches();
+        GetMatchesResponse response = getMatchesUseCase.getMatches();
 
         //Assert
         assertEquals(match.size(), response.getMatches().size());
@@ -55,7 +54,7 @@ class GetMatchesUseCaseImplTest {
     public void get_Matches_ReturnsEmptyMatchEntityArray(){
         when(saveMatches.getMatchesData()).thenReturn(new ArrayList<>());
 
-        GetAllMatchesResponse response = getMatchesUseCase.getMatches();
+        GetMatchesResponse response = getMatchesUseCase.getMatches();
 
         assertEquals(0, response.getMatches().size());
     }

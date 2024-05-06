@@ -126,7 +126,7 @@ class UserRepoTest {
 
         fanRepository.save(fan);
 
-        UserEntity user = createUserEntity("john@example.com", "John", "Doe", "profilePic.jpg", "password111",fan.getId(), boughtTickets);
+        UserEntity user = createUserEntity("john@example.com", "John", "Doe", "profilePic.jpg", "password1191",fan.getId(), boughtTickets);
 
         UserEntity saveduser = userRepo.save(user);
         assertNotNull(saveduser.getId());

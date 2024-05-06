@@ -4,23 +4,37 @@ import org.example.individualbackend.business.UserService.Implementation.CreateU
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.create.CreateUserRequest;
 import org.example.individualbackend.domain.create.CreateUserResponse;
+import org.example.individualbackend.persistance.FanRepo;
 import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.UserRoleRepo;
+import org.example.individualbackend.persistance.entity.FanEntity;
+import org.example.individualbackend.persistance.entity.RoleEnum;
 import org.example.individualbackend.persistance.entity.UserEntity;
+import org.example.individualbackend.persistance.entity.UserRoleEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+//TODO: ADD A CASE WHERE THE USER IS NOT A FAN
 @ContextConfiguration(classes = {TestConfig.class})
 class CreateUserUseCaseImplTest {
     @Mock
     private UserRepo userRepo;
+    @Mock
+    private FanRepo fanRepo;
+    @Mock
+    private UserRoleRepo userRoleRepo;
     @InjectMocks
     private CreateUserUseCaseImpl createUserUseCase;
 
@@ -30,14 +44,18 @@ class CreateUserUseCaseImplTest {
     }
 
     @Test
-    void create_createsUser_Successful(){
-        CreateUserRequest request = CreateUserRequest.builder()
-                .email("test@example.com")
-                .fName("John")
-                .lName("Doe")
-                .picture("pic.jpg")
-                .password("password123")
-                .build();
+    void create_createsUser_UserIsFan_Successful(){
+        CreateUserRequest request = mock(CreateUserRequest.class);
+
+        when(request.getRole()).thenReturn("FOOTBALL_FAN");
+
+        Set<UserRoleEntity> userRoles = new HashSet<>();
+        UserRoleEntity userRoleEntity1 = UserRoleEntity.builder().role(RoleEnum.FOOTBALL_FAN).build();
+        UserRoleEntity userRoleEntity2 = UserRoleEntity.builder().role(RoleEnum.ADMIN).build();
+        UserRoleEntity userRoleEntity3 = UserRoleEntity.builder().role(RoleEnum.CUSTOMER_SERVICE).build();
+        userRoles.add(userRoleEntity1);
+        userRoles.add(userRoleEntity2);
+        userRoles.add(userRoleEntity3);
 
         UserEntity userEntity = UserEntity.builder()
                 .email("test@example.com")
@@ -45,10 +63,19 @@ class CreateUserUseCaseImplTest {
                 .lName("Doe")
                 .picture("pic.jpg")
                 .password("password123")
+                .userRoles(userRoles)
                 .build();
 
         when(userRepo.existsByEmail(any())).thenReturn(false);
+        when(request.getRole()).thenReturn("FOOTBALL_FAN");
+
+
         when(userRepo.save(any(UserEntity.class))).thenReturn(userEntity);
+        when(fanRepo.save(any(FanEntity.class))).thenReturn(FanEntity.builder().build());
+        when(userRoleRepo.save(any(UserRoleEntity.class))).thenReturn(UserRoleEntity.builder()
+                .role(RoleEnum.FOOTBALL_FAN)
+                .user(userEntity)
+                .build());
         userEntity.setId(1);
 
         CreateUserResponse response = createUserUseCase.createUser(request);

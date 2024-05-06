@@ -16,6 +16,8 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class FootballAPI {
+    private final String fixture = "fixture";
+    private final String teams = "teams";
     public List<MatchEntity> fetchMatchesData() {
         List<MatchEntity> matchEntityList = new ArrayList<>();
         try {
@@ -33,16 +35,16 @@ public class FootballAPI {
                 for (JsonNode fixtureNode : fixtures) {
                     matchEntityList.add(MatchEntity
                             .builder()
-                            .id(fixtureNode.get("fixture").get("id").asInt())
-                            .date(LocalDateTime.parse(fixtureNode.get("fixture").get("date").asText(), formatter))
-                            .venueName(fixtureNode.get("fixture").get("venue").get("name").asText())
+                            .id(fixtureNode.get(fixture).get("id").asInt())
+                            .date(LocalDateTime.parse(fixtureNode.get(fixture).get("date").asText(), formatter))
+                            .venueName(fixtureNode.get(fixture).get("venue").get("name").asText())
                             .statusShort(fixtureNode.get("fixture").get("status").get("short").asText())
-                            .homeTeamName(fixtureNode.get("teams").get("home").get("name").asText())
-                            .homeTeamLogo(fixtureNode.get("teams").get("home").get("logo").asText())
-                            .homeTeamWinner(fixtureNode.get("teams").get("home").get("winner").asBoolean())
-                            .awayTeamName(fixtureNode.get("teams").get("away").get("name").asText())
-                            .awayTeamLogo(fixtureNode.get("teams").get("away").get("logo").asText())
-                            .awayTeamWinner(fixtureNode.get("teams").get("away").get("winner").asBoolean())
+                            .homeTeamName(fixtureNode.get(teams).get("home").get("name").asText())
+                            .homeTeamLogo(fixtureNode.get(teams).get("home").get("logo").asText())
+                            .homeTeamWinner(fixtureNode.get(teams).get("home").get("winner").asBoolean())
+                            .awayTeamName(fixtureNode.get(teams).get("away").get("name").asText())
+                            .awayTeamLogo(fixtureNode.get(teams).get("away").get("logo").asText())
+                            .awayTeamWinner(fixtureNode.get(teams).get("away").get("winner").asBoolean())
                             .goalsHome(fixtureNode.get("goals").get("home").asInt())
                             .goalsAway(fixtureNode.get("goals").get("away").asInt())
                             .availableTickets(5)

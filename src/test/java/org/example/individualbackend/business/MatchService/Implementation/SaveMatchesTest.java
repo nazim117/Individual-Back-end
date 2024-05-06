@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.MatchService.Implementation;
 
+import org.example.individualbackend.business.MatchService.Interfaces.GetMatchesUseCase;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.externalAPI.FootballAPI;
 import org.example.individualbackend.persistance.MatchRepo;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,7 +27,6 @@ class SaveMatchesTest {
     private MatchRepo matchRepo;
     @Mock
     private FootballAPI footballAPI;
-
     @InjectMocks
     private SaveMatches saveMatches;
 
@@ -44,7 +43,7 @@ class SaveMatchesTest {
         List<MatchEntity> result = saveMatches.getMatchesData();
 
         assertEquals(mockMatchEntities, result);
-        verify(matchRepo, times(0)).saveAll(anyList());
+        verify(matchRepo, times(1)).saveAll(anyList());
     }
 
     @Test
@@ -67,7 +66,7 @@ class SaveMatchesTest {
         mockMatchEntities.add(createMatchEntity(4, "2024-04-13T15:00:00", "Anfield", "FT", "Real Sociedad", "realsociedad.png", false, "Manchester City", "manchity.png", true, 2 ,5 , 5));
 
         when(footballAPI.fetchMatchesData()).thenReturn(mockMatchEntities);
-        when(matchRepo.getMatchEntitiesBy()).thenReturn(mockMatchEntities);
+        when(matchRepo.findAllByOrderByDateAsc()).thenReturn(mockMatchEntities);
 
         List<MatchEntity> result = saveMatches.getMatchesData();
 

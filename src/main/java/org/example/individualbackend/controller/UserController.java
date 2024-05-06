@@ -27,12 +27,13 @@ public class UserController{
     private final DeleteUserUseCase deleteUserUseCase;
 
     @GetMapping
+    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<GetAllUsersResponse> getUsers(){
         return ResponseEntity.ok(getUsersUseCase.getUsers());
     }
 
     @GetMapping("{id}")
-    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
+    @RolesAllowed({"FOOTBALL_FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") final Integer id){
         UserEntity user = getUserUseCase.getUser(id);
         if(user == null){
@@ -41,14 +42,14 @@ public class UserController{
         return ResponseEntity.ok().body(user);
     }
     @PostMapping
-    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
+    @RolesAllowed({"ADMIN"})
     public ResponseEntity<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest request){
         CreateUserResponse response = createUserUseCase.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("{id}")
-    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
+    @RolesAllowed({"ADMIN"})
     public ResponseEntity<Void> updateUser(@PathVariable(value = "id") final Integer id,
                                                          @RequestBody @Valid UpdateUserRequest request){
         request.setId(id);
@@ -56,7 +57,7 @@ public class UserController{
         return ResponseEntity.noContent().build();
     }
     @DeleteMapping("{id}")
-    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
+    @RolesAllowed({"ADMIN"})
     public ResponseEntity<Void> deleteUser(@PathVariable(value = "id") final Integer id){
         deleteUserUseCase.deleteUser(id);
         return ResponseEntity.noContent().build();

@@ -43,7 +43,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     private String generateAccessToken(UserEntity user) {
-        Integer userId = user.getFan() != null ? user.getFan().getId() : null;
+        Integer userId = user.getId() != null ? user.getId() : null;
         List<String> roles = user.getUserRoles().stream()
                 .map(userRole -> userRole.getRole().toString())
                 .toList();
