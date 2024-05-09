@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import lombok.AllArgsConstructor;
+import org.example.individualbackend.Utils.TicketGenerator;
+import org.example.individualbackend.persistance.TicketRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
+import org.example.individualbackend.persistance.entity.TicketEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +21,7 @@ import java.util.List;
 public class FootballAPI {
     private final String fixture = "fixture";
     private final String teams = "teams";
+    private final TicketRepo ticketRepo;
     public List<MatchEntity> fetchMatchesData() {
         List<MatchEntity> matchEntityList = new ArrayList<>();
         try {
@@ -33,7 +37,7 @@ public class FootballAPI {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
                 for (JsonNode fixtureNode : fixtures) {
-                    matchEntityList.add(MatchEntity
+                    MatchEntity match =  MatchEntity
                             .builder()
                             .id(fixtureNode.get(fixture).get("id").asInt())
                             .date(LocalDateTime.parse(fixtureNode.get(fixture).get("date").asText(), formatter))
@@ -47,9 +51,9 @@ public class FootballAPI {
                             .awayTeamWinner(fixtureNode.get(teams).get("away").get("winner").asBoolean())
                             .goalsHome(fixtureNode.get("goals").get("home").asInt())
                             .goalsAway(fixtureNode.get("goals").get("away").asInt())
-                            .availableTickets(5)
-                            .build());
+                            .build();
 
+                    matchEntityList.add(match);
                 }
             }
             return matchEntityList;

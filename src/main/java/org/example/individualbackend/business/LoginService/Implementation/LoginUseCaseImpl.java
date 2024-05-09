@@ -8,13 +8,25 @@ import org.example.individualbackend.config.db.conrs.security.token.AccessTokenE
 import org.example.individualbackend.config.db.conrs.security.token.impl.AccessTokenImpl;
 import org.example.individualbackend.domain.login.LoginRequest;
 import org.example.individualbackend.domain.login.LoginResponse;
+import org.example.individualbackend.domain.login.RegisterRequest;
+import org.example.individualbackend.domain.login.RegisterResponse;
+import org.example.individualbackend.domain.users.User;
+import org.example.individualbackend.persistance.FanRepo;
 import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.UserRoleRepo;
+import org.example.individualbackend.persistance.entity.FanEntity;
+import org.example.individualbackend.persistance.entity.RoleEnum;
 import org.example.individualbackend.persistance.entity.UserEntity;
 
+import org.example.individualbackend.persistance.entity.UserRoleEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +34,8 @@ public class LoginUseCaseImpl implements LoginUseCase {
     private final UserRepo userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AccessTokenEncoder accessTokenEncoder;
+    private final FanRepo fanRepository;
+    private final UserRoleRepo userRoleRepository;
 
     @Transactional
     @Override
@@ -35,6 +49,49 @@ public class LoginUseCaseImpl implements LoginUseCase {
 
         String accessToken = generateAccessToken(user);
         return LoginResponse.builder().accessToken(accessToken).build();
+    }
+
+    @Transactional
+    @Override
+    public RegisterResponse register(RegisterRequest registerRequest) {
+        if(userRepository.existsByEmail(registerRequest.getEmail())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User exists");
+        }
+
+        FanEntity fan = saveFan();
+        UserEntity savedUser = saveNewUser(registerRequest, fan);
+
+        RoleEnum role = RoleEnum.FOOTBALL_FAN;
+        UserRoleEntity userRoleEntity =  saveUserRole(role, savedUser);
+
+        Set<UserRoleEntity> userRoles = new HashSet<>();
+        userRoles.add(userRoleEntity);
+        savedUser.setUserRoles(userRoles);
+
+        String accessToken = generateAccessToken(savedUser);
+        return RegisterResponse.builder().accessToken(accessToken).build();
+    }
+
+    private UserRoleEntity saveUserRole(RoleEnum role, UserEntity savedUser) {
+        return userRoleRepository.save(UserRoleEntity.builder().role(role).user(savedUser).build());
+    }
+
+    private UserEntity saveNewUser(RegisterRequest registerRequest, FanEntity fan) {
+        UserEntity userEntity = UserEntity
+                .builder()
+                .email(registerRequest.getEmail())
+                .fName(registerRequest.getFName())
+                .lName(registerRequest.getLName())
+                .picture(registerRequest.getPicture())
+                .password(registerRequest.getPassword())
+                .fan(fan)
+                .build();
+
+        return userRepository.save(userEntity);
+    }
+
+    private FanEntity saveFan() {
+        return fanRepository.save(FanEntity.builder().build());
     }
 
     private boolean matchesPassword(String rawPassword, String encodedPassword) {

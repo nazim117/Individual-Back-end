@@ -73,7 +73,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
                     .lName(request.getLName())
                     .picture(request.getPicture())
                     .password(request.getPassword())
-                     .fan(fan)
+                    .fan(fan)
                     .build();
 
         return userRepo.save(userEntity);

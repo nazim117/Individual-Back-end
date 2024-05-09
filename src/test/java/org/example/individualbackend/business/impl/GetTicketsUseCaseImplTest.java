@@ -50,7 +50,7 @@ class GetTicketsUseCaseImplTest {
 
 
         //Act
-        GetAllTicketsResponse response = getTicketsUseCase.getTickets();
+        GetAllTicketsResponse response = getTicketsUseCase.getAll();
 
         //Assert
         assertEquals(tickets.size(), response.getTickets().size());
@@ -62,7 +62,7 @@ class GetTicketsUseCaseImplTest {
      void getTickets_NoTicketsExist_ReturnsEmptyList(){
         when(ticketRepo.findAll()).thenReturn(new ArrayList<>());
 
-        GetAllTicketsResponse response = getTicketsUseCase.getTickets();
+        GetAllTicketsResponse response = getTicketsUseCase.getAll();
 
         assertEquals(0, response.getTickets().size());
     }

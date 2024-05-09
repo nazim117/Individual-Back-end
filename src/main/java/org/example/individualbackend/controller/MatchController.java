@@ -28,7 +28,7 @@ public class MatchController {
         }
         return ResponseEntity.ok().body(match);
     }
-//TODO: FINISH IMPLEMENTING (MAKE IT PAGEABLE)
+
     @GetMapping("/upcoming")
     public ResponseEntity<GetMatchesResponse> getUpcomingMatches(){
         return ResponseEntity.ok(getMatchesUseCase.getTop3Matches());

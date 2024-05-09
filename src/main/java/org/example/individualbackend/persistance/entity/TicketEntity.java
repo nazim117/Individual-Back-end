@@ -37,15 +37,13 @@ public class TicketEntity {
     @Column(name = "seatNumber")
     private Integer seatNumber;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="fan_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private FanEntity fan;
 
-    @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "football_match_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

@@ -1,6 +1,8 @@
 package org.example.individualbackend.externalAPI;
 
+import org.example.individualbackend.Utils.TicketGenerator;
 import org.example.individualbackend.persistance.entity.MatchEntity;
+import org.example.individualbackend.persistance.entity.TicketEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -97,6 +99,8 @@ class FootballAPITest {
         LocalDateTime matchDate1 = LocalDateTime.parse("2024-03-12T09:30:00-05:00", formatter);
         LocalDateTime matchDate2 = LocalDateTime.parse("2024-03-13T10:30:00-05:00", formatter);
 
+        List<TicketEntity> ticketEntities = TicketGenerator.INSTANCE.generateTicket(2,5);
+
         List<MatchEntity> mockMatches = new ArrayList<>();
         mockMatches.add(MatchEntity.builder()
                         .id(1)
@@ -111,7 +115,7 @@ class FootballAPITest {
                         .awayTeamWinner(true)
                         .goalsHome(2)
                         .goalsAway(3)
-                        .availableTickets(5)
+                        .availableTickets(ticketEntities)
                         .build());
 
         mockMatches.add(MatchEntity.builder()
@@ -127,7 +131,7 @@ class FootballAPITest {
                 .awayTeamWinner(false)
                 .goalsHome(4)
                 .goalsAway(1)
-                .availableTickets(5)
+                .availableTickets(ticketEntities)
                 .build());
 
         return mockMatches;

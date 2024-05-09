@@ -7,6 +7,8 @@ import org.example.individualbackend.persistance.TicketRepo;
 import org.example.individualbackend.persistance.entity.TicketEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class GetTicketUseCaseImpl implements GetTicketUseCase {

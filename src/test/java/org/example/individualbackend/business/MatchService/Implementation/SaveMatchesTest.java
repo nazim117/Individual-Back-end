@@ -1,10 +1,13 @@
 package org.example.individualbackend.business.MatchService.Implementation;
 
+import org.example.individualbackend.Utils.TicketGenerator;
 import org.example.individualbackend.business.MatchService.Interfaces.GetMatchesUseCase;
 import org.example.individualbackend.config.TestConfig;
+import org.example.individualbackend.domain.Ticket;
 import org.example.individualbackend.externalAPI.FootballAPI;
 import org.example.individualbackend.persistance.MatchRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
+import org.example.individualbackend.persistance.entity.TicketEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -62,8 +65,10 @@ class SaveMatchesTest {
     @Test
     void getMatchesData_DoNotSaveMatchesWhenRepoHasEnoughData(){
         List<MatchEntity> mockMatchEntities = createMockMatchEntityList();
-        mockMatchEntities.add(createMatchEntity(3, "2024-04-11T15:00:00", "Anfield", "FT", "Real Madrid", "realmadrid.png", false, "Manchester City", "manchity.png", true, 2 ,5 , 5));
-        mockMatchEntities.add(createMatchEntity(4, "2024-04-13T15:00:00", "Anfield", "FT", "Real Sociedad", "realsociedad.png", false, "Manchester City", "manchity.png", true, 2 ,5 , 5));
+        List<TicketEntity> mockTicketEntities = TicketGenerator.INSTANCE.generateTicket(2,5);
+
+        mockMatchEntities.add(createMatchEntity(3, "2024-04-11T15:00:00", "Anfield", "FT", "Real Madrid", "realmadrid.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
+        mockMatchEntities.add(createMatchEntity(4, "2024-04-13T15:00:00", "Anfield", "FT", "Real Sociedad", "realsociedad.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
 
         when(footballAPI.fetchMatchesData()).thenReturn(mockMatchEntities);
         when(matchRepo.findAllByOrderByDateAsc()).thenReturn(mockMatchEntities);
@@ -83,9 +88,9 @@ class SaveMatchesTest {
 
     private List<MatchEntity> createMockMatchEntityList() {
         List<MatchEntity> mockMatchEntities = new ArrayList<>();
-
-        MatchEntity mockMatchEntity1 = createMatchEntity(1, "2023-08-11T19:00:00", "Turf Moor", "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , 5);
-        MatchEntity mockMatchEntity2 = createMatchEntity(1, "2024-03-11T15:00:00", "Anfield", "FT", "Liverpool", "liverpool.png", false, "Manchester City", "manchity.png", true, 1 ,2 , 5);
+        List<TicketEntity> mockTicketEntities = TicketGenerator.INSTANCE.generateTicket(2, 5);
+        MatchEntity mockMatchEntity1 = createMatchEntity(1, "2023-08-11T19:00:00", "Turf Moor", "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , mockTicketEntities);
+        MatchEntity mockMatchEntity2 = createMatchEntity(1, "2024-03-11T15:00:00", "Anfield", "FT", "Liverpool", "liverpool.png", false, "Manchester City", "manchity.png", true, 1 ,2 , mockTicketEntities);
 
         mockMatchEntities.add(mockMatchEntity1);
         mockMatchEntities.add(mockMatchEntity2);
@@ -93,7 +98,7 @@ class SaveMatchesTest {
         return mockMatchEntities;
     }
 
-    private MatchEntity createMatchEntity(int id, String date, String venueName, String statusShort, String homeTeamName, String homeTeamLogo, boolean homeTeamWinner, String awayTeamName, String awayTeamLogo, boolean awayTeamWinner, int goalsHomeTeam, int goalsAwayTeam, int availableTickets) {
+    private MatchEntity createMatchEntity(int id, String date, String venueName, String statusShort, String homeTeamName, String homeTeamLogo, boolean homeTeamWinner, String awayTeamName, String awayTeamLogo, boolean awayTeamWinner, int goalsHomeTeam, int goalsAwayTeam, List<TicketEntity> availableTickets) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
         return MatchEntity.builder()

@@ -1,9 +1,9 @@
 package org.example.individualbackend.controller;
 
+import org.example.individualbackend.Utils.TicketGenerator;
 import org.example.individualbackend.business.TicketService.Interface.*;
 import org.example.individualbackend.domain.Ticket;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
-import org.example.individualbackend.domain.create.CreateTicketResponse;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
 import org.example.individualbackend.domain.update.UpdateTicketRequest;
 import org.example.individualbackend.persistance.entity.FanEntity;
@@ -59,7 +59,7 @@ class TicketControllerTest {
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
      void getTickets_ReturnsListOfTickets() throws Exception{
         GetAllTicketsResponse response = GetAllTicketsResponse.builder().tickets(createTicketList()).build();
-        when(getTicketsUseCase.getTickets()).thenReturn(response);
+        when(getTicketsUseCase.getAll()).thenReturn(response);
 
         mockMvc.perform(get("/tickets"))
                 .andDo(print())
@@ -87,8 +87,7 @@ class TicketControllerTest {
                                               "awayTeamLogo": "https://media.api-sports.io/football/teams/50.png",
                                               "awayTeamWinner": true,
                                               "goalsHome": 0,
-                                              "goalsAway": 3,
-                                              "availableTickets": 2
+                                              "goalsAway": 3
                                           }
                                       },
                                       {
@@ -110,8 +109,7 @@ class TicketControllerTest {
                                               "awayTeamLogo": "https://media.api-sports.io/football/teams/50.png",
                                               "awayTeamWinner": true,
                                               "goalsHome": 0,
-                                              "goalsAway": 3,
-                                              "availableTickets": 2
+                                              "goalsAway": 3
                                           }
                                       }
                                   ]
@@ -256,6 +254,9 @@ class TicketControllerTest {
                                           Boolean _awayTeamWinner,
                                           Integer _goalsHome,
                                           Integer _goalsAway) {
+
+        List<TicketEntity> tickets = TicketGenerator.INSTANCE.generateTicket(2,5);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
         return MatchEntity.builder()
                 .id(id)
@@ -270,7 +271,7 @@ class TicketControllerTest {
                 .awayTeamWinner(_awayTeamWinner)
                 .goalsHome(_goalsHome)
                 .goalsAway(_goalsAway)
-                .availableTickets(2)
+                .availableTickets(tickets)
                 .build();
     }
 

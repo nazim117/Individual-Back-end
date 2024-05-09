@@ -14,7 +14,6 @@ public class GetMatchUseCaseImpl implements GetMatchUseCase {
     @Transactional
     @Override
     public MatchEntity getMatch(Integer id) {
-
         return matchRepo.getMatchEntityById(id);
     }
 }

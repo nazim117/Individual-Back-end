@@ -1,6 +1,7 @@
 package org.example.individualbackend.persistance.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -76,5 +77,7 @@ public class MatchEntity {
     @Column(name = "goalsAway")
     private Integer goalsAway;
 
-    private int availableTickets;
+    @OneToMany(mappedBy = "footballMatch", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<TicketEntity> availableTickets;
 }

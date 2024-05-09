@@ -3,11 +3,13 @@ package org.example.individualbackend.business.TicketService.Implementation;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.TicketService.Interface.CreateTicketUseCase;
+import org.example.individualbackend.domain.create.BuyTicketRequest;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.create.CreateTicketResponse;
 import org.example.individualbackend.persistance.FanRepo;
 import org.example.individualbackend.persistance.MatchRepo;
 import org.example.individualbackend.persistance.TicketRepo;
+import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
@@ -21,6 +23,8 @@ public class CreateTicketUseCaseImpl implements CreateTicketUseCase {
     private final TicketRepo ticketRepo;
     private final FanRepo fanRepo;
     private final MatchRepo matchRepo;
+    private final UserRepo userRepo;
+
     @Transactional
     @Override
     public CreateTicketResponse createTicket(CreateTicketRequest request) {
@@ -33,6 +37,24 @@ public class CreateTicketUseCaseImpl implements CreateTicketUseCase {
         return CreateTicketResponse.builder()
                 .id(ticketEntity.getId())
                 .build();
+    }
+
+    @Transactional
+    @Override
+    public Integer addFanToTicket(Integer ticketId, Integer userId) {
+        TicketEntity existingTicket = ticketRepo
+                .findById(ticketId)
+                .orElseThrow();
+
+        FanEntity existingFan = userRepo.getUserEntityById(userId).getFan();
+
+        if(existingFan == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Fan does not exist");
+        }
+
+        existingTicket.setFan(existingFan);
+
+        return existingTicket.getId();
     }
 
     private TicketEntity addNewTicket(CreateTicketRequest request) {

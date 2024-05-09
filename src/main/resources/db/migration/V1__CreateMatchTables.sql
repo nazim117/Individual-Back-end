@@ -10,6 +10,5 @@ CREATE TABLE IF NOT EXISTS football_match(
     awayTeamLogo    varchar(255),
     awayTeamWinner  bit,
     goalsHome       int,
-    goalsAway       int,
-    availableTickets int
+    goalsAway       int
 );
