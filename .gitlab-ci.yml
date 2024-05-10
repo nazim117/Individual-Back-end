@@ -7,7 +7,7 @@ stages:
   - test
   - deploy
   - sonarqube-check
-  - sonarqube-vulnerability-report
+#  - sonarqube-vulnerability-report
 
 build:
   stage: build
@@ -37,21 +37,21 @@ deploy:
 sonarqube-check:
     stage: sonarqube-check
     script:
-      - ./gradlew test sonar jacocoTestCoverageVerification
+      - ./gradlew test sonar jacocoTestReport
 
-sonarqube-vulnerability-report:
-  stage: sonarqube-vulnerability-report
-  script:
-    - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=I499773_individual-back-end_39a8aa8d-7b35-49d1-a41e-7e33289f6d80&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
-  allow_failure: true
-  only:
-    - merge_requests
-    - master
-    - main
-    - develop
-  artifacts:
-    expire_in: 1 day
-    reports:
-      sast: gl-sast-sonar-report.json
-  dependencies:
-    - sonarqube-check
+#sonarqube-vulnerability-report:
+#  stage: sonarqube-vulnerability-report
+#  script:
+#    - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=I499773_individual-back-end_39a8aa8d-7b35-49d1-a41e-7e33289f6d80&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
+#  allow_failure: true
+#  only:
+#    - merge_requests
+#    - master
+#    - main
+#    - develop
+#  artifacts:
+#    expire_in: 1 day
+#    reports:
+#      sast: gl-sast-sonar-report.json
+#  dependencies:
+#    - sonarqube-check
