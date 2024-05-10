@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
+//TODO: MAKE SOME IMPROVEMENTS ON THE PRICE GENERATION
 @NoArgsConstructor
 public enum TicketGenerator {
     INSTANCE;
