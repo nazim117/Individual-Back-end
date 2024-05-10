@@ -56,10 +56,10 @@ jar{
 
 sonar {
     properties {
-        property "sonar.projectKey", "I499773_individual-back-end_39a8aa8d-7b35-49d1-a41e-7e33289f6d80"
+        property "sonar.projectKey", "I499773_individual-back-end_b3b6860b-52cd-439e-b802-e930bdf311aa"
         property "sonar.projectName", "Individual-Back-end"
         property "sonar.qualitygate.wait", true
-        property "sonar.token", "sqp_556e07902aa6913725e93bc9d210675d77e8a3d8"
+        property "sonar.token", "sqp_94dd1f5f751ae212002f3223551ebe757cc33ca7"
 //        property "sonar.gradle.skipCompile", true
     }
 
