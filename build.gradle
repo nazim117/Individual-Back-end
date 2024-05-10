@@ -60,7 +60,7 @@ sonar {
         property "sonar.projectName", "Individual-Back-end"
         property "sonar.qualitygate.wait", true
         property "sonar.token", "sqp_94dd1f5f751ae212002f3223551ebe757cc33ca7"
-//        property "sonar.gradle.skipCompile", true
+        property "sonar.gradle.skipCompile", true
     }
 
 }
