@@ -37,7 +37,7 @@ deploy:
 sonarqube-check:
     stage: sonarqube-check
     script:
-      - ./gradlew test sonar jacocoTestReport
+      - ./gradlew test sonar jacocoTestCoverageVerification
 
 sonarqube-vulnerability-report:
   stage: sonarqube-vulnerability-report
