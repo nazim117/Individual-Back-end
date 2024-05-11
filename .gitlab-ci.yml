@@ -1,6 +1,6 @@
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-  //GIT_DEPTH: "0"
+#  GIT_DEPTH: "0"
 
 stages:
   - build
