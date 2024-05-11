@@ -58,6 +58,7 @@ sonar {
     properties {
         property "sonar.projectKey", "I499773_individual-back-end_b3b6860b-52cd-439e-b802-e930bdf311aa"
         property "sonar.projectName", "Individual-Back-end"
+        property "sonar.host.url", "http://localhost:9000"
         property "sonar.qualitygate.wait", true
         property "sonar.token", "sqp_7e4c9603824dbe36cf2f6ecf9426cfeefc951979"
         property "sonar.gradle.skipCompile", true
