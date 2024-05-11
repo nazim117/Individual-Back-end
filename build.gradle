@@ -61,7 +61,6 @@ sonar {
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.token", "sqp_7fa81ff949712e924ae213fc308175e99a96788e"
         property "sonar.qualitygate.wait", true
-        //property "sonar.gradle.skipCompile", true
     }
 
 }
@@ -69,14 +68,13 @@ test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
-//work
 jacocoTestReport {
     reports {
         xml.required = true
 
     }
 }
-
+//test
 jacocoTestCoverageVerification {
     violationRules {
         rule {
