@@ -69,7 +69,7 @@ test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
-
+//work
 jacocoTestReport {
     reports {
         xml.required = true
