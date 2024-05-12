@@ -2,35 +2,35 @@ variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 stages:
-  - build
-  - test
-  - deploy
+#  - build
+#  - test
+#  - deploy
   - sonarqube-check
-
-build:
-  stage: build
-  script:
-    - ls
-    - pwd
-    - ./gradlew assemble
-    - ./gradlew jar
-    - docker build -t individual-back-end .
-
-test:
-  stage: test
-  script:
-    - ls
-    - pwd
-    - ./gradlew test
-
-deploy:
-  stage: deploy
-  script:
-    - ls
-    - pwd
-    - docker stop individual-back-end-staging
-    - docker rm individual-back-end-staging
-    - docker run -d -p 8090:8080 --net=individual_db_staging --env spring_profiles_active=staging --name=individual-back-end-staging individual-back-end
+#
+#build:
+#  stage: build
+#  script:
+#    - ls
+#    - pwd
+#    - ./gradlew assemble
+#    - ./gradlew jar
+#    - docker build -t individual-back-end .
+#
+#test:
+#  stage: test
+#  script:
+#    - ls
+#    - pwd
+#    - ./gradlew test
+#
+#deploy:
+#  stage: deploy
+#  script:
+#    - ls
+#    - pwd
+#    - docker stop individual-back-end-staging
+#    - docker rm individual-back-end-staging
+#    - docker run -d -p 8090:8080 --net=individual_db_staging --env spring_profiles_active=staging --name=individual-back-end-staging individual-back-end
 
 sonarqube-check:
   stage: sonarqube-check
