@@ -35,4 +35,4 @@ stages:
 sonarqube-check:
   stage: sonarqube-check
   script:
-    - ./gradlew test sonarqube jacocoTestReport
+    - ./gradlew test jacocoTestReport sonar
