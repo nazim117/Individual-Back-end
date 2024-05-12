@@ -2,27 +2,27 @@ variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 stages:
-#  - build
-#  - test
-#  - deploy
+  - build
+  - test
+  - deploy
   - sonarqube-check
-#
-#build:
-#  stage: build
-#  script:
-#    - ls
-#    - pwd
-#    - ./gradlew assemble
-#    - ./gradlew jar
-#    - docker build -t individual-back-end .
-#
-#test:
-#  stage: test
-#  script:
-#    - ls
-#    - pwd
-#    - ./gradlew test
-#
+
+build:
+  stage: build
+  script:
+    - ls
+    - pwd
+    - ./gradlew assemble
+    - ./gradlew jar
+    - docker build -t individual-back-end .
+
+test:
+  stage: test
+  script:
+    - ls
+    - pwd
+    - ./gradlew test
+
 #deploy:
 #  stage: deploy
 #  script:
@@ -35,4 +35,4 @@ stages:
 sonarqube-check:
   stage: sonarqube-check
   script:
-    - ./gradlew test jacocoTestReport sonar
+    - ./gradlew test sonar jacocoTestReport
