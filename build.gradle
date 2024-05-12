@@ -83,8 +83,6 @@ jacocoTestCoverageVerification {
         }
     }
 
-    sourceDirectories = files(sourceSets.main.allJava.srcDirs)
-
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
