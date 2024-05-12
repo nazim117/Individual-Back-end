@@ -7,9 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 public class IndividualBackEndApplication {
-//test
     public static void main(String[] args) {
         SpringApplication.run(IndividualBackEndApplication.class, args);
     }
-
 }
