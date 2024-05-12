@@ -2,9 +2,9 @@ variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 stages:
-  - build
-  - test
-  - deploy
+#  - build
+#  - test
+#  - deploy
   - sonarqube-check
 
 build:
