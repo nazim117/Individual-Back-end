@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 
-//TODO: MAKE SOME IMPROVEMENTS ON THE PRICE GENERATION
+//TODO: MAKE SOME IMPROVEMENTS ON THE PRICE GENERATION (make the generation more precise)
 @NoArgsConstructor
 public enum TicketGenerator {
     INSTANCE;
