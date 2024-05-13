@@ -14,7 +14,7 @@ public enum TicketGenerator {
     INSTANCE;
 
     private static final Random random = new Random();
-    private static final double BASE_PRICE = 30.0;
+    private static final double BASE_PRICE = 35.0;
     private static final double PRICE_VARIATION = 25.0;
 
     public List<TicketEntity> generateTicket(int rowCount, int seatsPerRow) {
