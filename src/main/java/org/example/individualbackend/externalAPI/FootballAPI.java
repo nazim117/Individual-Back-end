@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class FootballAPI {
-    public List<MatchEntity> fetchMatchesData() {
+    public List<MatchEntity> fetchMatchesData() throws IOException {
         List<MatchEntity> matchEntityList = new ArrayList<>();
         try {
             Unirest.setTimeouts(0, 0);
@@ -57,7 +58,7 @@ public class FootballAPI {
             return matchEntityList;
 
         } catch(Exception e){
-            throw new RuntimeException("Error fetching matches data", e);
+            throw new IOException("Error fetching matches data", e);
         }
     }
 }

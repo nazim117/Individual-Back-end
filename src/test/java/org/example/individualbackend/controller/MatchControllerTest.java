@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,7 +27,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -44,46 +45,14 @@ class MatchControllerTest {
 
     @MockBean
     private GetMatchUseCase getMatchUseCase;
+    @Autowired
+    private MatchController matchController;
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getMatch_ReturnsMatchEntityList() throws Exception {
         //Arrange
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
-
-        GetMatchesResponse response = GetMatchesResponse
-                .builder()
-                .matches(List.of(
-                        Match.builder()
-                                .id(1)
-                                .date(LocalDateTime.parse("2023-08-11T09:30:00-05:00", formatter))
-                                .venueName("Turf Moor")
-                                .statusShort("FT")
-                                .homeTeamName("Burnley")
-                                .homeTeamLogo("https://media.api-sports.io/football/teams/44.png")
-                                .homeTeamWinner(false)
-                                .awayTeamName("Manchester City")
-                                .awayTeamLogo("https://media.api-sports.io/football/teams/50.png")
-                                .awayTeamWinner(true)
-                                .goalsHome(0)
-                                .goalsAway(3)
-                                .build(),
-                        Match.builder()
-                                .id(2)
-                                .date(LocalDateTime.parse("2023-08-11T09:30:00-05:00",formatter))
-                                .venueName("Emirates Stadium")
-                                .statusShort("FT")
-                                .homeTeamName("Arsenal")
-                                .homeTeamLogo("https://media.api-sports.io/football/teams/42.png")
-                                .homeTeamWinner(true)
-                                .awayTeamName("Nottingham Forest")
-                                .awayTeamLogo("https://media.api-sports.io/football/teams/65.png")
-                                .awayTeamWinner(false)
-                                .goalsHome(2)
-                                .goalsAway(1)
-                                .build()
-                ))
-                .build();
+        GetMatchesResponse response = createMockMachesResponse();
         when(getMatchesUseCase.getMatches())
                 .thenReturn(response);
 
@@ -127,6 +96,7 @@ class MatchControllerTest {
                             ]}
                         """));
     }
+
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getMatch_ReturnsMatchEntity() throws Exception{
@@ -165,5 +135,57 @@ class MatchControllerTest {
         mockMvc.perform(get("/matches/999")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void getUpcomingMatches_ReturnTop3Matches(){
+        GetMatchesResponse expectedMatchesResponse = createMockMachesResponse();
+        when(getMatchesUseCase.getTop3Matches()).thenReturn(expectedMatchesResponse);
+
+        ResponseEntity<GetMatchesResponse> responseEntity = matchController.getUpcomingMatches();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedMatchesResponse, responseEntity.getBody());
+
+        verify(getMatchesUseCase, times(1)).getTop3Matches();
+    }
+
+    private GetMatchesResponse createMockMachesResponse() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+
+        return GetMatchesResponse
+                .builder()
+                .matches(List.of(
+                        Match.builder()
+                                .id(1)
+                                .date(LocalDateTime.parse("2023-08-11T09:30:00-05:00", formatter))
+                                .venueName("Turf Moor")
+                                .statusShort("FT")
+                                .homeTeamName("Burnley")
+                                .homeTeamLogo("https://media.api-sports.io/football/teams/44.png")
+                                .homeTeamWinner(false)
+                                .awayTeamName("Manchester City")
+                                .awayTeamLogo("https://media.api-sports.io/football/teams/50.png")
+                                .awayTeamWinner(true)
+                                .goalsHome(0)
+                                .goalsAway(3)
+                                .build(),
+                        Match.builder()
+                                .id(2)
+                                .date(LocalDateTime.parse("2023-08-11T09:30:00-05:00",formatter))
+                                .venueName("Emirates Stadium")
+                                .statusShort("FT")
+                                .homeTeamName("Arsenal")
+                                .homeTeamLogo("https://media.api-sports.io/football/teams/42.png")
+                                .homeTeamWinner(true)
+                                .awayTeamName("Nottingham Forest")
+                                .awayTeamLogo("https://media.api-sports.io/football/teams/65.png")
+                                .awayTeamWinner(false)
+                                .goalsHome(2)
+                                .goalsAway(1)
+                                .build()
+                ))
+                .build();
     }
 }

@@ -1,8 +1,11 @@
 package org.example.individualbackend.controller;
 
 import org.example.individualbackend.business.LoginService.Interface.LoginUseCase;
+import org.example.individualbackend.domain.create.CreateUserRequest;
 import org.example.individualbackend.domain.login.LoginRequest;
 import org.example.individualbackend.domain.login.LoginResponse;
+import org.example.individualbackend.domain.login.RegisterRequest;
+import org.example.individualbackend.domain.login.RegisterResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +15,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -44,6 +49,51 @@ class LoginControllerTest {
     }
 
     @Test
+    void register_UserRegistersSuccessfully() throws Exception {
+        RegisterResponse registerResponse =RegisterResponse.builder().accessToken("token").build();
+        when(loginUseCase.register(any(RegisterRequest.class))).thenReturn(registerResponse);
+
+        mockMvc.perform(post("/tokens/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("{\"accessToken\":\"token\"}"));
+    }
+
+    @Test
+    void register_InvalidRequest_failsToRegister() throws Exception {
+        //Arrange
+        when(loginUseCase.register(any(RegisterRequest.class))).thenReturn(null);
+
+        //Act
+        //Assert
+        mockMvc.perform(post("/tokens/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"invalidEmail.com\",\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    void register_MissingEmail_ReturnsBadRequest() throws Exception{
+        //Act
+        //Assert
+        mockMvc.perform(post("/tokens/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void register_MissingPassword_ReturnsBadRequest() throws Exception {
+        //Act
+        //Assert
+        mockMvc.perform(post("/tokens/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"invalidEmail.com\",\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
      void login_InvalidCredentials_UserDoesNotLogIn() throws Exception {
 
         when(loginUseCase.login(any(LoginRequest.class))).thenReturn(null);
@@ -51,6 +101,22 @@ class LoginControllerTest {
         mockMvc.perform(post("/tokens")
         .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"testemail@example.com\", \"password\":\"incorrectPassword\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void login_EmailPassword_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(post("/tokens")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"password\":\"incorrectPassword\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void login_MissingPassword_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(post("/tokens")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"testemail@example.com\"}"))
                 .andExpect(status().isBadRequest());
     }
 }

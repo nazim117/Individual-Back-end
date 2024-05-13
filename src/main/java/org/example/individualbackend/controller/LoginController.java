@@ -27,9 +27,9 @@ public class LoginController {
             if(loginResponse != null){
                 return ResponseEntity.status(HttpStatus.CREATED).body(loginResponse);
             }
-            return  ResponseEntity.badRequest().build();
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }catch (Exception e){
-            return  ResponseEntity.badRequest().build();
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
     }

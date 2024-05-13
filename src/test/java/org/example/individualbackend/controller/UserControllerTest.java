@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -33,7 +34,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -57,6 +59,9 @@ class UserControllerTest{
     private UpdateUserUseCase updateUserUseCase;
     @MockBean
     private DeleteUserUseCase deleteUserUseCase;
+
+    @Autowired
+    private UserController userController;
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
@@ -117,10 +122,20 @@ class UserControllerTest{
     }
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void getUser_ReturnsNotFoundWhenUserIsNull(){
+        when(getUserUseCase.getUser(anyInt())).thenReturn(null);
+
+        ResponseEntity<UserEntity> responseEntity = userController.getUser(1);
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+        verify(getUserUseCase, times(1)).getUser(1);
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
      void testGetUser() throws Exception{
         Mockito.when(getUserUseCase.getUser(Mockito.anyInt())).thenReturn(createMockGetUserResponse());
-
-        //ResponseEntity<UserEntity> response = userController.getUser(1);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON))
@@ -135,8 +150,6 @@ class UserControllerTest{
         Mockito.when(createUserUseCase.createUser(Mockito.any())).thenReturn(createMockCreateUserResponse());
 
         CreateUserRequest request = createSampleCreateUserRequest();
-
-        // ResponseEntity<CreateUserResponse> response = userController.createUser(request);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);

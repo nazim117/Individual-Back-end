@@ -6,9 +6,9 @@ import org.example.individualbackend.domain.Ticket;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
 import org.example.individualbackend.domain.update.UpdateTicketRequest;
-import org.example.individualbackend.persistance.entity.FanEntity;
-import org.example.individualbackend.persistance.entity.MatchEntity;
-import org.example.individualbackend.persistance.entity.TicketEntity;
+import org.example.individualbackend.persistance.TicketRepo;
+import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.entity.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -27,8 +27,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -54,6 +53,10 @@ class TicketControllerTest {
     private UpdateTicketUseCase updateTicketUseCase;
     @MockBean
     private DeleteTicketUseCase deleteTicketUseCase;
+    @MockBean
+    private UserRepo userRepo;
+    @MockBean
+    private TicketRepo ticketRepo;
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
@@ -152,7 +155,6 @@ class TicketControllerTest {
         assertNotNull(result.getResponse().getContentAsString());
 
     }
-
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void updateTicket_WithValidRequest_Successful_ReturnsNoContent() throws Exception{
@@ -188,6 +190,95 @@ class TicketControllerTest {
 
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void createTicker_WithInvalidRequest_ReturnsBadRequest() throws Exception {
+        CreateTicketRequest request = CreateTicketRequest.builder()
+                .price(20.0)
+                .rowNum(5)
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/tickets")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    void buyTicket_WithInvalidTicketId_ReturnsBadRequest() throws Exception {
+        Integer userId = 1;
+        Integer ticketId = -1;
+
+        CreateTicketRequest request = CreateTicketRequest.builder()
+                .fanId(ticketId).build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{id}", userId)
+        .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    void buyTicket_WithInvalidUserId_ReturnsBadRequest() throws Exception {
+        Integer userId = -1;
+        Integer ticketId = 1;
+
+        CreateTicketRequest request = CreateTicketRequest.builder()
+                .fanId(ticketId).build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{id}", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    void buyTicket_WithValidRequest_ReturnsCreated() throws Exception {
+        Integer userId = 1;
+        Integer ticketId = 1;
+
+        // Stubbing necessary data
+        UserEntity userEntity = UserEntity.builder()
+                .id(1)
+                .email("testemail@example.com")
+                .fName("John")
+                .lName("Doe")
+                .picture("pic.png")
+                .password("passwrod2223")
+                .fan(FanEntity.builder().id(1).build())
+                .userRoles(Collections.singleton(UserRoleEntity.builder().role(RoleEnum.FOOTBALL_FAN).build()))
+                .build();
+
+        TicketEntity ticketEntity = createTicketEntity(1,20.0, 3, 44);
+
+        // Stubbing repository calls
+        when(userRepo.getUserEntityById(userId)).thenReturn(userEntity);
+        when(ticketRepo.findById(ticketId)).thenReturn(Optional.of(ticketEntity));
+
+        // Stubbing the behavior of the createTicketUseCase.addFanToTicket method
+        when(createTicketUseCase.addFanToTicket(eq(ticketId), eq(userId))).thenReturn(ticketId);
+
+        // Performing the mockMvc request
+        mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{userId}", userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(ticketId.toString()))
+                .andExpect(status().isCreated())
+                .andExpect(content().string(String.valueOf(ticketId)));
+    }
+
     private List<Ticket> createTicketList() {
         List<Ticket> tickets =  new ArrayList<>();
 
@@ -255,7 +346,7 @@ class TicketControllerTest {
                                           Integer _goalsHome,
                                           Integer _goalsAway) {
 
-        List<TicketEntity> tickets = TicketGenerator.INSTANCE.generateTicket(2,5);
+        List<TicketEntity> tickets = TicketGenerator.getInstance().generateTicket(2,5);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
         return MatchEntity.builder()

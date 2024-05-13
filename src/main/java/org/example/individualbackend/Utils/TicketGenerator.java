@@ -9,12 +9,17 @@ import java.util.Random;
 
 
 @NoArgsConstructor
-public enum TicketGenerator {
-    INSTANCE;
-
+public class TicketGenerator {
+    private static class LazyHolder{
+        private static final TicketGenerator INSTANCE = new TicketGenerator();
+    }
     private static final Random random = new Random();
     private static final double BASE_PRICE = 35.0;
     private static final double PRICE_VARIATION = 25.0;
+
+    public static TicketGenerator getInstance() {
+        return LazyHolder.INSTANCE;
+    }
 
     public List<TicketEntity> generateTicket(int rowCount, int seatsPerRow) {
         List<TicketEntity> tickets = new ArrayList<>();

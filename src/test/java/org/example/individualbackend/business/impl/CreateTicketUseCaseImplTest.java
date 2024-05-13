@@ -147,4 +147,83 @@ class CreateTicketUseCaseImplTest {
                 .goalsAway(_goalsAway)
                 .build();
     }
+
+    @Test
+    void addFanToTicket_ValidTicketRequest_ReturnsNotNul(){
+        CreateTicketRequest createTicketRequest = CreateTicketRequest.builder()
+                .price(20.0)
+                .rowNum(5)
+                .seatNumber(290)
+                .fanId(1)
+                .footballMatchId(1)
+                .build();
+
+        TicketEntity ticketEntity = TicketEntity.builder()
+                .price(20.0)
+                .rowNum(5)
+                .seatNumber(290)
+                .build();
+
+        FanEntity fanEntity = createFanEntity(1);
+
+        when(ticketRepo.existsByRowNumAndSeatNumber(anyInt(), anyInt())).thenReturn(false);
+        when(fanRepo.findById(anyInt())).thenReturn(fanEntity);
+        when(matchRepo.getMatchEntityById(anyInt())).thenReturn(createMatchEntity(1,
+                "2023-08-11T19:00:00",
+                "Turf Moor",
+                "FT",
+                "Burnley",
+                "https://media.api-sports.io/football/teams/44.png",
+                false,
+                "Manchester City",
+                "https://media.api-sports.io/football/teams/50.png",
+                true,
+                0,
+                3));
+        when(ticketRepo.save(any(TicketEntity.class))).thenReturn(ticketEntity);
+
+        CreateTicketResponse createTicketResponse = createTicketUseCase.createTicket(createTicketRequest);
+
+        assertNotNull(createTicketResponse);
+        assertEquals(1, fanEntity.getId());
+    }
+
+    @Test
+    void createTicket_ValidTicketRequest_FanNotInDb_ThrowsException(){
+        //Arrange
+        CreateTicketRequest createTicketRequest = CreateTicketRequest.builder()
+                .price(20.0)
+                .rowNum(5)
+                .seatNumber(290)
+                .fanId(1)
+                .footballMatchId(1)
+                .build();
+
+        when(fanRepo.findById(anyInt())).thenReturn(null);
+
+        //Act
+        //Assert
+        assertThrows(ResponseStatusException.class, () -> createTicketUseCase.createTicket(createTicketRequest));
+    }
+    @Test
+    void createTicket_ValidTicketRequest_MatchNotInDb_ThrowsException(){
+        //Arrange
+        CreateTicketRequest createTicketRequest = CreateTicketRequest.builder()
+                .price(20.0)
+                .rowNum(5)
+                .seatNumber(290)
+                .fanId(1)
+                .footballMatchId(1)
+                .build();
+
+        FanEntity fanEntity = createFanEntity(1);
+
+
+        when(fanRepo.findById(anyInt())).thenReturn(fanEntity);
+        when(matchRepo.getMatchEntityById(anyInt())).thenReturn(null);
+
+        //Act
+        //Assert
+        assertThrows(ResponseStatusException.class, () -> createTicketUseCase.createTicket(createTicketRequest));
+    }
 }

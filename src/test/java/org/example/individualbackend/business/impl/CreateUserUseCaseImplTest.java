@@ -26,7 +26,6 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-//TODO: ADD A CASE WHERE THE USER IS NOT A FAN
 @ContextConfiguration(classes = {TestConfig.class})
 class CreateUserUseCaseImplTest {
     @Mock
@@ -97,5 +96,57 @@ class CreateUserUseCaseImplTest {
         when(userRepo.existsByEmail(any())).thenReturn(true);
 
         assertThrows(ResponseStatusException.class, () -> createUserUseCase.createUser(request));
+    }
+
+    @Test
+    void create_createsUser_UserIsAdmin_Successful(){
+        CreateUserRequest request = mock(CreateUserRequest.class);
+
+        when(request.getRole()).thenReturn("ADMIN");
+
+        Set<UserRoleEntity> userRoles = new HashSet<>();
+        UserRoleEntity userRoleEntity1 = UserRoleEntity.builder().role(RoleEnum.FOOTBALL_FAN).build();
+        UserRoleEntity userRoleEntity2 = UserRoleEntity.builder().role(RoleEnum.ADMIN).build();
+        UserRoleEntity userRoleEntity3 = UserRoleEntity.builder().role(RoleEnum.CUSTOMER_SERVICE).build();
+        userRoles.add(userRoleEntity1);
+        userRoles.add(userRoleEntity2);
+        userRoles.add(userRoleEntity3);
+
+        UserEntity userEntity = UserEntity.builder()
+                .email("test@example.com")
+                .fName("John")
+                .lName("Doe")
+                .picture("pic.jpg")
+                .password("password123")
+                .userRoles(userRoles)
+                .build();
+
+        when(userRepo.existsByEmail(any())).thenReturn(false);
+        when(request.getRole()).thenReturn("ADMIN");
+
+
+        when(userRepo.save(any(UserEntity.class))).thenReturn(userEntity);
+        when(userRoleRepo.save(any(UserRoleEntity.class))).thenReturn(UserRoleEntity.builder()
+                .role(RoleEnum.ADMIN)
+                .user(userEntity)
+                .build());
+        userEntity.setId(1);
+
+        CreateUserResponse response = createUserUseCase.createUser(request);
+
+        assertNotNull(response);
+        assertNotNull(response.getId());
+
+    }
+
+    private CreateUserRequest createUserRequest(String email, String fName, String lName, String picture, String password, String role) {
+        return CreateUserRequest.builder()
+                .email(email)
+                .fName(fName)
+                .lName(lName)
+                .picture(picture)
+                .password(password)
+                .role(role)
+                .build();
     }
 }

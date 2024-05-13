@@ -38,7 +38,7 @@ class GetMatchesUseCaseImplTest {
         List<MatchEntity> mockMatches = createMockMatches();
         when(saveMatches.getMatchesData()).thenReturn(mockMatches);
 
-        List<Match> match = mockMatches.stream()
+        List<Match> matches = mockMatches.stream()
                 .map(MatchConverter::convert)
                 .toList();
 
@@ -46,8 +46,8 @@ class GetMatchesUseCaseImplTest {
         GetMatchesResponse response = getMatchesUseCase.getMatches();
 
         //Assert
-        assertEquals(match.size(), response.getMatches().size());
-        assertEquals(match, response.getMatches());
+        assertEquals(matches.size(), response.getMatches().size());
+        assertEquals(matches, response.getMatches());
     }
 
     @Test
@@ -57,6 +57,22 @@ class GetMatchesUseCaseImplTest {
         GetMatchesResponse response = getMatchesUseCase.getMatches();
 
         assertEquals(0, response.getMatches().size());
+    }
+
+    @Test
+    void getTop3Matches_ReturnsTop3Matches(){
+        List<MatchEntity> mockMatches = createMockMatches();
+        when(saveMatches.getTop3MatchesData()).thenReturn(mockMatches);
+
+        List<Match> matches = mockMatches.stream()
+                .map(MatchConverter::convert)
+                .toList();
+
+
+        GetMatchesResponse response = getMatchesUseCase.getTop3Matches();
+
+        assertEquals(matches.size(), response.getMatches().size());
+        assertEquals(matches, response.getMatches());
     }
 
     private List<MatchEntity> createMockMatches() {
@@ -74,6 +90,21 @@ class GetMatchesUseCaseImplTest {
                 .awayTeamLogo("https://media.api-sports.io/football/teams/50.png")
                 .awayTeamWinner(true)
                 .goalsHome(0)
+                .goalsAway(3)
+                .build());
+
+        matchEntityList.add(MatchEntity.builder()
+                .id(1)
+                .date(LocalDateTime.parse("2023-08-12T19:00:00", formatter))
+                .venueName("Old Trafford")
+                .statusShort("FT")
+                .homeTeamName("Manchester United")
+                .homeTeamLogo("https://media.api-sports.io/football/teams/44.png")
+                .homeTeamWinner(false)
+                .awayTeamName("Manchester City")
+                .awayTeamLogo("https://media.api-sports.io/football/teams/50.png")
+                .awayTeamWinner(true)
+                .goalsHome(2)
                 .goalsAway(3)
                 .build());
 

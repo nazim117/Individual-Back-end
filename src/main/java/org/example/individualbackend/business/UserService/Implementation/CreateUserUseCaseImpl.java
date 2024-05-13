@@ -79,7 +79,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
         return userRepo.save(userEntity);
     }
 
-    private UserEntity saveNewUser(CreateUserRequest request) {
+    UserEntity saveNewUser(CreateUserRequest request) {
         UserEntity userEntity = UserEntity
                 .builder()
                 .email(request.getEmail())
