@@ -47,7 +47,7 @@ class MatchControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void getMatch_ReturnsMatchEntityList() throws Exception {
+    void getMatch_ReturnsMatchEntityList() throws Exception {
         //Arrange
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
@@ -129,7 +129,7 @@ class MatchControllerTest {
     }
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void getMatch_ReturnsMatchEntity() throws Exception{
+    void getMatch_ReturnsMatchEntity() throws Exception{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
         MatchEntity mockMatchEntity = MatchEntity.builder()
@@ -159,7 +159,7 @@ class MatchControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void getMatch_ReturnsNotFoundForNONExistentMatch() throws Exception{
+    void getMatch_ReturnsNotFoundForNONExistentMatch() throws Exception{
         when(getMatchUseCase.getMatch(anyInt())).thenReturn(null);
 
         mockMvc.perform(get("/matches/999")

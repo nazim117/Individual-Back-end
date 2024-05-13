@@ -1,7 +1,5 @@
 package org.example.individualbackend.business.MatchService.Implementation;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.Utils.TicketGenerator;
@@ -10,13 +8,11 @@ import org.example.individualbackend.persistance.MatchRepo;
 import org.example.individualbackend.persistance.TicketRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,9 +21,6 @@ public class SaveMatches {
     private final MatchRepo matchRepo;
     private final TicketRepo ticketRepo;
     private final FootballAPI footballAPI;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Transactional
     public List<MatchEntity> getMatchesData() {
@@ -60,12 +53,8 @@ public class SaveMatches {
 
     public List<MatchEntity> getTop3MatchesData(){
         try {
-            TypedQuery<MatchEntity> query = entityManager.createQuery(
-                    "SELECT m FROM MatchEntity m WHERE m.date >= CURRENT_TIMESTAMP ORDER BY m.date ASC", MatchEntity.class
-            );
-            query.setMaxResults(3);
-            List<MatchEntity> matchEntityList = query.getResultList();
-            return matchEntityList;
+            List<MatchEntity> matchEntityList = matchRepo.find3UpcomingMatches();
+            return matchEntityList.subList(0, Math.min(matchEntityList.size(), 3));
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error getting match data");
         }

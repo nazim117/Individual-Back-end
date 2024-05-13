@@ -68,12 +68,13 @@ public class TicketController {
     }
     @PostMapping
     @RolesAllowed({"FOOTBALL_FAN", "ADMIN", "CUSTOMER_SERVICE"})
-    public ResponseEntity<?> createTicket(@Valid @RequestBody CreateTicketRequest request){
+    public ResponseEntity<CreateTicketResponse> createTicket(@Valid @RequestBody CreateTicketRequest request){
+        CreateTicketResponse response = null;
         try{
-            CreateTicketResponse response = createTicketUseCase.createTicket(request);
+            response = createTicketUseCase.createTicket(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create ticket: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 

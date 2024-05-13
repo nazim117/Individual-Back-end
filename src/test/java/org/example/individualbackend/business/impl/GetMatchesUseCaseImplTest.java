@@ -51,7 +51,7 @@ class GetMatchesUseCaseImplTest {
     }
 
     @Test
-    public void get_Matches_ReturnsEmptyMatchEntityArray(){
+    void get_Matches_ReturnsEmptyMatchEntityArray(){
         when(saveMatches.getMatchesData()).thenReturn(new ArrayList<>());
 
         GetMatchesResponse response = getMatchesUseCase.getMatches();

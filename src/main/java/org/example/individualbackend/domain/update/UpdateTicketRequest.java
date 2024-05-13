@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.individualbackend.persistance.entity.FanEntity;
-import org.example.individualbackend.persistance.entity.MatchEntity;
 
 @Data
 @Builder

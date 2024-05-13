@@ -57,7 +57,7 @@ class TicketControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-     void getTickets_ReturnsListOfTickets() throws Exception{
+    void getTickets_ReturnsListOfTickets() throws Exception{
         GetAllTicketsResponse response = GetAllTicketsResponse.builder().tickets(createTicketList()).build();
         when(getTicketsUseCase.getAll()).thenReturn(response);
 
@@ -119,7 +119,7 @@ class TicketControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-     void getTicket_WithValidId_ReturnsTicket() throws Exception{
+    void getTicket_WithValidId_ReturnsTicket() throws Exception{
         Mockito.when(getTicketUseCase.getTicket(Mockito.anyInt())).thenReturn(createTicketEntity(1, 20.0, 5, 70));
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/tickets/{id}", 1)
@@ -132,7 +132,7 @@ class TicketControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-     void createTicket_WithValidRequest_ReturnsCreated() throws Exception{
+    void createTicket_WithValidRequest_ReturnsCreated() throws Exception{
         CreateTicketRequest request = CreateTicketRequest.builder()
                 .price(20.0)
                 .rowNum(5)
@@ -155,7 +155,7 @@ class TicketControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-     void updateTicket_WithValidRequest_Successful_ReturnsNoContent() throws Exception{
+    void updateTicket_WithValidRequest_Successful_ReturnsNoContent() throws Exception{
         UpdateTicketRequest request = UpdateTicketRequest.builder()
                 .id(1)
                 .price(20.0)
@@ -178,7 +178,7 @@ class TicketControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    public void deleteTicket_ValidId_ReturnsNoContent() throws Exception {
+    void deleteTicket_ValidId_ReturnsNoContent() throws Exception {
         Integer ticketId = 1;
 
         doNothing().when(deleteTicketUseCase).deleteTicket(ticketId);

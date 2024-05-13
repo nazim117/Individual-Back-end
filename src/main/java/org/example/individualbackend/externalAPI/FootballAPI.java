@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import lombok.AllArgsConstructor;
-import org.example.individualbackend.Utils.TicketGenerator;
-import org.example.individualbackend.persistance.TicketRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
-import org.example.individualbackend.persistance.entity.TicketEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,9 +16,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class FootballAPI {
-    private final String fixture = "fixture";
-    private final String teams = "teams";
-    private final TicketRepo ticketRepo;
     public List<MatchEntity> fetchMatchesData() {
         List<MatchEntity> matchEntityList = new ArrayList<>();
         try {
@@ -37,6 +31,8 @@ public class FootballAPI {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
                 for (JsonNode fixtureNode : fixtures) {
+                    String fixture = "fixture";
+                    String teams = "teams";
                     MatchEntity match =  MatchEntity
                             .builder()
                             .id(fixtureNode.get(fixture).get("id").asInt())
@@ -55,11 +51,13 @@ public class FootballAPI {
 
                     matchEntityList.add(match);
                 }
+            }else{
+                throw new IllegalStateException("Failed to fetch matches data. HTTP status code " + response.getCode());
             }
             return matchEntityList;
 
         } catch(Exception e){
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error fetching matches data", e);
         }
     }
 }

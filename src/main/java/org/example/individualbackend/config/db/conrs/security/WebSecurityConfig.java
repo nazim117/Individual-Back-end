@@ -19,6 +19,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableMethodSecurity(jsr250Enabled = true)
 @Configuration
 public class WebSecurityConfig {
+    private static final String USERS_ENDPOINT = "/users";
+    private static final String TICKETS_ENDPOINT = "/tickets";
     private static final String[] SWAGGER_UI_RESOURCES = {
             "/v3/api-docs/**",
             "/swagger-resources/**",
@@ -36,10 +38,10 @@ public class WebSecurityConfig {
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(registry ->
                         registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/users", "/tokens","/tokens/register","/tickets").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/users", "/users/{id}", "/tickets", "/matches", "/matches/{id}", "/matches/upcoming").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/users", "/tickets").permitAll()
-                                .requestMatchers(HttpMethod.PUT, "/users", "/tickets").permitAll()
+                                .requestMatchers(HttpMethod.POST, USERS_ENDPOINT, "/tokens","/tokens/register",TICKETS_ENDPOINT).permitAll()
+                                .requestMatchers(HttpMethod.GET, USERS_ENDPOINT, USERS_ENDPOINT+"/{id}", TICKETS_ENDPOINT, "/matches", "/matches/{id}", "/matches/upcoming").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, USERS_ENDPOINT, TICKETS_ENDPOINT).permitAll()
+                                .requestMatchers(HttpMethod.PUT, USERS_ENDPOINT, TICKETS_ENDPOINT).permitAll()
                                 .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
                                 .anyRequest().authenticated()
                 )

@@ -10,7 +10,6 @@ import org.example.individualbackend.domain.login.LoginRequest;
 import org.example.individualbackend.domain.login.LoginResponse;
 import org.example.individualbackend.domain.login.RegisterRequest;
 import org.example.individualbackend.domain.login.RegisterResponse;
-import org.example.individualbackend.domain.users.User;
 import org.example.individualbackend.persistance.FanRepo;
 import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.UserRoleRepo;

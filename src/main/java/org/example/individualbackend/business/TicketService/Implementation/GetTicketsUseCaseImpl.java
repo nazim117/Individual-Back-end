@@ -12,6 +12,7 @@ import org.example.individualbackend.persistance.TicketRepo;
 import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
+import org.example.individualbackend.persistance.entity.UserEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,7 +44,9 @@ public class GetTicketsUseCaseImpl implements GetTicketsUseCase {
     @Transactional
     @Override
     public List<TicketEntity> getByFanId(int userId) {
-        int fanId = userRepo.findById(userId).get().getFan().getId();
+        UserEntity userEntity = userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User does not exist"));
+        int fanId = userEntity.getFan().getId();
 
         if(fanId <= 0){
             throw new EntityNotFoundException("Fan does not exist");

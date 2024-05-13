@@ -22,8 +22,11 @@ import java.io.IOException;
 public class AuthenticationRequestFilter extends OncePerRequestFilter {
     private static final String SPRING_SECURITY_ROLE_PREFIX = "ROLE_";
 
-    @Autowired
-    private AccessTokenDecoder accessTokenDecoder;
+    private final AccessTokenDecoder accessTokenDecoder;
+
+    public AuthenticationRequestFilter(AccessTokenDecoder accessTokenDecoder) {
+        this.accessTokenDecoder = accessTokenDecoder;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
