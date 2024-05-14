@@ -13,6 +13,7 @@ import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
+import org.example.individualbackend.persistance.entity.UserEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -46,7 +47,13 @@ public class CreateTicketUseCaseImpl implements CreateTicketUseCase {
                 .findById(ticketId)
                 .orElseThrow();
 
-        FanEntity existingFan = userRepo.getUserEntityById(userId).getFan();
+        UserEntity existingUser =userRepo.getUserEntityById(userId);
+
+        if(existingUser == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+        }
+
+        FanEntity existingFan = existingUser.getFan();
 
         if(existingFan == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Fan does not exist");

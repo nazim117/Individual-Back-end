@@ -6,6 +6,7 @@ import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.Ticket;
 import org.example.individualbackend.externalAPI.FootballAPI;
 import org.example.individualbackend.persistance.MatchRepo;
+import org.example.individualbackend.persistance.TicketRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,6 +31,8 @@ import static org.mockito.Mockito.*;
 class SaveMatchesTest {
     @Mock
     private MatchRepo matchRepo;
+    @Mock
+    private TicketRepo ticketRepo;
     @Mock
     private FootballAPI footballAPI;
     @InjectMocks
@@ -132,6 +136,62 @@ class SaveMatchesTest {
         when(matchRepo.find3UpcomingMatches()).thenThrow(new RuntimeException("Error"));
 
         assertThrows(ResponseStatusException.class, () -> saveMatches.getTop3MatchesData());
+    }
+
+    @Test
+    void getMatchesData_FutureDate_GenerateTickets() throws IOException {
+        //Arrange
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        String futureDate = LocalDateTime.now().plusDays(1).format(formatter);
+        List<TicketEntity> mockTicketEntities = TicketGenerator.getInstance().generateTicket(2, 5);
+        MatchEntity match = createMatchEntity(1, futureDate, "Turf Moor", "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , mockTicketEntities);
+
+        when(footballAPI.fetchMatchesData()).thenReturn(Collections.singletonList(match));
+
+        //Act
+        List<MatchEntity> result = saveMatches.getMatchesData();
+
+        //Assert
+        assertEquals(1, result.size());
+        MatchEntity savedMatch = result.get(0);
+        assertNotNull(savedMatch.getAvailableTickets());
+        assertFalse(savedMatch.getAvailableTickets().isEmpty());
+        assertEquals(match, savedMatch);
+    }
+
+    @Test
+    void getMatchesData_PastDate_NoTicketsGenerated() throws IOException {
+        //Arrange
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        String pastDate = LocalDateTime.now().minusDays(1).format(formatter);
+        MatchEntity match = createMatchEntity(1, pastDate, "Turf Moor", "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , null);
+
+        when(footballAPI.fetchMatchesData()).thenReturn(Collections.singletonList(match));
+
+        //Act
+        List<MatchEntity> result = saveMatches.getMatchesData();
+
+        //Assert
+        assertEquals(1, result.size());
+        MatchEntity savedMatch = result.get(0);
+        assertNull(savedMatch.getAvailableTickets());
+        assertEquals(match, savedMatch);
+    }
+
+    @Test
+    void getMatchesData_errorSavingTickets_ThrowsException() throws IOException {
+        //Arrange
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        String futureDate = LocalDateTime.now().plusDays(1).format(formatter);
+        MatchEntity match = createMatchEntity(1, futureDate, "Turf Moor", "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , null);
+
+        when(footballAPI.fetchMatchesData()).thenReturn(Collections.singletonList(match));
+        when(ticketRepo.save(any(TicketEntity.class))).thenThrow(new RuntimeException("Error saving tickets"));
+
+        //Act
+        //Assert
+        assertThrows(ResponseStatusException.class, () -> saveMatches.getMatchesData());
+
     }
 
     private List<MatchEntity> createMockMatchEntityList() {

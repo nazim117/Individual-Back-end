@@ -139,14 +139,44 @@ class CreateUserUseCaseImplTest {
 
     }
 
-    private CreateUserRequest createUserRequest(String email, String fName, String lName, String picture, String password, String role) {
-        return CreateUserRequest.builder()
-                .email(email)
-                .fName(fName)
-                .lName(lName)
-                .picture(picture)
-                .password(password)
-                .role(role)
+    @Test
+    void create_createsUser_UserIsCustomerService_Successful(){
+        CreateUserRequest request = mock(CreateUserRequest.class);
+
+        when(request.getRole()).thenReturn("CUSTOMER_SERVICE");
+
+        Set<UserRoleEntity> userRoles = new HashSet<>();
+        UserRoleEntity userRoleEntity1 = UserRoleEntity.builder().role(RoleEnum.FOOTBALL_FAN).build();
+        UserRoleEntity userRoleEntity2 = UserRoleEntity.builder().role(RoleEnum.ADMIN).build();
+        UserRoleEntity userRoleEntity3 = UserRoleEntity.builder().role(RoleEnum.CUSTOMER_SERVICE).build();
+        userRoles.add(userRoleEntity1);
+        userRoles.add(userRoleEntity2);
+        userRoles.add(userRoleEntity3);
+
+        UserEntity userEntity = UserEntity.builder()
+                .email("test@example.com")
+                .fName("John")
+                .lName("Doe")
+                .picture("pic.jpg")
+                .password("password123")
+                .userRoles(userRoles)
                 .build();
+
+        when(userRepo.existsByEmail(any())).thenReturn(false);
+        when(request.getRole()).thenReturn("CUSTOMER_SERVICE");
+
+
+        when(userRepo.save(any(UserEntity.class))).thenReturn(userEntity);
+        when(userRoleRepo.save(any(UserRoleEntity.class))).thenReturn(UserRoleEntity.builder()
+                .role(RoleEnum.ADMIN)
+                .user(userEntity)
+                .build());
+        userEntity.setId(1);
+
+        CreateUserResponse response = createUserUseCase.createUser(request);
+
+        assertNotNull(response);
+        assertNotNull(response.getId());
+
     }
 }

@@ -122,6 +122,107 @@ class TicketControllerTest {
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void getTicket_WithInvalidId_ReturnsNotFound() throws Exception {
+        int invalidTicketId = -1;
+
+        when(getTicketUseCase.getTicket(invalidTicketId)).thenReturn(null);
+
+        mockMvc.perform(get("/tickets/{id}", invalidTicketId)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void createTicket_WithValidRequest_ReturnsBadRequest() throws Exception {
+        CreateTicketRequest request = CreateTicketRequest.builder()
+                .price(20.0)
+                .rowNum(5)
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/tickets")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    void buyTicket_WithValidRequest_ReturnsBadRequest() throws Exception {
+        Integer userId = 1;
+        Integer invalidTicketId = -1;
+
+        when(createTicketUseCase.addFanToTicket(eq(invalidTicketId), eq(userId)))
+                .thenThrow(new NoSuchElementException("Ticket does not exist"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{userId}", userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidTicketId.toString()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    void buyTicket_WithInvalidRequest_ReturnsBadRequest() throws Exception{
+        Integer invalidUserId = -1;
+        Integer invalidTicketId = -1;
+
+        when(createTicketUseCase.addFanToTicket(eq(invalidTicketId), eq(invalidUserId)))
+                .thenThrow(new NoSuchElementException("Ticket does not exist"));
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{userId}", invalidUserId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidTicketId.toString()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void createTicket_WithInvalidRequest_ReturnsBadRequest() throws Exception{
+        CreateTicketRequest request = CreateTicketRequest.builder()
+                .price(20.0)
+                .rowNum(5)
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        when(createTicketUseCase.createTicket(request)).thenThrow(new RuntimeException("Invalid request"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/tickets")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void updateTicket_WithInvalidRequest_ReturnsBadRequest() throws Exception{
+        //Arrange
+        UpdateTicketRequest request = UpdateTicketRequest.builder()
+                .price(20.0)
+                .rowNum(5)
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        doThrow(new RuntimeException("Invalid request")).when(updateTicketUseCase).updateTicket(request);
+
+        //Act
+        //Assert
+        mockMvc.perform(MockMvcRequestBuilders.put("/tickets/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getTicket_WithValidId_ReturnsTicket() throws Exception{
         Mockito.when(getTicketUseCase.getTicket(Mockito.anyInt())).thenReturn(createTicketEntity(1, 20.0, 5, 70));
 

@@ -46,12 +46,12 @@ public class GetTicketsUseCaseImpl implements GetTicketsUseCase {
     public List<TicketEntity> getByFanId(int userId) {
         UserEntity userEntity = userRepo.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User does not exist"));
-        int fanId = userEntity.getFan().getId();
+        FanEntity fan = userEntity.getFan();
 
-        if(fanId <= 0){
+        if(fan == null){
             throw new EntityNotFoundException("Fan does not exist");
         }
-        return ticketRepo.findByFan_Id(fanId);
+        return ticketRepo.findByFan_Id(fan.getId());
     }
 }
 

@@ -61,6 +61,26 @@ class LoginControllerTest {
                 .andExpect(content().json("{\"accessToken\":\"token\"}"));
     }
 
+
+    @Test
+    void login_LoginException_ReturnsBadRequest() throws Exception {
+        when(loginUseCase.login(any(LoginRequest.class))).thenThrow(new RuntimeException("Login failed"));
+
+        mockMvc.perform(post("/tokens")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"testemail@example.com\", \"password\":\"password123\"}"))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    void register_RegistrationException_ReturnsBadRequest() throws Exception {
+        when(loginUseCase.register(any(RegisterRequest.class))).thenThrow(new RuntimeException("Registration failed"));
+
+        mockMvc.perform(post("/tokens/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
     @Test
     void register_InvalidRequest_failsToRegister() throws Exception {
         //Arrange

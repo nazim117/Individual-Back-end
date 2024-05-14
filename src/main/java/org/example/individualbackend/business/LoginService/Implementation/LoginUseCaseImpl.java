@@ -76,13 +76,15 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     private UserEntity saveNewUser(RegisterRequest registerRequest, FanEntity fan) {
+        String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
+
         UserEntity userEntity = UserEntity
                 .builder()
                 .email(registerRequest.getEmail())
                 .fName(registerRequest.getFName())
                 .lName(registerRequest.getLName())
                 .picture(registerRequest.getPicture())
-                .password(registerRequest.getPassword())
+                .password(encodedPassword)
                 .fan(fan)
                 .build();
 
@@ -94,8 +96,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     private boolean matchesPassword(String rawPassword, String encodedPassword) {
-        //return passwordEncoder.matches(rawPassword, encodedPassword);
-        return rawPassword.equals(encodedPassword);
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     private String generateAccessToken(UserEntity user) {

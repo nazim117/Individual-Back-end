@@ -137,8 +137,8 @@ class GetTicketsUseCaseImplTest {
     void getByFanId_UserWithoutFan_ThrowsEntityNotFoundException(){
         //Arrange
         int userId = 1;
-        UserEntity userEntity = createUserWithFan(userId);
-        when(userRepo.findById(userId)).thenReturn(Optional.empty());
+        UserEntity userEntity = createUserWithoutFan(userId);
+        when(userRepo.findById(userId)).thenReturn(Optional.of(userEntity));
 
         //Act
         //Assert
@@ -154,6 +154,17 @@ class GetTicketsUseCaseImplTest {
                 .password("password")
                 .picture("pic.png")
                 .fan(createFan(userId))
+                .build();
+    }
+
+    private UserEntity createUserWithoutFan(int userId) {
+        return UserEntity.builder()
+                .id(userId)
+                .email("testemail@example.com")
+                .fName("John")
+                .lName("Doe")
+                .password("password")
+                .picture("pic.png")
                 .build();
     }
 

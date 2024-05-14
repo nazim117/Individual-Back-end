@@ -7,9 +7,11 @@ import org.example.individualbackend.domain.create.CreateTicketResponse;
 import org.example.individualbackend.persistance.FanRepo;
 import org.example.individualbackend.persistance.MatchRepo;
 import org.example.individualbackend.persistance.TicketRepo;
+import org.example.individualbackend.persistance.UserRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
+import org.example.individualbackend.persistance.entity.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,6 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,6 +36,8 @@ class CreateTicketUseCaseImplTest {
     private TicketRepo ticketRepo;
     @Mock
     private FanRepo fanRepo;
+    @Mock
+    private UserRepo userRepo;
     @Mock
     private MatchRepo matchRepo;
     @InjectMocks
@@ -71,9 +77,8 @@ class CreateTicketUseCaseImplTest {
                         3))
                 .build();
 
-        //createFanEntity();
         when(ticketRepo.existsByRowNumAndSeatNumber(anyInt(), anyInt())).thenReturn(false);
-        when(fanRepo.findById(anyInt())).thenReturn(createFanEntity());
+        when(fanRepo.findById(anyInt())).thenReturn(createFanEntity(1));
         when(matchRepo.getMatchEntityById(anyInt())).thenReturn(createMatchEntity(1,
                 "2023-08-11T19:00:00",
                 "Turf Moor",
@@ -108,9 +113,82 @@ class CreateTicketUseCaseImplTest {
         assertThrows(ResponseStatusException.class, () -> createTicketUseCase.createTicket(createTicketRequest));
     }
 
-    private FanEntity createFanEntity(){
-        return FanEntity.builder().id(1).boughtTickets(null).build();
+    @Test
+    void addFanToTicket_ValidIds_FanAddedToTicket(){
+        //Arrange
+        Integer ticketId = 1;
+        Integer userId = 1;
+
+        TicketEntity existingTicket = createTicketEntity(ticketId, 20.0, 5, 22);
+        FanEntity existingFan = createFanEntity(userId);
+
+        when(ticketRepo.findById(ticketId)).thenReturn(Optional.of(existingTicket));
+        when(userRepo.getUserEntityById(userId)).thenReturn(createUserEntity(existingFan));
+
+        //Act
+        Integer result = createTicketUseCase.addFanToTicket(ticketId, userId);
+
+        //Assert
+        assertEquals(ticketId, result);
+        assertEquals(existingFan, existingTicket.getFan());
     }
+
+    @Test
+    void addFanToTicket_InvalidTicketId_ThrowsException(){
+        Integer invalidTicketId = -1;
+        Integer userId = 1;
+
+        when(ticketRepo.findById(invalidTicketId)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> createTicketUseCase.addFanToTicket(invalidTicketId, userId));
+    }
+
+    @Test
+    void addFanToTicket_InvalidUserId_ThrowsException(){
+        Integer ticketId = 1;
+        Integer invalidUserId = -1;
+
+        TicketEntity existingTicket = createTicketEntity(ticketId, 20.0, 5, 22);
+
+        when(ticketRepo.findById(ticketId)).thenReturn(Optional.of(existingTicket));
+        when(userRepo.getUserEntityById(invalidUserId)).thenReturn(null);
+
+        assertThrows(ResponseStatusException.class, () -> createTicketUseCase.addFanToTicket(ticketId, invalidUserId));
+    }
+
+    private UserEntity createUserEntity(FanEntity existingFan) {
+        return UserEntity.builder()
+                .id(1)
+                .email("validEmail@example.com")
+                .fName("John")
+                .lName("Doe")
+                .picture("pic.png")
+                .password("validPassword")
+                .fan(existingFan)
+                .build();
+    }
+
+    private TicketEntity createTicketEntity(Integer id, double price, int rowNum, int seatNumber) {
+        return TicketEntity.builder()
+                .id(id)
+                .price(price)
+                .rowNum(rowNum)
+                .seatNumber(seatNumber).fan(createFanEntity(1))
+                .footballMatch(createMatchEntity(1,
+                        "2023-08-11T19:00:00",
+                        "Turf Moor",
+                        "FT",
+                        "Burnley",
+                        "https://media.api-sports.io/football/teams/44.png",
+                        false,
+                        "Manchester City",
+                        "https://media.api-sports.io/football/teams/50.png",
+                        true,
+                        0,
+                        3))
+                .build();
+    }
+
 
     private FanEntity createFanEntity(Integer _id) {
         return FanEntity.builder()
