@@ -35,7 +35,7 @@ public class SaveMatches {
 
             for(MatchEntity matchEntity : matchEntityList){
                 if(matchEntity.getDate().isAfter(LocalDateTime.now())){
-                    List<TicketEntity> ticketEntityList = TicketGenerator.getInstance().generateTicket(2,5);
+                    List<TicketEntity> ticketEntityList = TicketGenerator.generateTicket(2,5);
                     for(TicketEntity ticketEntity : ticketEntityList){
                         ticketEntity.setFootballMatch(matchEntity);
                         ticketRepo.save(ticketEntity);

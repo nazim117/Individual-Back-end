@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -34,6 +35,8 @@ class CreateUserUseCaseImplTest {
     private FanRepo fanRepo;
     @Mock
     private UserRoleRepo userRoleRepo;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @InjectMocks
     private CreateUserUseCaseImpl createUserUseCase;
 

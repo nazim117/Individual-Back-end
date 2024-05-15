@@ -96,7 +96,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     private boolean matchesPassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
+       return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     private String generateAccessToken(UserEntity user) {

@@ -13,6 +13,7 @@ import org.example.individualbackend.persistance.entity.RoleEnum;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.example.individualbackend.persistance.entity.UserRoleEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,6 +23,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     private final UserRepo userRepo;
     private final FanRepo fanRepo;
     private final UserRoleRepo userRoleRepo;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -66,13 +68,14 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
 
     private UserEntity saveNewUser(CreateUserRequest request, FanEntity fan) {
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
         UserEntity userEntity = UserEntity
                     .builder()
                     .email(request.getEmail())
                     .fName(request.getFName())
                     .lName(request.getLName())
                     .picture(request.getPicture())
-                    .password(request.getPassword())
+                    .password(encodedPassword)
                     .fan(fan)
                     .build();
 
@@ -80,13 +83,15 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     }
 
     UserEntity saveNewUser(CreateUserRequest request) {
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
         UserEntity userEntity = UserEntity
                 .builder()
                 .email(request.getEmail())
                 .fName(request.getFName())
                 .lName(request.getLName())
                 .picture(request.getPicture())
-                .password(request.getPassword())
+                .password(encodedPassword)
                 .build();
 
         return userRepo.save(userEntity);

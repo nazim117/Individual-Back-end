@@ -10,18 +10,12 @@ import java.util.Random;
 
 @NoArgsConstructor
 public class TicketGenerator {
-    private static class LazyHolder{
-        private static final TicketGenerator INSTANCE = new TicketGenerator();
-    }
     private static final Random random = new Random();
     private static final double BASE_PRICE = 35.0;
     private static final double PRICE_VARIATION = 25.0;
 
-    public static TicketGenerator getInstance() {
-        return LazyHolder.INSTANCE;
-    }
 
-    public List<TicketEntity> generateTicket(int rowCount, int seatsPerRow) {
+    public static List<TicketEntity> generateTicket(int rowCount, int seatsPerRow) {
         List<TicketEntity> tickets = new ArrayList<>();
 
         for (int i = 0; i < rowCount; i++) {
@@ -33,7 +27,7 @@ public class TicketGenerator {
         return tickets;
     }
 
-    private TicketEntity buildTicket(int rowNum, int seatNum, double price) {
+    private static TicketEntity buildTicket(int rowNum, int seatNum, double price) {
         return TicketEntity.builder()
                 .price(price)
                 .rowNum(rowNum)
@@ -43,7 +37,7 @@ public class TicketGenerator {
                 .build();
     }
 
-    private double generatePrice(int rowNumber) {
+    private static double generatePrice(int rowNumber) {
         double price =  BASE_PRICE + (rowNumber * PRICE_VARIATION) + (random.nextDouble() * 10.0);
         return Math.round(price * 100.0) / 100.0;
     }

@@ -99,7 +99,7 @@ class FootballAPITest {
         LocalDateTime matchDate1 = LocalDateTime.parse("2024-03-12T09:30:00-05:00", formatter);
         LocalDateTime matchDate2 = LocalDateTime.parse("2024-03-13T10:30:00-05:00", formatter);
 
-        List<TicketEntity> ticketEntities = TicketGenerator.getInstance().generateTicket(2,5);
+        List<TicketEntity> ticketEntities = TicketGenerator.generateTicket(2,5);
 
         List<MatchEntity> mockMatches = new ArrayList<>();
         mockMatches.add(MatchEntity.builder()

@@ -365,14 +365,11 @@ class TicketControllerTest {
 
         TicketEntity ticketEntity = createTicketEntity(1,20.0, 3, 44);
 
-        // Stubbing repository calls
         when(userRepo.getUserEntityById(userId)).thenReturn(userEntity);
         when(ticketRepo.findById(ticketId)).thenReturn(Optional.of(ticketEntity));
 
-        // Stubbing the behavior of the createTicketUseCase.addFanToTicket method
-        when(createTicketUseCase.addFanToTicket(eq(ticketId), eq(userId))).thenReturn(ticketId);
+        when(createTicketUseCase.addFanToTicket(ticketId, userId)).thenReturn(ticketId);
 
-        // Performing the mockMvc request
         mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ticketId.toString()))
@@ -447,7 +444,7 @@ class TicketControllerTest {
                                           Integer _goalsHome,
                                           Integer _goalsAway) {
 
-        List<TicketEntity> tickets = TicketGenerator.getInstance().generateTicket(2,5);
+        List<TicketEntity> tickets = TicketGenerator.generateTicket(2,5);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
         return MatchEntity.builder()

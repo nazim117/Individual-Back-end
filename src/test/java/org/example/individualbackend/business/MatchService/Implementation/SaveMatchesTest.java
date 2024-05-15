@@ -70,7 +70,7 @@ class SaveMatchesTest {
     @Test
     void getMatchesData_DoNotSaveMatchesWhenRepoHasEnoughData() throws IOException {
         List<MatchEntity> mockMatchEntities = createMockMatchEntityList();
-        List<TicketEntity> mockTicketEntities = TicketGenerator.getInstance().generateTicket(2,5);
+        List<TicketEntity> mockTicketEntities = TicketGenerator.generateTicket(2,5);
 
         mockMatchEntities.add(createMatchEntity(3, "2024-04-11T15:00:00", "Anfield", "FT", "Real Madrid", "realmadrid.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
         mockMatchEntities.add(createMatchEntity(4, "2024-04-13T15:00:00", "Anfield", "FT", "Real Sociedad", "realsociedad.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
@@ -143,7 +143,7 @@ class SaveMatchesTest {
         //Arrange
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         String futureDate = LocalDateTime.now().plusDays(1).format(formatter);
-        List<TicketEntity> mockTicketEntities = TicketGenerator.getInstance().generateTicket(2, 5);
+        List<TicketEntity> mockTicketEntities = TicketGenerator.generateTicket(2, 5);
         MatchEntity match = createMatchEntity(1, futureDate, "Turf Moor", "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , mockTicketEntities);
 
         when(footballAPI.fetchMatchesData()).thenReturn(Collections.singletonList(match));
@@ -196,7 +196,7 @@ class SaveMatchesTest {
 
     private List<MatchEntity> createMockMatchEntityList() {
         List<MatchEntity> mockMatchEntities = new ArrayList<>();
-        List<TicketEntity> mockTicketEntities = TicketGenerator.getInstance().generateTicket(2, 5);
+        List<TicketEntity> mockTicketEntities = TicketGenerator.generateTicket(2, 5);
         MatchEntity mockMatchEntity1 = createMatchEntity(1, "2023-08-11T19:00:00", "Turf Moor", "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , mockTicketEntities);
         MatchEntity mockMatchEntity2 = createMatchEntity(1, "2024-03-11T15:00:00", "Anfield", "FT", "Liverpool", "liverpool.png", false, "Manchester City", "manchity.png", true, 1 ,2 , mockTicketEntities);
         MatchEntity mockMatchEntity3 = createMatchEntity(1, "2024-03-11T15:00:00", "Anfield", "FT", "Liverpool", "liverpool.png", false, "Manchester City", "manchity.png", true, 1 ,4 , mockTicketEntities);

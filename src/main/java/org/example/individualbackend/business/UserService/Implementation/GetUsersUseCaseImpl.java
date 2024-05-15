@@ -7,6 +7,7 @@ import org.example.individualbackend.business.UserService.Utilities.UserConverte
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.users.User;
 import org.example.individualbackend.persistance.UserRepo;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GetUsersUseCaseImpl implements GetUsersUseCase {
     private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
     @Transactional
     @Override
     public GetAllUsersResponse getUsers() {
