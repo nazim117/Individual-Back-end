@@ -1,19 +1,17 @@
 package org.example.individualbackend.Utils;
 
-import lombok.NoArgsConstructor;
 import org.example.individualbackend.persistance.entity.TicketEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
-
-@NoArgsConstructor
 public class TicketGenerator {
-    private static final Random random = new Random();
+    private static final ThreadLocalRandom random = ThreadLocalRandom.current();
     private static final double BASE_PRICE = 35.0;
     private static final double PRICE_VARIATION = 25.0;
 
+    private TicketGenerator(){ throw new AssertionError("Ticket generator should not be instantiated");}
 
     public static List<TicketEntity> generateTicket(int rowCount, int seatsPerRow) {
         List<TicketEntity> tickets = new ArrayList<>();

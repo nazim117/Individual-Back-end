@@ -33,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -155,7 +154,7 @@ class TicketControllerTest {
         Integer userId = 1;
         Integer invalidTicketId = -1;
 
-        when(createTicketUseCase.addFanToTicket(eq(invalidTicketId), eq(userId)))
+        when(createTicketUseCase.addFanToTicket(invalidTicketId, userId))
                 .thenThrow(new NoSuchElementException("Ticket does not exist"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{userId}", userId)
