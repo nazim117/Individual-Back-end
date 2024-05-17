@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TicketGenerator {
-    private static final ThreadLocalRandom random = ThreadLocalRandom.current();
     private static final double BASE_PRICE = 35.0;
     private static final double PRICE_VARIATION = 25.0;
 
@@ -36,7 +35,7 @@ public class TicketGenerator {
     }
 
     private static double generatePrice(int rowNumber) {
-        double price =  BASE_PRICE + (rowNumber * PRICE_VARIATION) + (random.nextDouble() * 10.0);
+        double price =  BASE_PRICE + (rowNumber * PRICE_VARIATION) + (ThreadLocalRandom.current().nextDouble() * 10.0);
         return Math.round(price * 100.0) / 100.0;
     }
 }
