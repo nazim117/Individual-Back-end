@@ -87,7 +87,7 @@ jacocoTestCoverageVerification {
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                    '**/src/main/java/org/example/individualbackend/config/db/conrs/**',
+                    '**/src/main/java/org/example/individualbackend/config/**',
                     '**/src/main/java/org/example/individualbackend/domain/**',
                     '**/src/main/java/org/example/individualbackend/persistance/entity/**',
                     '**/src/main/java/org/example/individualbackend/IndividualBackEndApplication.java',
