@@ -80,16 +80,14 @@ public class TicketController {
 
     @PostMapping("/buy-ticket/{userId}")
     @RolesAllowed({"FOOTBALL_FAN"})
-    public ResponseEntity<?> buyTicket(@PathVariable(value = "userId") final Integer userId,
+    public ResponseEntity<Integer> buyTicket(@PathVariable(value = "userId") final Integer userId,
                                        @Valid @RequestBody Integer ticketId){
+        Integer ticketIdResponse = 0;
         try{
-            Integer ticketIdResponse = createTicketUseCase.addFanToTicket(ticketId, userId);
+            ticketIdResponse = createTicketUseCase.addFanToTicket(ticketId, userId);
             return ResponseEntity.status(HttpStatus.CREATED).body(ticketIdResponse);
-        }catch (NoSuchElementException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ticket or user does not exist: " + e.getMessage());
-        }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add ticket to user: " + e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ticketIdResponse);
         }
     }
 
