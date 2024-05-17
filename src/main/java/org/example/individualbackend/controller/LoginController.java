@@ -2,11 +2,10 @@ package org.example.individualbackend.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.individualbackend.business.LoginService.Interface.LoginUseCase;
+import org.example.individualbackend.business.login_service.interfaces.LoginUseCase;
 import org.example.individualbackend.domain.login.LoginRequest;
-import org.example.individualbackend.domain.login.LoginResponse;
+import org.example.individualbackend.domain.login.TokenResponse;
 import org.example.individualbackend.domain.login.RegisterRequest;
-import org.example.individualbackend.domain.login.RegisterResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,11 +20,11 @@ public class LoginController {
     private final LoginUseCase loginUseCase;
 
     @PostMapping
-    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
+    public ResponseEntity<TokenResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
         try{
-            LoginResponse loginResponse = loginUseCase.login(loginRequest);
-            if(loginResponse != null){
-                return ResponseEntity.status(HttpStatus.CREATED).body(loginResponse);
+            TokenResponse tokenResponse = loginUseCase.login(loginRequest);
+            if(tokenResponse != null){
+                return ResponseEntity.status(HttpStatus.CREATED).body(tokenResponse);
             }
             return  ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }catch (Exception e){
@@ -35,9 +34,9 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> register(@RequestBody @Valid RegisterRequest registerRequest){
+    public ResponseEntity<TokenResponse> register(@RequestBody @Valid RegisterRequest registerRequest){
         try{
-            RegisterResponse registerResponse = loginUseCase.register(registerRequest);
+            TokenResponse registerResponse = loginUseCase.register(registerRequest);
             if(registerResponse != null){
                 return ResponseEntity.status(HttpStatus.CREATED).body(registerResponse);
             }

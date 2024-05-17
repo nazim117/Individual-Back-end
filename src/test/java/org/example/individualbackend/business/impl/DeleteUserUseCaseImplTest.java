@@ -1,6 +1,6 @@
 package org.example.individualbackend.business.impl;
 
-import org.example.individualbackend.business.UserService.Implementation.DeleteUserUseCaseImpl;
+import org.example.individualbackend.business.user_service.implementation.DeleteUserUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.persistance.FanRepo;
 import org.example.individualbackend.persistance.UserRepo;
@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Set;

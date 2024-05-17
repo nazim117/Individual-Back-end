@@ -1,8 +1,8 @@
 package org.example.individualbackend.business.impl;
 
-import org.example.individualbackend.business.MatchService.Implementation.GetMatchesUseCaseImpl;
-import org.example.individualbackend.business.MatchService.Implementation.SaveMatches;
-import org.example.individualbackend.business.MatchService.Utilities.MatchConverter;
+import org.example.individualbackend.business.match_service.implementation.GetMatchesUseCaseImpl;
+import org.example.individualbackend.business.match_service.implementation.SaveMatches;
+import org.example.individualbackend.business.match_service.utilities.MatchConverter;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.Match;
 import org.example.individualbackend.domain.get.GetMatchesResponse;

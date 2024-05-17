@@ -1,7 +1,7 @@
 package org.example.individualbackend.controller;
 
-import org.example.individualbackend.business.MatchService.Interfaces.GetMatchUseCase;
-import org.example.individualbackend.business.MatchService.Interfaces.GetMatchesUseCase;
+import org.example.individualbackend.business.match_service.interfaces.GetMatchUseCase;
+import org.example.individualbackend.business.match_service.interfaces.GetMatchesUseCase;
 import org.example.individualbackend.domain.Match;
 import org.example.individualbackend.domain.get.GetMatchesResponse;
 import org.example.individualbackend.persistance.entity.MatchEntity;

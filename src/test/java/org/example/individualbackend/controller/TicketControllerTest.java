@@ -1,7 +1,7 @@
 package org.example.individualbackend.controller;
 
-import org.example.individualbackend.Utils.TicketGenerator;
-import org.example.individualbackend.business.TicketService.Interface.*;
+import org.example.individualbackend.utilities.TicketGenerator;
+import org.example.individualbackend.business.ticket_service.interfaces.*;
 import org.example.individualbackend.domain.Ticket;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
@@ -169,7 +169,7 @@ class TicketControllerTest {
         Integer invalidUserId = -1;
         Integer invalidTicketId = -1;
 
-        when(createTicketUseCase.addFanToTicket(eq(invalidTicketId), eq(invalidUserId)))
+        when(createTicketUseCase.addFanToTicket(invalidTicketId, invalidUserId))
                 .thenThrow(new NoSuchElementException("Ticket does not exist"));
 
 

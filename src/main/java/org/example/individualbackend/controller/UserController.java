@@ -3,11 +3,11 @@ package org.example.individualbackend.controller;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.example.individualbackend.business.UserService.Interface.CreateUserUseCase;
-import org.example.individualbackend.business.UserService.Interface.DeleteUserUseCase;
-import org.example.individualbackend.business.UserService.Interface.GetUserUseCase;
-import org.example.individualbackend.business.UserService.Interface.GetUsersUseCase;
-import org.example.individualbackend.business.UserService.Interface.UpdateUserUseCase;
+import org.example.individualbackend.business.user_service.interfaces.CreateUserUseCase;
+import org.example.individualbackend.business.user_service.interfaces.DeleteUserUseCase;
+import org.example.individualbackend.business.user_service.interfaces.GetUserUseCase;
+import org.example.individualbackend.business.user_service.interfaces.GetUsersUseCase;
+import org.example.individualbackend.business.user_service.interfaces.UpdateUserUseCase;
 import org.example.individualbackend.domain.create.CreateUserRequest;
 import org.example.individualbackend.domain.create.CreateUserResponse;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
@@ -49,7 +49,7 @@ public class UserController{
     }
 
     @PutMapping("{id}")
-    @RolesAllowed({"ADMIN"})
+    @RolesAllowed({"ADMIN", "FOOTBALL_FAN", "CUSTOMER_SERVICE"})
     public ResponseEntity<Void> updateUser(@PathVariable(value = "id") final Integer id,
                                                          @RequestBody @Valid UpdateUserRequest request){
         request.setId(id);

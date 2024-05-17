@@ -91,14 +91,14 @@ jacocoTestCoverageVerification {
                     '**/src/main/java/org/example/individualbackend/domain/**',
                     '**/src/main/java/org/example/individualbackend/persistance/entity/**',
                     '**/src/main/java/org/example/individualbackend/IndividualBackEndApplication.java',
-                    '**/src/main/java/org/example/individualbackend/business/GeneralExceptions/**',
-                    '**/src/main/java/org/example/individualbackend/business/LoginService/Interface/**',
-                    '**/src/main/java/org/example/individualbackend/business/MatchService/Interfaces/**',
-                    '**/src/main/java/org/example/individualbackend/business/MatchService/Utilities/**',
-                    '**/src/main/java/org/example/individualbackend/business/TicketService/Interface/**',
-                    '**/src/main/java/org/example/individualbackend/business/TicketService/Utilities/**',
-                    '**/src/main/java/org/example/individualbackend/business/UserService/Interface/**',
-                    '**/src/main/java/org/example/individualbackend/business/UserService/Utilities/**',
+                    '**/src/main/java/org/example/individualbackend/business/general_exceptions/**',
+                    '**/src/main/java/org/example/individualbackend/business/login_service/interfaces/**',
+                    '**/src/main/java/org/example/individualbackend/business/match_service/interfaces/**',
+                    '**/src/main/java/org/example/individualbackend/business/match_service/utilities/**',
+                    '**/src/main/java/org/example/individualbackend/business/ticket_service/interfaces/**',
+                    '**/src/main/java/org/example/individualbackend/business/ticket_service/utilities/**',
+                    '**/src/main/java/org/example/individualbackend/business/user_service/interfaces/**',
+                    '**/src/main/java/org/example/individualbackend/business/user_service/utilities/**',
                     '***/**/src/main/resources/**'
             ])
         })

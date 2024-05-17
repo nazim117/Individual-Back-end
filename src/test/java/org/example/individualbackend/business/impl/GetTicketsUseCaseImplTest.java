@@ -1,12 +1,11 @@
 package org.example.individualbackend.business.impl;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.example.individualbackend.business.TicketService.Implementation.GetTicketsUseCaseImpl;
-import org.example.individualbackend.business.TicketService.Utilities.TicketConverter;
+import org.example.individualbackend.business.ticket_service.implementation.GetTicketsUseCaseImpl;
+import org.example.individualbackend.business.ticket_service.utilities.TicketConverter;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.Ticket;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
-import org.example.individualbackend.domain.users.User;
 import org.example.individualbackend.persistance.FanRepo;
 import org.example.individualbackend.persistance.TicketRepo;
 import org.example.individualbackend.persistance.UserRepo;
@@ -19,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDateTime;
@@ -29,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {TestConfig.class})

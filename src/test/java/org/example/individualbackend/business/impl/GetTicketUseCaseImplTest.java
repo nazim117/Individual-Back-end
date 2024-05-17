@@ -1,6 +1,6 @@
 package org.example.individualbackend.business.impl;
 
-import org.example.individualbackend.business.TicketService.Implementation.GetTicketUseCaseImpl;
+import org.example.individualbackend.business.ticket_service.implementation.GetTicketUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.persistance.TicketRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;

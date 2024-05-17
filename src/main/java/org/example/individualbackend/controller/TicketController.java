@@ -4,7 +4,7 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.example.individualbackend.business.TicketService.Interface.*;
+import org.example.individualbackend.business.ticket_service.interfaces.*;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.create.CreateTicketResponse;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;

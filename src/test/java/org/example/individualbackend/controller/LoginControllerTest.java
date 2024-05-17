@@ -1,11 +1,9 @@
 package org.example.individualbackend.controller;
 
-import org.example.individualbackend.business.LoginService.Interface.LoginUseCase;
-import org.example.individualbackend.domain.create.CreateUserRequest;
+import org.example.individualbackend.business.login_service.interfaces.LoginUseCase;
 import org.example.individualbackend.domain.login.LoginRequest;
-import org.example.individualbackend.domain.login.LoginResponse;
+import org.example.individualbackend.domain.login.TokenResponse;
 import org.example.individualbackend.domain.login.RegisterRequest;
-import org.example.individualbackend.domain.login.RegisterResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -36,9 +33,9 @@ class LoginControllerTest {
 
     @Test
      void login_UserLogsInSuccessfully() throws Exception {
-        LoginResponse loginResponse = LoginResponse.builder().accessToken("token").build();
+        TokenResponse tokenResponse = TokenResponse.builder().accessToken("token").build();
 
-        when(loginUseCase.login(any(LoginRequest.class))).thenReturn(loginResponse);
+        when(loginUseCase.login(any(LoginRequest.class))).thenReturn(tokenResponse);
 
         mockMvc.perform(post("/tokens")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -50,7 +47,7 @@ class LoginControllerTest {
 
     @Test
     void register_UserRegistersSuccessfully() throws Exception {
-        RegisterResponse registerResponse =RegisterResponse.builder().accessToken("token").build();
+        TokenResponse registerResponse = TokenResponse.builder().accessToken("token").build();
         when(loginUseCase.register(any(RegisterRequest.class))).thenReturn(registerResponse);
 
         mockMvc.perform(post("/tokens/register")

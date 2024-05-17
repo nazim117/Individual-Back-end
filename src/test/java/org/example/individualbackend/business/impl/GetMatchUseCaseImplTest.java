@@ -1,6 +1,6 @@
 package org.example.individualbackend.business.impl;
 
-import org.example.individualbackend.business.MatchService.Implementation.GetMatchUseCaseImpl;
+import org.example.individualbackend.business.match_service.implementation.GetMatchUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.persistance.MatchRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;

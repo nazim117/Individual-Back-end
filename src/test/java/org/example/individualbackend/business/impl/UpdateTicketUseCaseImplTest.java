@@ -1,6 +1,6 @@
 package org.example.individualbackend.business.impl;
 
-import org.example.individualbackend.business.TicketService.Implementation.UpdateTicketUseCaseImpl;
+import org.example.individualbackend.business.ticket_service.implementation.UpdateTicketUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.update.UpdateTicketRequest;
 import org.example.individualbackend.persistance.TicketRepo;
