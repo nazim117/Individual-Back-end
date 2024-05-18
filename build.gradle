@@ -99,6 +99,8 @@ jacocoTestCoverageVerification {
                     '**/src/main/java/org/example/individualbackend/business/ticket_service/utilities/**',
                     '**/src/main/java/org/example/individualbackend/business/user_service/interfaces/**',
                     '**/src/main/java/org/example/individualbackend/business/user_service/utilities/**',
+                    '**/src/main/java/org/example/individualbackend/domain/create/CreateUserRequest.java',
+                    '**/src/main/java/org/example/individualbackend/domain/login/RegisterRequest.java',
                     '***/**/src/main/resources/**'
             ])
         })

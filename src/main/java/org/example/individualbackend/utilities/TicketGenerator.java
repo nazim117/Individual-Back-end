@@ -35,7 +35,7 @@ public class TicketGenerator {
     }
 
     private static double generatePrice(int rowNumber) {
-        double price =  BASE_PRICE + (rowNumber * PRICE_VARIATION) + (ThreadLocalRandom.current().nextDouble() * 10.0);
+        double price =  BASE_PRICE + (rowNumber * PRICE_VARIATION * 1.5);
         return Math.round(price * 100.0) / 100.0;
     }
 }
