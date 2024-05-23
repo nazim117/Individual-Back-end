@@ -30,7 +30,7 @@ public class GetMatchesUseCaseImpl implements GetMatchesUseCase {
     @Transactional
     @Override
     public GetMatchesResponse getTop3Matches() {
-        List<Match> matches = saveMatches.getTop3MatchesData()
+        List<Match> matches = saveMatches.getTop6MatchesData()
                 .stream()
                 .map(MatchConverter::convert)
                 .toList();

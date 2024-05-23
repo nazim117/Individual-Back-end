@@ -43,6 +43,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, USERS_ENDPOINT, TICKETS_ENDPOINT).permitAll()
                                 .requestMatchers(HttpMethod.PUT, USERS_ENDPOINT, TICKETS_ENDPOINT).permitAll()
                                 .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
+                                .requestMatchers("/ws/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(configure -> configure.authenticationEntryPoint(authenticationEntryPoint))
@@ -56,7 +57,7 @@ public class WebSecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173/")
+                        .allowedOrigins("*")
                         .allowedMethods("*")
                         .allowedHeaders("*");
             }

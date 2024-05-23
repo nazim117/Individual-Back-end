@@ -62,7 +62,7 @@ class GetMatchesUseCaseImplTest {
     @Test
     void getTop3Matches_ReturnsTop3Matches(){
         List<MatchEntity> mockMatches = createMockMatches();
-        when(saveMatches.getTop3MatchesData()).thenReturn(mockMatches);
+        when(saveMatches.getTop6MatchesData()).thenReturn(mockMatches);
 
         List<Match> matches = mockMatches.stream()
                 .map(MatchConverter::convert)

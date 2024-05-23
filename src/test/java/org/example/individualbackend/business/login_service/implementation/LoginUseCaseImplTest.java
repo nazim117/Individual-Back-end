@@ -1,6 +1,7 @@
 package org.example.individualbackend.business.login_service.implementation;
 
 import org.example.individualbackend.business.general_exceptions.InvalidCredentialsException;
+import org.example.individualbackend.business.notifications_service.interfaces.NotificationsUseCase;
 import org.example.individualbackend.config.security.token.AccessTokenEncoder;
 import org.example.individualbackend.domain.login.LoginRequest;
 import org.example.individualbackend.domain.login.TokenResponse;
@@ -39,6 +40,8 @@ class LoginUseCaseImplTest {
     private FanRepo fanRepo;
     @Mock
     private UserRoleRepo userRoleRepo;
+    @Mock
+    private NotificationsUseCase notificationsUseCase;
 
     @InjectMocks
     private LoginUseCaseImpl loginUseCase;

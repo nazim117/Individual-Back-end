@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.login_service.interfaces.LoginUseCase;
 import org.example.individualbackend.business.general_exceptions.InvalidCredentialsException;
+import org.example.individualbackend.business.notifications_service.interfaces.NotificationsUseCase;
 import org.example.individualbackend.config.security.token.AccessTokenEncoder;
 import org.example.individualbackend.config.security.token.impl.AccessTokenImpl;
 import org.example.individualbackend.domain.login.LoginRequest;
@@ -17,6 +18,7 @@ import org.example.individualbackend.persistance.entity.RoleEnum;
 import org.example.individualbackend.persistance.entity.UserEntity;
 
 import org.example.individualbackend.persistance.entity.UserRoleEntity;
+import org.example.individualbackend.utilities.EmailMessages;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
     private final AccessTokenEncoder accessTokenEncoder;
     private final FanRepo fanRepository;
     private final UserRoleRepo userRoleRepository;
+    private final NotificationsUseCase notificationsUseCase;
 
     @Transactional
     @Override
@@ -106,5 +109,11 @@ public class LoginUseCaseImpl implements LoginUseCase {
 
         return accessTokenEncoder.encode(
                 new AccessTokenImpl(user.getEmail(), userId, roles));
+    }
+
+    private void sendEmail(UserEntity user){
+        String emailbody = EmailMessages.USER_REGISTRATION_BODY
+                .replace("${fanName}", user.getFName());
+        notificationsUseCase.sendEmail(user.getEmail(), EmailMessages.USER_REGISTRATION_SUBJECT, emailbody);
     }
 }

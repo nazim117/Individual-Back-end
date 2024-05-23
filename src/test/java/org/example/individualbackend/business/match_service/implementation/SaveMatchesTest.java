@@ -90,13 +90,13 @@ class SaveMatchesTest {
     }
 
     @Test
-    void getTop3MatchesData_Success() {
+    void getTop6MatchesData_Success() {
         //Arrange
         List<MatchEntity> mockMatchEntities = createMockMatchEntityList();
         when(matchRepo.find3UpcomingMatches()).thenReturn(mockMatchEntities);
 
         //Act
-        List<MatchEntity> result = saveMatches.getTop3MatchesData();
+        List<MatchEntity> result = saveMatches.getTop6MatchesData();
 
         //Assert
         assertEquals(3, result.size());
@@ -104,13 +104,13 @@ class SaveMatchesTest {
     }
 
     @Test
-    void getTop3MatchesData_LessThan3Matches(){
+    void getTop3MatchesData_LessThan6Matches(){
         //Arrange
         List<MatchEntity> mockMatchEntities = createMockMatchEntityList();
         when(matchRepo.find3UpcomingMatches()).thenReturn(mockMatchEntities.subList(0,2));
 
         //Act
-        List<MatchEntity> result = saveMatches.getTop3MatchesData();
+        List<MatchEntity> result = saveMatches.getTop6MatchesData();
 
         //Assert
         assertEquals(2, result.size());
@@ -118,22 +118,22 @@ class SaveMatchesTest {
     }
 
     @Test
-    void getTop3MatchesData_NoMatches(){
+    void getTop6MatchesData_NoMatches(){
         //Arrange
         when(matchRepo.find3UpcomingMatches()).thenReturn(new ArrayList<>());
 
         //Act
-        List<MatchEntity> result = saveMatches.getTop3MatchesData();
+        List<MatchEntity> result = saveMatches.getTop6MatchesData();
 
         //Assert
         assertEquals(0, result.size());
     }
 
     @Test
-    void getTop3MatchesData_ThrowsException(){
+    void getTop6MatchesData_ThrowsException(){
         when(matchRepo.find3UpcomingMatches()).thenThrow(new RuntimeException("Error"));
 
-        assertThrows(ResponseStatusException.class, () -> saveMatches.getTop3MatchesData());
+        assertThrows(ResponseStatusException.class, () -> saveMatches.getTop6MatchesData());
     }
 
     @Test

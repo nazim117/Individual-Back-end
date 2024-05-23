@@ -21,7 +21,7 @@ public class FootballAPI {
         List<MatchEntity> matchEntityList = new ArrayList<>();
         try {
             Unirest.setTimeouts(0, 0);
-            HttpResponse<String> response = Unirest.get("https://v3.football.api-sports.io/fixtures?league=39&season=2023")
+            HttpResponse<String> response = Unirest.get("https://v3.football.api-sports.io/fixtures?league=4&season=2024")
                     .header("x-rapidapi-key", "bba8076986df76d4b9dcfe836bbd8f0c")
                     .asString();
 

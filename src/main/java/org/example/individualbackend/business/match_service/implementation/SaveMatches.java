@@ -51,7 +51,7 @@ public class SaveMatches {
 
     }
 
-    public List<MatchEntity> getTop3MatchesData(){
+    public List<MatchEntity> getTop6MatchesData(){
         try {
             List<MatchEntity> matchEntityList = matchRepo.find3UpcomingMatches();
             return matchEntityList.subList(0, Math.min(matchEntityList.size(), 3));

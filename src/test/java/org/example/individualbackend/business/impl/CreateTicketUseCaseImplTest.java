@@ -1,5 +1,6 @@
 package org.example.individualbackend.business.impl;
 
+import org.example.individualbackend.business.notifications_service.interfaces.NotificationsUseCase;
 import org.example.individualbackend.business.ticket_service.implementation.CreateTicketUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
@@ -40,6 +41,9 @@ class CreateTicketUseCaseImplTest {
     private UserRepo userRepo;
     @Mock
     private MatchRepo matchRepo;
+    @Mock
+    private NotificationsUseCase notificationsUseCase;
+
     @InjectMocks
     private CreateTicketUseCaseImpl createTicketUseCase;
 
