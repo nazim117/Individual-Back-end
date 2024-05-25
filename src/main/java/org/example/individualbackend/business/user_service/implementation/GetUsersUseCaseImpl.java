@@ -7,7 +7,6 @@ import org.example.individualbackend.business.user_service.utilities.UserConvert
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.users.User;
 import org.example.individualbackend.persistance.UserRepo;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +15,23 @@ import java.util.List;
 @AllArgsConstructor
 public class GetUsersUseCaseImpl implements GetUsersUseCase {
     private final UserRepo userRepo;
-    private final PasswordEncoder passwordEncoder;
     @Transactional
     @Override
     public GetAllUsersResponse getUsers() {
         List<User> users = userRepo.getUserEntitiesBy()
+                .stream()
+                .map(UserConverter::convert)
+                .toList();
+
+        return GetAllUsersResponse
+                .builder()
+                .users(users)
+                .build();
+    }
+
+    @Override
+    public GetAllUsersResponse getUsersByUniversalSearch(String searchString) {
+        List<User> users = userRepo.searchUserEntitiesBy(searchString)
                 .stream()
                 .map(UserConverter::convert)
                 .toList();

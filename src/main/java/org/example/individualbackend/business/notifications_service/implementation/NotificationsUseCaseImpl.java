@@ -2,6 +2,7 @@ package org.example.individualbackend.business.notifications_service.implementat
 
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.notifications_service.interfaces.NotificationsUseCase;
+import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Service;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,10 +22,8 @@ public class NotificationsUseCaseImpl implements NotificationsUseCase {
             message.setSubject(subject);
 
             mailSender.send(message);
-
-            System.out.println("Mail Sent successfully...");
         }catch (Exception e){
-            throw new RuntimeException(e);
+            throw new MailSendException("Error sending email: " + e.getMessage());
         }
     }
 }

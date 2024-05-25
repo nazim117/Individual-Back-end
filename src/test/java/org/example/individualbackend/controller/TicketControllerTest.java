@@ -443,7 +443,7 @@ class TicketControllerTest {
                                           Integer _goalsHome,
                                           Integer _goalsAway) {
 
-        List<TicketEntity> tickets = TicketGenerator.generateTicket(2,5);
+        List<TicketEntity> tickets = TicketGenerator.generateTickets(2,5);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
         return MatchEntity.builder()

@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -122,7 +123,7 @@ class UserControllerTest{
     }
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
-    void getUser_ReturnsNotFoundWhenUserIsNull(){
+    void getUser_ReturnsNotFoundWhenUserIsNull() throws AccessDeniedException {
         when(getUserUseCase.getUser(anyInt())).thenReturn(null);
 
         ResponseEntity<UserEntity> responseEntity = userController.getUser(1);

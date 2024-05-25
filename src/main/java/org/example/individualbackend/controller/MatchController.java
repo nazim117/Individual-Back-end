@@ -15,9 +15,18 @@ public class MatchController {
     private final GetMatchesUseCase getMatchesUseCase;
     private final GetMatchUseCase getMatchUseCase;
 
-    @GetMapping
-    public ResponseEntity<GetMatchesResponse> getMatches(){
-        return ResponseEntity.ok(getMatchesUseCase.getMatches());
+    @GetMapping("/descending")
+    public ResponseEntity<GetMatchesResponse> getMatchesDescDate(){
+        return ResponseEntity.ok(getMatchesUseCase.getMatchesDescDate());
+    }
+    @GetMapping("/ascending")
+    public ResponseEntity<GetMatchesResponse> getMatchesAscDate(){
+        return ResponseEntity.ok(getMatchesUseCase.getMatchesAscDate());
+    }
+
+    @GetMapping("/most-sold")
+    public ResponseEntity<GetMatchesResponse> getMatchesByMostSoldTickets(){
+        return ResponseEntity.ok(getMatchesUseCase.getMatchesBySoldTickets());
     }
 
     @GetMapping("/{id}")
@@ -31,6 +40,6 @@ public class MatchController {
 
     @GetMapping("/upcoming")
     public ResponseEntity<GetMatchesResponse> getUpcomingMatches(){
-        return ResponseEntity.ok(getMatchesUseCase.getTop3Matches());
+        return ResponseEntity.ok(getMatchesUseCase.getTop6Matches());
     }
 }

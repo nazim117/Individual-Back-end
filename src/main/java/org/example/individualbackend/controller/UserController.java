@@ -16,6 +16,9 @@ import org.example.individualbackend.persistance.entity.UserEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.nio.file.AccessDeniedException;
+
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
@@ -35,12 +38,24 @@ public class UserController{
     @GetMapping("{id}")
     @RolesAllowed({"FOOTBALL_FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") final Integer id){
-        UserEntity user = getUserUseCase.getUser(id);
+        UserEntity user = null;
+        try {
+            user = getUserUseCase.getUser(id);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(401).build();
+        }
         if(user == null){
             return  ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(user);
     }
+
+    @GetMapping("/search")
+    @RolesAllowed({"ADMIN", "CUSTOMER_SERVICE"})
+    public ResponseEntity<GetAllUsersResponse> searchUser(@RequestParam(value = "searchString") String search){
+        return ResponseEntity.ok(getUsersUseCase.getUsersByUniversalSearch(search));
+    }
+
     @PostMapping
     @RolesAllowed({"ADMIN"})
     public ResponseEntity<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest request){
@@ -53,7 +68,11 @@ public class UserController{
     public ResponseEntity<Void> updateUser(@PathVariable(value = "id") final Integer id,
                                                          @RequestBody @Valid UpdateUserRequest request){
         request.setId(id);
-        updateUserUseCase.updateUser(request);
+        try {
+            updateUserUseCase.updateUser(request);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(401).build();
+        }
         return ResponseEntity.noContent().build();
     }
     @DeleteMapping("{id}")

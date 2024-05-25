@@ -1,6 +1,8 @@
 package org.example.individualbackend.utilities;
 
 public class EmailMessages {
+    private EmailMessages(){}
+
     public static final String TICKET_PURCHASE_SUBJECT = "Ticket Purchase Confirmation";
     public static final String TICKET_PURCHASE_BODY = """
             Hello ${fanName}

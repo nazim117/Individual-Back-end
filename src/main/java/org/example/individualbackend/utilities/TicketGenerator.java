@@ -4,7 +4,6 @@ import org.example.individualbackend.persistance.entity.TicketEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class TicketGenerator {
     private static final double BASE_PRICE = 35.0;
@@ -12,7 +11,7 @@ public class TicketGenerator {
 
     private TicketGenerator(){ throw new AssertionError("Ticket generator should not be instantiated");}
 
-    public static List<TicketEntity> generateTicket(int rowCount, int seatsPerRow) {
+    public static List<TicketEntity> generateTickets(int rowCount, int seatsPerRow) {
         List<TicketEntity> tickets = new ArrayList<>();
 
         for (int i = 0; i < rowCount; i++) {

@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.nio.file.AccessDeniedException;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -27,7 +29,7 @@ class GetUserUseCaseImplTest {
     }
 
     @Test
-    void get_User_UserExists_ReturnsTrue(){
+    void get_User_UserExists_ReturnsTrue() throws AccessDeniedException {
         int userId = 1;
         UserEntity mockUser = createMockUser(userId);
         when(userRepo.getUserEntityById(userId)).thenReturn(mockUser);
@@ -39,7 +41,7 @@ class GetUserUseCaseImplTest {
     }
 
     @Test
-    void get_User_UserDoesNotExist_ReturnsNull(){
+    void get_User_UserDoesNotExist_ReturnsNull()throws AccessDeniedException{
         int nonExistentUserId = 999;
         when(userRepo.getUserEntityById(nonExistentUserId)).thenReturn(null);
 

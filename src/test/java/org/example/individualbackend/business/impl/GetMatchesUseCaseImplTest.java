@@ -36,14 +36,14 @@ class GetMatchesUseCaseImplTest {
     void get_Matches_ReturnsAllMatches(){
         //Arrange
         List<MatchEntity> mockMatches = createMockMatches();
-        when(saveMatches.getMatchesData()).thenReturn(mockMatches);
+        when(saveMatches.getMatchesDataDescDate()).thenReturn(mockMatches);
 
         List<Match> matches = mockMatches.stream()
                 .map(MatchConverter::convert)
                 .toList();
 
         //Act
-        GetMatchesResponse response = getMatchesUseCase.getMatches();
+        GetMatchesResponse response = getMatchesUseCase.getMatchesDescDate();
 
         //Assert
         assertEquals(matches.size(), response.getMatches().size());
@@ -52,15 +52,15 @@ class GetMatchesUseCaseImplTest {
 
     @Test
     void get_Matches_ReturnsEmptyMatchEntityArray(){
-        when(saveMatches.getMatchesData()).thenReturn(new ArrayList<>());
+        when(saveMatches.getMatchesDataDescDate()).thenReturn(new ArrayList<>());
 
-        GetMatchesResponse response = getMatchesUseCase.getMatches();
+        GetMatchesResponse response = getMatchesUseCase.getMatchesDescDate();
 
         assertEquals(0, response.getMatches().size());
     }
 
     @Test
-    void getTop3Matches_ReturnsTop3Matches(){
+    void getTop3Matches_ReturnsTop6Matches(){
         List<MatchEntity> mockMatches = createMockMatches();
         when(saveMatches.getTop6MatchesData()).thenReturn(mockMatches);
 
@@ -69,7 +69,7 @@ class GetMatchesUseCaseImplTest {
                 .toList();
 
 
-        GetMatchesResponse response = getMatchesUseCase.getTop3Matches();
+        GetMatchesResponse response = getMatchesUseCase.getTop6Matches();
 
         assertEquals(matches.size(), response.getMatches().size());
         assertEquals(matches, response.getMatches());

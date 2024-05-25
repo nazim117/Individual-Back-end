@@ -4,4 +4,5 @@ import org.example.individualbackend.domain.get.GetAllUsersResponse;
 
 public interface GetUsersUseCase {
     GetAllUsersResponse getUsers();
+    GetAllUsersResponse getUsersByUniversalSearch(String searchString);
 }

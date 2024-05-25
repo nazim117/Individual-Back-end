@@ -53,7 +53,7 @@ class MatchControllerTest {
     void getMatch_ReturnsMatchEntityList() throws Exception {
         //Arrange
         GetMatchesResponse response = createMockMachesResponse();
-        when(getMatchesUseCase.getMatches())
+        when(getMatchesUseCase.getMatchesDescDate())
                 .thenReturn(response);
 
         //Act
@@ -141,14 +141,14 @@ class MatchControllerTest {
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getUpcomingMatches_ReturnTop3Matches(){
         GetMatchesResponse expectedMatchesResponse = createMockMachesResponse();
-        when(getMatchesUseCase.getTop3Matches()).thenReturn(expectedMatchesResponse);
+        when(getMatchesUseCase.getTop6Matches()).thenReturn(expectedMatchesResponse);
 
         ResponseEntity<GetMatchesResponse> responseEntity = matchController.getUpcomingMatches();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedMatchesResponse, responseEntity.getBody());
 
-        verify(getMatchesUseCase, times(1)).getTop3Matches();
+        verify(getMatchesUseCase, times(1)).getTop6Matches();
     }
 
     private GetMatchesResponse createMockMachesResponse() {

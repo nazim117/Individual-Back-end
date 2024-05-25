@@ -58,7 +58,7 @@ public class FootballAPI {
             return matchEntityList;
 
         } catch(Exception e){
-            throw new IOException("Error fetching matches data", e);
+            throw new IOException("Error fetching matches data: ", e);
         }
     }
 }

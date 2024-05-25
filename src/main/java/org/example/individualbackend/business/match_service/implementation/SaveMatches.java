@@ -21,11 +21,12 @@ public class SaveMatches {
     private final MatchRepo matchRepo;
     private final TicketRepo ticketRepo;
     private final FootballAPI footballAPI;
+    private static final String ERROR_FETCHING_MATCH_DATA = "Error fetching match data";
 
     @Transactional
-    public List<MatchEntity> getMatchesData() {
+    public List<MatchEntity> getMatchesDataDescDate() {
         try {
-            List<MatchEntity> matchEntityList = matchRepo.findAllByOrderByDateAsc();
+            List<MatchEntity> matchEntityList = matchRepo.findAllByOrderByDateDesc();
             if(matchEntityList.size() > 3) {
                 return matchEntityList;
             }
@@ -35,7 +36,7 @@ public class SaveMatches {
 
             for(MatchEntity matchEntity : matchEntityList){
                 if(matchEntity.getDate().isAfter(LocalDateTime.now())){
-                    List<TicketEntity> ticketEntityList = TicketGenerator.generateTicket(2,5);
+                    List<TicketEntity> ticketEntityList = TicketGenerator.generateTickets(2,5);
                     for(TicketEntity ticketEntity : ticketEntityList){
                         ticketEntity.setFootballMatch(matchEntity);
                         ticketRepo.save(ticketEntity);
@@ -46,17 +47,33 @@ public class SaveMatches {
             return matchEntityList;
 
         }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching match data");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_FETCHING_MATCH_DATA);
         }
 
     }
 
     public List<MatchEntity> getTop6MatchesData(){
         try {
-            List<MatchEntity> matchEntityList = matchRepo.find3UpcomingMatches();
+            List<MatchEntity> matchEntityList = matchRepo.find6UpcomingMatches();
             return matchEntityList.subList(0, Math.min(matchEntityList.size(), 3));
         }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error getting match data");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_FETCHING_MATCH_DATA);
+        }
+    }
+
+    public List<MatchEntity> getMatchesAscDate(){
+        try{
+            return matchRepo.findAllByOrderByDateAsc();
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_FETCHING_MATCH_DATA);
+        }
+    }
+
+    public List<MatchEntity> getMatchesByMostSoldTickets() {
+        try{
+            return matchRepo.findAllByMostSoldTickets();
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_FETCHING_MATCH_DATA);
         }
     }
 }

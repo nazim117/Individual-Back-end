@@ -69,6 +69,8 @@ public class LoginUseCaseImpl implements LoginUseCase {
         userRoles.add(userRoleEntity);
         savedUser.setUserRoles(userRoles);
 
+        sendEmail(savedUser);
+
         String accessToken = generateAccessToken(savedUser);
         return TokenResponse.builder().accessToken(accessToken).build();
     }
@@ -112,8 +114,8 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     private void sendEmail(UserEntity user){
-        String emailbody = EmailMessages.USER_REGISTRATION_BODY
+        String emailBody = EmailMessages.USER_REGISTRATION_BODY
                 .replace("${fanName}", user.getFName());
-        notificationsUseCase.sendEmail(user.getEmail(), EmailMessages.USER_REGISTRATION_SUBJECT, emailbody);
+        notificationsUseCase.sendEmail(user.getEmail(), EmailMessages.USER_REGISTRATION_SUBJECT, emailBody);
     }
 }

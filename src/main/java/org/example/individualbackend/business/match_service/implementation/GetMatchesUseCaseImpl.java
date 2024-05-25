@@ -16,8 +16,8 @@ public class GetMatchesUseCaseImpl implements GetMatchesUseCase {
     private final SaveMatches saveMatches;
     @Transactional
     @Override
-    public GetMatchesResponse getMatches() {
-        List<Match> matches = saveMatches.getMatchesData()
+    public GetMatchesResponse getMatchesDescDate() {
+        List<Match> matches = saveMatches.getMatchesDataDescDate()
                 .stream()
                 .map(MatchConverter::convert)
                 .toList();
@@ -29,8 +29,29 @@ public class GetMatchesUseCaseImpl implements GetMatchesUseCase {
 
     @Transactional
     @Override
-    public GetMatchesResponse getTop3Matches() {
+    public GetMatchesResponse getTop6Matches() {
         List<Match> matches = saveMatches.getTop6MatchesData()
+                .stream()
+                .map(MatchConverter::convert)
+                .toList();
+
+        return GetMatchesResponse.builder().matches(matches).build();
+    }
+
+    @Transactional
+    @Override
+    public GetMatchesResponse getMatchesAscDate() {
+        List<Match> matches = saveMatches.getMatchesAscDate()
+                .stream()
+                .map(MatchConverter::convert)
+                .toList();
+
+        return GetMatchesResponse.builder().matches(matches).build();
+    }
+
+    @Override
+    public GetMatchesResponse getMatchesBySoldTickets() {
+        List<Match> matches = saveMatches.getMatchesByMostSoldTickets()
                 .stream()
                 .map(MatchConverter::convert)
                 .toList();
