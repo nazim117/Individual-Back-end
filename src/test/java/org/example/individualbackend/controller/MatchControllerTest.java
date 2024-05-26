@@ -58,7 +58,7 @@ class MatchControllerTest {
 
         //Act
         //Assert
-        mockMvc.perform(get("/matches"))
+        mockMvc.perform(get("/matches/descending"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
@@ -67,7 +67,7 @@ class MatchControllerTest {
                                 "matches":[
                                 {
                                     "id": 1,
-                                        "date": "2023-08-11T09:30:00",
+                                        "date": "2023-08-10T09:30:00",
                                         "venueName": "Turf Moor",
                                         "statusShort":"FT",
                                         "homeTeamName": "Burnley",
@@ -159,7 +159,7 @@ class MatchControllerTest {
                 .matches(List.of(
                         Match.builder()
                                 .id(1)
-                                .date(LocalDateTime.parse("2023-08-11T09:30:00-05:00", formatter))
+                                .date(LocalDateTime.parse("2023-08-10T09:30:00-05:00", formatter))
                                 .venueName("Turf Moor")
                                 .statusShort("FT")
                                 .homeTeamName("Burnley")

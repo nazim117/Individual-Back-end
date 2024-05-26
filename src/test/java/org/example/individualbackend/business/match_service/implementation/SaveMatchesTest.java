@@ -70,11 +70,11 @@ class SaveMatchesTest {
         List<MatchEntity> mockMatchEntities = createMockMatchEntityList();
         List<TicketEntity> mockTicketEntities = TicketGenerator.generateTickets(2,5);
 
-        mockMatchEntities.add(createMatchEntity(3, "2024-04-11T15:00:00", "Anfield", "FT", "Real Madrid", "realmadrid.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
-        mockMatchEntities.add(createMatchEntity(4, "2024-04-13T15:00:00", "Anfield", "FT", "Real Sociedad", "realsociedad.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
+        mockMatchEntities.add(createMatchEntity(4, "2024-04-13T15:00:00", "Anfield", "FT", "Real Madrid", "realmadrid.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
+        mockMatchEntities.add(createMatchEntity(5, "2024-04-12T15:00:00", "Anfield", "FT", "Real Sociedad", "realsociedad.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
 
+        when(matchRepo.findAllByOrderByDateDesc()).thenReturn(mockMatchEntities);
         when(footballAPI.fetchMatchesData()).thenReturn(mockMatchEntities);
-        when(matchRepo.findAllByOrderByDateAsc()).thenReturn(mockMatchEntities);
 
         List<MatchEntity> result = saveMatches.getMatchesDataDescDate();
 

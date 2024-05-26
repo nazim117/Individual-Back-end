@@ -14,6 +14,9 @@ public class NotificationsUseCaseImpl implements NotificationsUseCase {
 
     @Override
     public void sendEmail(String toEmail, String subject, String body){
+        if(toEmail.isEmpty()){
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
         try{
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("nazimcompany31@gmail.com");

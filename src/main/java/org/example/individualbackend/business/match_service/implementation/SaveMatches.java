@@ -27,21 +27,23 @@ public class SaveMatches {
     public List<MatchEntity> getMatchesDataDescDate() {
         try {
             List<MatchEntity> matchEntityList = matchRepo.findAllByOrderByDateDesc();
+
             if(matchEntityList.size() > 3) {
                 return matchEntityList;
             }
             matchEntityList = footballAPI.fetchMatchesData();
 
             matchRepo.saveAll(matchEntityList);
-
-            for(MatchEntity matchEntity : matchEntityList){
-                if(matchEntity.getDate().isAfter(LocalDateTime.now())){
-                    List<TicketEntity> ticketEntityList = TicketGenerator.generateTickets(2,5);
-                    for(TicketEntity ticketEntity : ticketEntityList){
-                        ticketEntity.setFootballMatch(matchEntity);
-                        ticketRepo.save(ticketEntity);
+            if(matchEntityList.size() <= 3) {
+                for(MatchEntity matchEntity : matchEntityList){
+                    if(matchEntity.getDate().isAfter(LocalDateTime.now())){
+                        List<TicketEntity> ticketEntityList = TicketGenerator.generateTickets(2,5);
+                        for(TicketEntity ticketEntity : ticketEntityList){
+                            ticketEntity.setFootballMatch(matchEntity);
+                            ticketRepo.save(ticketEntity);
+                        }
+                        matchEntity.setAvailableTickets(ticketEntityList);
                     }
-                    matchEntity.setAvailableTickets(ticketEntityList);
                 }
             }
             return matchEntityList;

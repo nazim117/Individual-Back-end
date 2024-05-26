@@ -141,6 +141,7 @@ class LoginUseCaseImplTest {
 
         UserEntity userEntity = UserEntity.builder()
                 .email(email)
+                .fName("John")
                 .password(encodedPassword)
                 .build();
 
