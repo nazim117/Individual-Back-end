@@ -1,6 +1,11 @@
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   GITGUARDIAN_API_KEY: $GITGUARDIAN_API_KEY
+  RAPID_API_KEY: $RAPID_API_KEY
+  SPRING_DATASOURCE_URL: $SPRING_DATASOURCE_URL
+  SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
+  SPRING_DATASOURCE_PASSWORD: $SPRING_DATASOURCE_PASSWORD
+  SPRING_PROFILES_ACTIVE: test
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -32,9 +37,11 @@ test:
   script:
     - ls
     - pwd
-    - ./gradlew test
-  variables:
-    RAPID_API_KEY: $RAPID_API_KEY
+    - echo "RAPID_API_KEY: $RAPID_API_KEY"
+    - echo "SPRING_DATASOURCE_URL: $SPRING_DATASOURCE_URL"
+    - echo "SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME"
+    - echo "SPRING_DATASOURCE_PASSWORD: $SPRING_DATASOURCE_PASSWORD"
+    - ./gradlew test -Dspring.profiles.active=test
   artifacts:
     when: always
     paths:
