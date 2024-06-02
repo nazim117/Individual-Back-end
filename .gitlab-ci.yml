@@ -26,11 +26,6 @@ build:
   artifacts:
     paths:
       - build/libs/*.jar
-    cache:
-      key: build-cache
-      paths:
-        - .gradlew/wrapper/
-        - .gradle/caches/
 
 test:
   stage: test
@@ -42,11 +37,6 @@ test:
     when: always
     paths:
       - build/reports/tests/
-    cache:
-      key: test-cache
-      paths:
-        - .gradle/wrapper/
-        - .gradle/caches/
 
 secret-detection:
   stage: secret-detection
