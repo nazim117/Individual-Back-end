@@ -20,8 +20,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 class NotificationsControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
-    private UnirestWrapper unirestWrapper;
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void sendNotification_Success() throws Exception {

@@ -61,8 +61,6 @@ class UserControllerTest{
     private DeleteUserUseCase deleteUserUseCase;
     @Autowired
     private UserController userController;
-    @MockBean
-    private UnirestWrapper unirestWrapper;
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})

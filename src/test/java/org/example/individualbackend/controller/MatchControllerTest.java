@@ -48,8 +48,6 @@ class MatchControllerTest {
     private GetMatchUseCase getMatchUseCase;
     @Autowired
     private MatchController matchController;
-    @MockBean
-    private UnirestWrapper unirestWrapper;
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})

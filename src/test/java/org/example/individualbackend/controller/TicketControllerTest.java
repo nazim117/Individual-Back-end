@@ -57,8 +57,6 @@ class TicketControllerTest {
     private UserRepo userRepo;
     @MockBean
     private TicketRepo ticketRepo;
-    @MockBean
-    private UnirestWrapper unirestWrapper;
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})

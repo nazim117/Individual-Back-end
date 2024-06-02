@@ -25,14 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("dev")
 class LoginControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
     private LoginUseCase loginUseCase;
-    @MockBean
-    private UnirestWrapper unirestWrapper;
 
     @Test
      void login_UserLogsInSuccessfully() throws Exception {
