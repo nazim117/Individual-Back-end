@@ -10,6 +10,7 @@ import org.example.individualbackend.domain.create.CreateUserResponse;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.update.UpdateUserRequest;
 import org.example.individualbackend.domain.users.User;
+import org.example.individualbackend.external_api.UnirestWrapper;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.junit.jupiter.api.*;
@@ -46,10 +47,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserControllerTest{
-
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private GetUsersUseCase getUsersUseCase;
     @MockBean
@@ -60,9 +59,10 @@ class UserControllerTest{
     private UpdateUserUseCase updateUserUseCase;
     @MockBean
     private DeleteUserUseCase deleteUserUseCase;
-
     @Autowired
     private UserController userController;
+    @MockBean
+    private UnirestWrapper unirestWrapper;
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
@@ -94,7 +94,7 @@ class UserControllerTest{
 
         // Act
         // Assert
-        mockMvc.perform(get("/users"))
+        mockMvc.perform(get("/api/users"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
@@ -138,7 +138,7 @@ class UserControllerTest{
      void testGetUser() throws Exception{
         Mockito.when(getUserUseCase.getUser(Mockito.anyInt())).thenReturn(createMockGetUserResponse());
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", 1)
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/users/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON))
                         .andReturn();
 
@@ -155,7 +155,7 @@ class UserControllerTest{
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/users")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andReturn();
@@ -173,7 +173,7 @@ class UserControllerTest{
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/users/{id}", 1)
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/users/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                         .andReturn();
@@ -186,7 +186,7 @@ class UserControllerTest{
      void testDeleteUser() throws Exception{
         Mockito.doNothing().when(deleteUserUseCase).deleteUser(Mockito.anyInt());
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", 1))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/{id}", 1))
                 .andReturn();
 
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());

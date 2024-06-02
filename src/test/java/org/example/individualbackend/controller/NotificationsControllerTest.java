@@ -1,10 +1,12 @@
 package org.example.individualbackend.controller;
 
+import org.example.individualbackend.external_api.UnirestWrapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -18,13 +20,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 class NotificationsControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
+    @MockBean
+    private UnirestWrapper unirestWrapper;
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void sendNotification_Success() throws Exception {
         String jsonPayload = "{\"content\": \"Test message\"}";
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/notifications")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/notifications")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonPayload))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
@@ -34,7 +37,7 @@ class NotificationsControllerTest {
     void sendNotification_Failure() throws Exception {
         String jsonPayload = "{}";
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/notifications")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/notifications")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonPayload))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());

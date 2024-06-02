@@ -1,5 +1,6 @@
 package org.example.individualbackend.controller;
 
+import org.example.individualbackend.external_api.UnirestWrapper;
 import org.example.individualbackend.utilities.TicketGenerator;
 import org.example.individualbackend.business.ticket_service.interfaces.*;
 import org.example.individualbackend.domain.ticket.Ticket;
@@ -56,6 +57,8 @@ class TicketControllerTest {
     private UserRepo userRepo;
     @MockBean
     private TicketRepo ticketRepo;
+    @MockBean
+    private UnirestWrapper unirestWrapper;
 
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
@@ -63,7 +66,7 @@ class TicketControllerTest {
         GetAllTicketsResponse response = GetAllTicketsResponse.builder().tickets(createTicketList()).build();
         when(getTicketsUseCase.getAll()).thenReturn(response);
 
-        mockMvc.perform(get("/tickets"))
+        mockMvc.perform(get("/api/tickets"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
@@ -126,7 +129,7 @@ class TicketControllerTest {
 
         when(getTicketUseCase.getTicket(invalidTicketId)).thenReturn(null);
 
-        mockMvc.perform(get("/tickets/{id}", invalidTicketId)
+        mockMvc.perform(get("/api/tickets/{id}", invalidTicketId)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -142,7 +145,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/tickets")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -157,7 +160,7 @@ class TicketControllerTest {
         when(createTicketUseCase.addFanToTicket(invalidTicketId, userId))
                 .thenThrow(new NoSuchElementException("Ticket does not exist"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{userId}", userId)
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets/buy-ticket/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidTicketId.toString()))
                 .andExpect(status().isBadRequest());
@@ -173,7 +176,7 @@ class TicketControllerTest {
                 .thenThrow(new NoSuchElementException("Ticket does not exist"));
 
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{userId}", invalidUserId)
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets/buy-ticket/{userId}", invalidUserId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidTicketId.toString()))
                 .andExpect(status().isBadRequest());
@@ -192,7 +195,7 @@ class TicketControllerTest {
 
         when(createTicketUseCase.createTicket(request)).thenThrow(new RuntimeException("Invalid request"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/tickets")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -214,7 +217,7 @@ class TicketControllerTest {
 
         //Act
         //Assert
-        mockMvc.perform(MockMvcRequestBuilders.put("/tickets/{id}", 1)
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/tickets/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -225,7 +228,7 @@ class TicketControllerTest {
     void getTicket_WithValidId_ReturnsTicket() throws Exception{
         Mockito.when(getTicketUseCase.getTicket(Mockito.anyInt())).thenReturn(createTicketEntity(1, 20.0, 5, 70));
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/tickets/{id}", 1)
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/tickets/{id}", 1)
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn();
 
@@ -246,7 +249,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/tickets")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andReturn();
@@ -271,7 +274,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/tickets/{id}", 1)
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/tickets/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andReturn();
@@ -285,7 +288,7 @@ class TicketControllerTest {
 
         doNothing().when(deleteTicketUseCase).deleteTicket(ticketId);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/tickets/{id}", ticketId))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/api/tickets/{id}", ticketId))
                 .andReturn();
 
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
@@ -302,7 +305,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/tickets")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -320,7 +323,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{id}", userId)
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets/buy-ticket/{id}", userId)
         .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -338,7 +341,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{id}", userId)
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets/buy-ticket/{id}", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -369,7 +372,7 @@ class TicketControllerTest {
 
         when(createTicketUseCase.addFanToTicket(ticketId, userId)).thenReturn(ticketId);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/tickets/buy-ticket/{userId}", userId)
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets/buy-ticket/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ticketId.toString()))
                 .andExpect(status().isCreated())

@@ -3,9 +3,10 @@ package org.example.individualbackend.external_api;
 import kong.unirest.HttpResponse;
 import kong.unirest.UnirestException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class UnirestWrapper {
     @Value("${rapidApi.key}")
     private String api_key;
