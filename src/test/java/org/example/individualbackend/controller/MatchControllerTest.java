@@ -5,7 +5,6 @@ import org.example.individualbackend.business.match_service.interfaces.GetMatche
 import org.example.individualbackend.business.match_service.utilities.MatchConverter;
 import org.example.individualbackend.domain.match.Match;
 import org.example.individualbackend.domain.get.GetMatchesResponse;
-import org.example.individualbackend.external_api.UnirestWrapper;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

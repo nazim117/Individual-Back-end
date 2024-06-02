@@ -1,11 +1,8 @@
 variables:
+  SPRING_PROFILES_ACTIVE: test
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   GITGUARDIAN_API_KEY: $GITGUARDIAN_API_KEY
   RAPID_API_KEY: $RAPID_API_KEY
-  SPRING_DATASOURCE_URL: $SPRING_DATASOURCE_URL
-  SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
-  SPRING_DATASOURCE_PASSWORD: $SPRING_DATASOURCE_PASSWORD
-  SPRING_PROFILES_ACTIVE: test
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -23,8 +20,6 @@ stages:
 build:
   stage: build
   script:
-    - ls
-    - pwd
     - ./gradlew assemble
     - ./gradlew jar
     - docker build -t individual-back-end .
@@ -35,8 +30,6 @@ build:
 test:
   stage: test
   script:
-    - ls
-    - pwd
     - ./gradlew test
   artifacts:
     when: always

@@ -1,6 +1,5 @@
 package org.example.individualbackend.controller;
 
-import org.example.individualbackend.external_api.UnirestWrapper;
 import org.example.individualbackend.utilities.TicketGenerator;
 import org.example.individualbackend.business.ticket_service.interfaces.*;
 import org.example.individualbackend.domain.ticket.Ticket;
@@ -20,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -40,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 class TicketControllerTest {
     @Autowired
     private MockMvc mockMvc;
