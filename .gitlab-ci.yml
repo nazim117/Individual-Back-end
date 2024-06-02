@@ -37,7 +37,7 @@ test:
   script:
     - ls
     - pwd
-    - ./gradlew test -Dspring.profiles.active=test
+    - ./gradlew test --args="-Dspring.profiles.active=test"
   artifacts:
     when: always
     paths:
