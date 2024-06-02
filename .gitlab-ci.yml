@@ -1,7 +1,6 @@
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   GITGUARDIAN_API_KEY: $GITGUARDIAN_API_KEY
-  RAPID_API_KEY: $RAPID_API_KEY
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -33,8 +32,9 @@ test:
   script:
     - ls
     - pwd
-    - echo "RAPID_API_KEY=$RAPID_API_KEY"
     - ./gradlew test
+  variables:
+    RAPID_API_KEY: $RAPID_API_KEY
   artifacts:
     when: always
     paths:
