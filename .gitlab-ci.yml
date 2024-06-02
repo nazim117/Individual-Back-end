@@ -33,7 +33,7 @@ test:
   script:
     - ls
     - pwd
-    - echo "RAPID_API_KEY: $RAPID_API_KEY"
+    - echo "RAPID_API_KEY=$RAPID_API_KEY"
     - ./gradlew test
   artifacts:
     when: always
