@@ -10,9 +10,9 @@ import org.example.individualbackend.config.security.token.impl.AccessTokenImpl;
 import org.example.individualbackend.domain.login.LoginRequest;
 import org.example.individualbackend.domain.login.TokenResponse;
 import org.example.individualbackend.domain.login.RegisterRequest;
-import org.example.individualbackend.persistance.FanRepo;
-import org.example.individualbackend.persistance.UserRepo;
-import org.example.individualbackend.persistance.UserRoleRepo;
+import org.example.individualbackend.persistance.repositories.FanRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
+import org.example.individualbackend.persistance.repositories.UserRoleRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.RoleEnum;
 import org.example.individualbackend.persistance.entity.UserEntity;
@@ -103,7 +103,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
-    private String generateAccessToken(UserEntity user) {
+    protected String generateAccessToken(UserEntity user) {
         Integer userId = user.getId() != null ? user.getId() : null;
         List<String> roles = user.getUserRoles().stream()
                 .map(userRole -> userRole.getRole().toString())

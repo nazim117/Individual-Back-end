@@ -2,6 +2,7 @@ package org.example.individualbackend.persistance;
 
 import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
+import org.example.individualbackend.persistance.repositories.TicketRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
@@ -12,10 +13,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

@@ -6,10 +6,10 @@ import org.example.individualbackend.business.notifications_service.interfaces.N
 import org.example.individualbackend.business.ticket_service.interfaces.CreateTicketUseCase;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.create.CreateTicketResponse;
-import org.example.individualbackend.persistance.FanRepo;
-import org.example.individualbackend.persistance.MatchRepo;
-import org.example.individualbackend.persistance.TicketRepo;
-import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.repositories.FanRepo;
+import org.example.individualbackend.persistance.repositories.MatchRepo;
+import org.example.individualbackend.persistance.repositories.TicketRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
@@ -63,6 +63,11 @@ public class CreateTicketUseCaseImpl implements CreateTicketUseCase {
 
         existingTicket.setFan(existingFan);
 
+        double price = calculateNewTicketPrice(existingTicket.getPrice());
+        existingTicket.setPrice(price);
+
+        ticketRepo.save(existingTicket);
+
         String purchaseBody = EmailMessages.TICKET_PURCHASE_BODY
                 .replace("${fanName}", existingUser.getFName())
                 .replace("${matchHomeTeamName}", existingTicket.getFootballMatch().getHomeTeamName())
@@ -77,6 +82,10 @@ public class CreateTicketUseCaseImpl implements CreateTicketUseCase {
 
 
         return existingTicket.getId();
+    }
+
+    private double calculateNewTicketPrice(double currentPrice) {
+        return currentPrice * 1.05;
     }
 
     private TicketEntity addNewTicket(CreateTicketRequest request) {

@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.ticket_service.interfaces.UpdateTicketUseCase;
 import org.example.individualbackend.domain.update.UpdateTicketRequest;
-import org.example.individualbackend.persistance.TicketRepo;
+import org.example.individualbackend.persistance.repositories.TicketRepo;
 import org.example.individualbackend.persistance.entity.TicketEntity;
 import org.springframework.stereotype.Service;
 

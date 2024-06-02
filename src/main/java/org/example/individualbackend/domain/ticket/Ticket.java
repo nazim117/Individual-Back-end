@@ -1,4 +1,4 @@
-package org.example.individualbackend.domain;
+package org.example.individualbackend.domain.ticket;
 
 import lombok.*;
 import org.example.individualbackend.persistance.entity.FanEntity;

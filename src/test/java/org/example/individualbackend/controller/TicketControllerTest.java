@@ -2,12 +2,12 @@ package org.example.individualbackend.controller;
 
 import org.example.individualbackend.utilities.TicketGenerator;
 import org.example.individualbackend.business.ticket_service.interfaces.*;
-import org.example.individualbackend.domain.Ticket;
+import org.example.individualbackend.domain.ticket.Ticket;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
 import org.example.individualbackend.domain.update.UpdateTicketRequest;
-import org.example.individualbackend.persistance.TicketRepo;
-import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.repositories.TicketRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
 import org.example.individualbackend.persistance.entity.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -443,7 +443,7 @@ class TicketControllerTest {
                                           Integer _goalsHome,
                                           Integer _goalsAway) {
 
-        List<TicketEntity> tickets = TicketGenerator.generateTickets(2,5);
+        List<TicketEntity> tickets = TicketGenerator.generateTickets(2000);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
         return MatchEntity.builder()

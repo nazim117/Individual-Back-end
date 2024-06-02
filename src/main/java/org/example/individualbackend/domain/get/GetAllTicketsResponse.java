@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.individualbackend.domain.Ticket;
+import org.example.individualbackend.domain.ticket.Ticket;
 
 import java.util.List;
 @Data

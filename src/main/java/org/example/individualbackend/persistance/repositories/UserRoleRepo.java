@@ -1,4 +1,4 @@
-package org.example.individualbackend.persistance;
+package org.example.individualbackend.persistance.repositories;
 
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.example.individualbackend.persistance.entity.UserRoleEntity;

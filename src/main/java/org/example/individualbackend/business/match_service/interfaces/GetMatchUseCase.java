@@ -1,7 +1,7 @@
 package org.example.individualbackend.business.match_service.interfaces;
 
-import org.example.individualbackend.persistance.entity.MatchEntity;
+import org.example.individualbackend.domain.match.Match;
 
 public interface GetMatchUseCase {
-    MatchEntity getMatch(Integer id);
+    Match getMatch(Integer id);
 }

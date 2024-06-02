@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,7 +37,7 @@ class LoginControllerTest {
         when(loginUseCase.login(any(LoginRequest.class))).thenReturn(tokenResponse);
 
         mockMvc.perform(post("/tokens")
-                .contentType(MediaType.APPLICATION_JSON)
+
                 .content("{\"email\":\"testemail@example.com\", \"password\":\"password123\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -52,7 +51,7 @@ class LoginControllerTest {
 
         mockMvc.perform(post("/tokens/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
+                .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"Password_1223\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{\"accessToken\":\"token\"}"));

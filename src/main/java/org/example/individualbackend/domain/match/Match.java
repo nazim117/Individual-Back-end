@@ -1,11 +1,13 @@
-package org.example.individualbackend.domain;
+package org.example.individualbackend.domain.match;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.individualbackend.domain.ticket.Ticket;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,6 +27,8 @@ public class Match {
     private Boolean awayTeamWinner;
     private Integer goalsHome;
     private Integer goalsAway;
-    private List<Ticket> availableTickets;
+    private List<Ticket> availableTickets = new ArrayList<>();
+    private int availableTicketsCount;
+    private int soldTicketCount;
 
 }

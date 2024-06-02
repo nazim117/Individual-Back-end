@@ -2,8 +2,7 @@ package org.example.individualbackend.business.impl;
 
 import org.example.individualbackend.business.user_service.implementation.GetUserUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
-import org.example.individualbackend.config.security.SecurityUtils;
-import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

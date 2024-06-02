@@ -2,7 +2,7 @@ package org.example.individualbackend.business.impl;
 
 import org.example.individualbackend.business.ticket_service.implementation.DeleteTicketUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
-import org.example.individualbackend.persistance.TicketRepo;
+import org.example.individualbackend.persistance.repositories.TicketRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

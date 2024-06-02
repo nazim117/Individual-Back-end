@@ -6,7 +6,7 @@ import org.example.individualbackend.business.user_service.interfaces.GetUsersUs
 import org.example.individualbackend.business.user_service.utilities.UserConverter;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.users.User;
-import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

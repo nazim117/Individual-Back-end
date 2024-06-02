@@ -1,7 +1,7 @@
 package org.example.individualbackend.persistance;
 
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
+import org.example.individualbackend.persistance.repositories.MatchRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

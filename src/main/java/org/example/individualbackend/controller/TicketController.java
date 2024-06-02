@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.ticket_service.interfaces.*;
+import org.example.individualbackend.domain.ticket.TicketSalesOverview;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.create.CreateTicketResponse;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tickets")
+@RequestMapping("/api/tickets")
 @AllArgsConstructor
 public class TicketController {
     private final GetTicketsUseCase getTicketsUseCase;
@@ -63,8 +64,20 @@ public class TicketController {
         }catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
         }
-
     }
+
+    @GetMapping("/ticket-sales-overview")
+    @RolesAllowed({"FOOTBALL_FAN", "ADMIN"})
+    public ResponseEntity<TicketSalesOverview> getTicketSalesOverview(){
+        TicketSalesOverview ticketSalesOverview = TicketSalesOverview.builder()
+                .totalTicketsSold(getTicketsUseCase.getTotalTicketsSold())
+                .totalRevenue(getTicketsUseCase.getTotalRevenue())
+                .ticketsPerMatch(getTicketsUseCase.getTicketsPerMatch())
+                .renvenuePerMatch(getTicketsUseCase.getRevenuePerMatch())
+                .build();
+        return ResponseEntity.ok(ticketSalesOverview);
+    }
+
     @PostMapping
     @RolesAllowed({"FOOTBALL_FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<CreateTicketResponse> createTicket(@Valid @RequestBody CreateTicketRequest request){

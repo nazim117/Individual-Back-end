@@ -3,7 +3,7 @@ package org.example.individualbackend.business.ticket_service.implementation;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.ticket_service.interfaces.GetTicketUseCase;
-import org.example.individualbackend.persistance.TicketRepo;
+import org.example.individualbackend.persistance.repositories.TicketRepo;
 import org.example.individualbackend.persistance.entity.TicketEntity;
 import org.springframework.stereotype.Service;
 

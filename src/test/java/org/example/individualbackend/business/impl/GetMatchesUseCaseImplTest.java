@@ -4,7 +4,7 @@ import org.example.individualbackend.business.match_service.implementation.GetMa
 import org.example.individualbackend.business.match_service.implementation.SaveMatches;
 import org.example.individualbackend.business.match_service.utilities.MatchConverter;
 import org.example.individualbackend.config.TestConfig;
-import org.example.individualbackend.domain.Match;
+import org.example.individualbackend.domain.match.Match;
 import org.example.individualbackend.domain.get.GetMatchesResponse;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,6 +91,7 @@ class GetMatchesUseCaseImplTest {
                 .awayTeamWinner(true)
                 .goalsHome(0)
                 .goalsAway(3)
+                .availableTickets(new ArrayList<>())
                 .build());
 
         matchEntityList.add(MatchEntity.builder()
@@ -106,6 +107,7 @@ class GetMatchesUseCaseImplTest {
                 .awayTeamWinner(true)
                 .goalsHome(2)
                 .goalsAway(3)
+                .availableTickets(new ArrayList<>())
                 .build());
 
         return matchEntityList;

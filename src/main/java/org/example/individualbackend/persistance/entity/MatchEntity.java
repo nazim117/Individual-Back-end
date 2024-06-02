@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,6 +32,11 @@ public class MatchEntity {
     @Length(min = 2, max = 255)
     @Column(name = "venueName")
     private String venueName;
+
+    @NotNull
+    @Min(0)
+    @Max(200_000)
+    private int venueCapacity;
 
     @NotBlank
     @Length(min = 2, max = 10)
@@ -77,5 +83,15 @@ public class MatchEntity {
 
     @OneToMany(mappedBy = "footballMatch", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<TicketEntity> availableTickets;
+    private List<TicketEntity> availableTickets = new ArrayList<>();
+
+    @JsonIgnore
+    public int getAvailableTicketCount(){
+        return availableTickets != null ? (int) availableTickets.stream().filter(ticket -> ticket.getFan() == null).count() : 0;
+    }
+
+    @JsonIgnore
+    public int getSoldTicketCount(){
+        return availableTickets != null ? (int) availableTickets.stream().filter(ticket -> ticket.getFan() != null).count() : 0;
+    }
 }

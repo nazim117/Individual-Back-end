@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.individualbackend.domain.Match;
+import org.example.individualbackend.domain.match.Match;
 
 import java.util.List;
 

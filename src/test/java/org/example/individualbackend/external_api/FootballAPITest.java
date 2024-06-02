@@ -1,133 +1,56 @@
 package org.example.individualbackend.external_api;
 
-import org.example.individualbackend.utilities.TicketGenerator;
+import kong.unirest.HttpResponse;
 import org.example.individualbackend.persistance.entity.MatchEntity;
-import org.example.individualbackend.persistance.entity.TicketEntity;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-class FootballAPITest {
-    @Autowired
-    private MockMvc mockMvc;
+@ExtendWith(MockitoExtension.class)
+public class FootballAPITest {
 
-    @MockBean
+    @InjectMocks
     private FootballAPI footballAPI;
 
-//    @Test
-//     void getMatches_RetrievesDataSuccessfully() throws Exception {
-//        // Arrange
-//        List<MatchEntity> matches = createMockMatchEntries();
-//
-//        // Act
-//        when(footballAPI.fetchMatchesData()).thenReturn(matches);
-//
-//        // Assert
-//        mockMvc.perform(get("https://v3.football.api-sports.io/fixtures?league=39&season=2023"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
-//                .andExpect(content().json("""
-//                            {
-//                                  "matches": [
-//                                      {
-//                                          "id": 1,
-//                                          "date": "2024-03-12T09:30:00",
-//                                          "venueName": "Old Trafford",
-//                                          "statusShort": "FT",
-//                                          "homeTeamName": "Manchester United",
-//                                          "homeTeamLogo": "logo1.png",
-//                                          "homeTeamWinner": false,
-//                                          "awayTeamName": "Liverpool",
-//                                          "awayTeamLogo": "logo2.png",
-//                                          "awayTeamWinner": true,
-//                                          "goalsHome": 2,
-//                                          "goalsAway": 3,
-//                                          "availableTickets": 5
-//                                      },
-//                                      {
-//                                          "id": 2,
-//                                          "date": "2024-03-13T10:30:00",
-//                                          "venueName": "Anfield",
-//                                          "statusShort": "FT",
-//                                          "homeTeamName": "Liverpool",
-//                                          "homeTeamLogo": "lvlogo.png",
-//                                          "homeTeamWinner": true,
-//                                          "awayTeamName": "Arsenal",
-//                                          "awayTeamLogo": "arslogo.png",
-//                                          "awayTeamWinner": false,
-//                                          "goalsHome": 4,
-//                                          "goalsAway": 1,
-//                                          "availableTickets": 5
-//                                      }
-//                                  ]
-//                              }
-//                        """));
-//    }
-//        @Test
-//     void getMatches_FailsToRetrieveData(){
-//        //Arrange
-//        //Act
-//        when(footballAPI.fetchMatchesData()).thenReturn(null);
-//
-//        //Assert
-//    }
+    @Mock
+    private UnirestWrapper unirestWrapper;
 
-    private List<MatchEntity> createMockMatchEntries() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
-        LocalDateTime matchDate1 = LocalDateTime.parse("2024-03-12T09:30:00-05:00", formatter);
-        LocalDateTime matchDate2 = LocalDateTime.parse("2024-03-13T10:30:00-05:00", formatter);
+    @Mock
+    private HttpResponse<String> httpResponse;
 
-        List<TicketEntity> ticketEntities = TicketGenerator.generateTickets(2,5);
+    @Test
+    void testFetchMatchesData() throws IOException {
+        final String jsonResponse = "{ \"response\": [{\"fixture\": {\"id\": 1, \"date\": \"2024-04-01T15:00:00+00:00\", \"venue\": {\"name\": \"Stadium\"}, \"status\": {\"short\": \"FT\"}}, \"teams\": {\"home\": {\"name\": \"HomeTeam\", \"logo\": \"homeLogo\", \"winner\": true}, \"away\": {\"name\": \"AwayTeam\", \"logo\": \"awayLogo\", \"winner\": false}}, \"goals\": {\"home\": 2, \"away\": 1}}]}";
+        when(unirestWrapper.get(anyString())).thenReturn(httpResponse);
+        when(httpResponse.getStatus()).thenReturn(200);
+        when(httpResponse.getBody()).thenReturn(jsonResponse);
 
-        List<MatchEntity> mockMatches = new ArrayList<>();
-        mockMatches.add(MatchEntity.builder()
-                        .id(1)
-                        .date(matchDate1)
-                        .venueName("Old Trafford")
-                        .statusShort("FT")
-                        .homeTeamName("Manchester United")
-                        .homeTeamLogo("logo1.png")
-                        .homeTeamWinner(false)
-                        .awayTeamName("Liverpool")
-                        .awayTeamLogo("logo2.png")
-                        .awayTeamWinner(true)
-                        .goalsHome(2)
-                        .goalsAway(3)
-                        .availableTickets(ticketEntities)
-                        .build());
+        List<MatchEntity> matches = footballAPI.fetchMatchesData();
+        assertNotNull(matches);
+        assertFalse(matches.isEmpty());
 
-        mockMatches.add(MatchEntity.builder()
-                .id(2)
-                .date(matchDate2)
-                .venueName("Anfield")
-                .statusShort("FT")
-                .homeTeamName("Liverpool")
-                .homeTeamLogo("lvlogo.png")
-                .homeTeamWinner(true)
-                .awayTeamName("Arsenal")
-                .awayTeamLogo("arslogo.png")
-                .awayTeamWinner(false)
-                .goalsHome(4)
-                .goalsAway(1)
-                .availableTickets(ticketEntities)
-                .build());
-
-        return mockMatches;
+        MatchEntity match = matches.get(0);
+        assertEquals(1, match.getId());
+        assertEquals(LocalDateTime.of(2024, 4, 1, 15, 0), match.getDate());
+        assertEquals("Stadium", match.getVenueName());
+        assertEquals("FT", match.getStatusShort());
+        assertEquals("HomeTeam", match.getHomeTeamName());
+        assertEquals("homeLogo", match.getHomeTeamLogo());
+        assertTrue(match.getHomeTeamWinner());
+        assertEquals("AwayTeam", match.getAwayTeamName());
+        assertEquals("awayLogo", match.getAwayTeamLogo());
+        assertFalse(match.getAwayTeamWinner());
+        assertEquals(2, match.getGoalsHome());
+        assertEquals(1, match.getGoalsAway());
     }
 }

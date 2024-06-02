@@ -5,7 +5,7 @@ import org.example.individualbackend.business.user_service.utilities.UserConvert
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.get.GetAllUsersResponse;
 import org.example.individualbackend.domain.users.User;
-import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

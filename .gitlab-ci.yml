@@ -1,9 +1,17 @@
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  GITGUARDIAN_API_KEY: $GITGUARDIAN_API_KEY
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .gradlew/wrapper
+    - .gradle/caches
 
 stages:
   - build
   - test
+  - secret-detection
   - sonarqube-check
   - deploy
 
@@ -15,6 +23,14 @@ build:
     - ./gradlew assemble
     - ./gradlew jar
     - docker build -t individual-back-end .
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    cache:
+      key: build-cache
+      paths:
+        - .gradlew/wrapper/
+        - .gradle/caches/
 
 test:
   stage: test
@@ -22,6 +38,24 @@ test:
     - ls
     - pwd
     - ./gradlew test
+  artifacts:
+    when: always
+    paths:
+      - build/reports/tests/
+    cache:
+      key: test-cache
+      paths:
+        - .gradle/wrapper/
+        - .gradle/caches/
+
+secret-detection:
+  stage: secret-detection
+  image: python:3.8
+  script:
+    - pip install ggshield
+    - ggshield scan repo .
+  only:
+    - branches
 
 sonarqube-check:
   stage: sonarqube-check
@@ -33,6 +67,10 @@ deploy:
   script:
     - ls
     - pwd
-    - docker stop individual-back-end-staging
-    - docker rm individual-back-end-staging
+    - docker stop individual-back-end-staging || true
+    - docker rm individual-back-end-staging || true
     - docker run -d -p 8090:8080 --net=individual_db_staging --env spring_profiles_active=staging --name=individual-back-end-staging individual-back-end
+  only:
+    - master
+  environment:
+    name: staging

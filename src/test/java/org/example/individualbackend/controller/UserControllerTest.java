@@ -198,7 +198,7 @@ class UserControllerTest{
                 .email("michael@example.com")
                 .fName("Michael")
                 .lName("Johnson")
-                .password("1234")
+                .password("Password_1234")
                 .picture("newPicture")
                 .build();
     }
@@ -208,7 +208,7 @@ class UserControllerTest{
                 .email("john@example.com")
                 .fName("John")
                 .lName("Doe")
-                .password("1111")
+                .password("Password_1111")
                 .picture("nicePicture")
                 .role("FOOTBALL_FAN")
                 .build();
