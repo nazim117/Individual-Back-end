@@ -7,6 +7,7 @@ build/
 
 ### Resources ###
 src/main/resources/
+src/test/resources/
 
 ### STS ###
 .apt_generated
