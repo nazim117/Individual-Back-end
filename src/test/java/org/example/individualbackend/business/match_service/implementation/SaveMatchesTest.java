@@ -52,20 +52,24 @@ class SaveMatchesTest {
         List<MatchEntity> result = saveMatches.getMatchesDataDescDate();
 
         assertEquals(mockMatchEntities, result);
-        verify(matchRepo, times(1)).saveAll(anyList());
+        verify(matchRepo, times(2)).findAllByOrderByDateDesc();
     }
 
     @Test
     void getMatchesData_SaveMatchesWhenRepoIsEmptyDesc() throws IOException {
         List<MatchEntity> mockMatchEntities = createMockMatchEntityList();
+        List<TicketEntity> mockTicketEntities = TicketGenerator.generateTickets(2000);
 
+        when(matchRepo.findAllByOrderByDateDesc()).thenReturn(new ArrayList<>());
         when(footballAPI.fetchMatchesData()).thenReturn(mockMatchEntities);
-        when(saveMatches.getMatchesDataDescDate()).thenReturn(new ArrayList<>());
 
         List<MatchEntity> result = saveMatches.getMatchesDataDescDate();
 
-        assertEquals(mockMatchEntities, result);
+        assertEquals(mockMatchEntities.size(), result.size());
+        assertTrue(result.containsAll(mockMatchEntities));
+
         verify(matchRepo, times(1)).saveAll(mockMatchEntities);
+        verify(ticketRepo, times(mockMatchEntities.size() * mockTicketEntities.size())).save(any(TicketEntity.class));
     }
 
     @Test
@@ -148,6 +152,7 @@ class SaveMatchesTest {
         MatchEntity match = createMatchEntity(1, futureDate, "Turf Moor", 2000,"FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , mockTicketEntities);
 
         when(footballAPI.fetchMatchesData()).thenReturn(Collections.singletonList(match));
+        when(matchRepo.findAllByOrderByDateDesc()).thenReturn(Collections.singletonList(match));
 
         //Act
         List<MatchEntity> result = saveMatches.getMatchesDataDescDate();
@@ -168,7 +173,7 @@ class SaveMatchesTest {
         MatchEntity match = createMatchEntity(1, pastDate, "Turf Moor", 2000,"FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , null);
 
         when(footballAPI.fetchMatchesData()).thenReturn(Collections.singletonList(match));
-
+        when(saveMatches.getMatchesDataDescDate()).thenReturn(Collections.singletonList(match));
         //Act
         List<MatchEntity> result = saveMatches.getMatchesDataDescDate();
 

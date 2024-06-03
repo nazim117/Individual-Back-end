@@ -28,34 +28,26 @@ public class SaveMatches {
     @Transactional
     public List<MatchEntity> getMatchesDataDescDate() {
         try {
-            List<MatchEntity> matchEntityList = footballAPI.fetchMatchesData();
+            List<MatchEntity> matchEntityList = matchRepo.findAllByOrderByDateDesc();
 
-            for (MatchEntity newMatchEntity : matchEntityList) {
-                Optional<MatchEntity> matchEntityOptional = matchRepo.findById(newMatchEntity.getId());
-                if (matchEntityOptional.isPresent()) {
-                    if(newMatchEntity.getDate().isBefore(LocalDateTime.now())) {
-                        MatchEntity matchEntity = matchEntityOptional.get();
-                        matchEntity.setStatusShort(newMatchEntity.getStatusShort());
-                        matchEntity.setGoalsHome(newMatchEntity.getGoalsHome());
-                        matchEntity.setGoalsAway(newMatchEntity.getGoalsAway());
-                        matchEntity.setHomeTeamWinner(newMatchEntity.getHomeTeamWinner());
-                        matchEntity.setAwayTeamWinner(newMatchEntity.getAwayTeamWinner());
-                    }else if(newMatchEntity.getAvailableTickets() == null){
-                        List<TicketEntity> ticketEntityList = TicketGenerator.generateTickets(newMatchEntity.getVenueCapacity());
-                        for(TicketEntity ticketEntity : ticketEntityList){
-                            ticketEntity.setFootballMatch(newMatchEntity);
-                            ticketRepo.save(ticketEntity);
-                        }
-                        if(ticketEntityList.isEmpty()){
-                            newMatchEntity.setAvailableTickets(new ArrayList<>());
-                        }else{
-                            newMatchEntity.setAvailableTickets(ticketEntityList);
-                        }
+            if(!matchEntityList.isEmpty()) {
+                return matchEntityList;
+            }
+
+            matchEntityList = footballAPI.fetchMatchesData();
+
+            matchRepo.saveAll(matchEntityList);
+            for (MatchEntity matchEntity : matchEntityList) {
+                if (matchEntity.getDate().isAfter(LocalDateTime.now())) {
+                    List<TicketEntity> ticketEntityList = TicketGenerator.generateTickets(matchEntity.getVenueCapacity());
+                    for (TicketEntity ticketEntity : ticketEntityList) {
+                        ticketEntity.setFootballMatch(matchEntity);
+                        ticketRepo.save(ticketEntity);
                     }
+                    matchEntity.setAvailableTickets(ticketEntityList);
                 }
             }
             return matchRepo.findAllByOrderByDateDesc();
-
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_FETCHING_MATCH_DATA);
         }

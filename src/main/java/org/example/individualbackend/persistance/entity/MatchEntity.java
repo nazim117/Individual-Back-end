@@ -54,6 +54,7 @@ public class MatchEntity {
     private String homeTeamLogo;
 
     @NotNull
+    @Column(name = "homeTeamWinner")
     private Boolean homeTeamWinner;
 
     @NotBlank
@@ -67,6 +68,7 @@ public class MatchEntity {
     private String awayTeamLogo;
 
     @NotNull
+    @Column(name = "awayTeamWinner")
     private Boolean awayTeamWinner;
 
     @NotNull
