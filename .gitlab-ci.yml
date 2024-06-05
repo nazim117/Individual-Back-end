@@ -41,8 +41,8 @@ test:
 
 secret-detection:
   stage: secret-detection
+  image: nazim112/ggshield-runner:latest
   script:
-    - ggshield --version
     - ggshield scan repo .
   only:
     - branches
