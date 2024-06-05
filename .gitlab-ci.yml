@@ -35,7 +35,7 @@ test:
   script:
     - Write-Output $env:SPRING_DATASOURCE_URL
     - Write-Output $env:SPRING_DATASOURCE_USERNAME
-    - Write-Output $env:SPRING_DATASOURCE_PASSWORD
+    - echo $env:SPRING_DATASOURCE_PASSWORD
     - ./gradlew test
   artifacts:
     when: always
