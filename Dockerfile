@@ -9,4 +9,4 @@ FROM python:3.11.9
 RUN pip install ggshield
 WORKDIR /app
 COPY . /app
-ENTRYPOINT ["bash"]
+ENTRYPOINT ["sh", "-c"]
