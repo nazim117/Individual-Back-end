@@ -3,6 +3,9 @@ variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   GITGUARDIAN_API_KEY: $GITGUARDIAN_API_KEY
   RAPID_API_KEY: $RAPID_API_KEY
+  SPRING_DATASOURCE_URL: $SPRING_DATASOURCE_URL
+  SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
+
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -30,9 +33,9 @@ build:
 test:
   stage: test
   script:
-    - echo "DB url: '$SPRING_DATASOURCE_URL'"
-    - echo "DB username: '$SPRING_DATASOURCE_USERNAME'"
-    - echo "DB password: '$SPRING_DATASOURCE_PASSWORD'"
+    - echo DB url: '$SPRING_DATASOURCE_URL'
+    - echo DB username: '$SPRING_DATASOURCE_USERNAME'
+    - echo DB password: '$SPRING_DATASOURCE_PASSWORD'
     - ./gradlew test
   artifacts:
     when: always
