@@ -2,7 +2,6 @@ package org.example.individualbackend.business.match_service.implementation;
 
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.external_api.FootballAPI;
-import org.example.individualbackend.external_api.UnirestWrapper;
 import org.example.individualbackend.persistance.repositories.MatchRepo;
 import org.example.individualbackend.persistance.repositories.TicketRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
