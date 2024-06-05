@@ -42,6 +42,11 @@ test:
 secret-detection:
   stage: secret-detection
   script:
+    - echo $env:PATH
+    - echo "Python version:"
+    - python --version
+    - echo "Pip version:"
+    - pip --version
     - pip install ggshield
     - ggshield scan repo .
   only:
