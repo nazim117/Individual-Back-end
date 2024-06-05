@@ -30,9 +30,9 @@ build:
 test:
   stage: test
   script:
-    - echo $(SPRING_DATASOURCE_URL)
-    - echo $(SPRING_DATASOURCE_USERNAME)
-    - echo $(SPRING_DATASOURCE_PASSWORD)
+    - echo "DB url: '$SPRING_DATASOURCE_URL'"
+    - echo "DB username: 'SPRING_DATASOURCE_USERNAME'"
+    - echo "DB password: 'SPRING_DATASOURCE_PASSWORD'"
     - ./gradlew test
   artifacts:
     when: always
