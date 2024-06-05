@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -27,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class LoginControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private LoginUseCase loginUseCase;
 
@@ -37,9 +35,9 @@ class LoginControllerTest {
 
         when(loginUseCase.login(any(LoginRequest.class))).thenReturn(tokenResponse);
 
-        mockMvc.perform(post("/tokens")
+        mockMvc.perform(post("/api/tokens")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\":\"testemail@example.com\", \"password\":\"password123\"}"))
+                .content("{\"email\":\"testemail@example.com\", \"password\":\"Password_123\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{\"accessToken\":\"token\"}"));
@@ -50,9 +48,9 @@ class LoginControllerTest {
         TokenResponse registerResponse = TokenResponse.builder().accessToken("token").build();
         when(loginUseCase.register(any(RegisterRequest.class))).thenReturn(registerResponse);
 
-        mockMvc.perform(post("/tokens/register")
+        mockMvc.perform(post("/api/tokens/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
+                .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"Password_1223\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{\"accessToken\":\"token\"}"));
@@ -63,7 +61,7 @@ class LoginControllerTest {
     void login_LoginException_ReturnsBadRequest() throws Exception {
         when(loginUseCase.login(any(LoginRequest.class))).thenThrow(new RuntimeException("Login failed"));
 
-        mockMvc.perform(post("/tokens")
+        mockMvc.perform(post("/api/tokens")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"testemail@example.com\", \"password\":\"password123\"}"))
                 .andExpect(status().isBadRequest());
@@ -72,7 +70,7 @@ class LoginControllerTest {
     void register_RegistrationException_ReturnsBadRequest() throws Exception {
         when(loginUseCase.register(any(RegisterRequest.class))).thenThrow(new RuntimeException("Registration failed"));
 
-        mockMvc.perform(post("/tokens/register")
+        mockMvc.perform(post("/api/tokens/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
                 .andExpect(status().isBadRequest());
@@ -85,7 +83,7 @@ class LoginControllerTest {
 
         //Act
         //Assert
-        mockMvc.perform(post("/tokens/register")
+        mockMvc.perform(post("/api/tokens/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"invalidEmail.com\",\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
                 .andExpect(status().isBadRequest());
@@ -94,7 +92,7 @@ class LoginControllerTest {
     void register_MissingEmail_ReturnsBadRequest() throws Exception{
         //Act
         //Assert
-        mockMvc.perform(post("/tokens/register")
+        mockMvc.perform(post("/api/tokens/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
                 .andExpect(status().isBadRequest());
@@ -104,7 +102,7 @@ class LoginControllerTest {
     void register_MissingPassword_ReturnsBadRequest() throws Exception {
         //Act
         //Assert
-        mockMvc.perform(post("/tokens/register")
+        mockMvc.perform(post("/api/tokens/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"invalidEmail.com\",\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\"}"))
                 .andExpect(status().isBadRequest());
@@ -115,7 +113,7 @@ class LoginControllerTest {
 
         when(loginUseCase.login(any(LoginRequest.class))).thenReturn(null);
 
-        mockMvc.perform(post("/tokens")
+        mockMvc.perform(post("/api/tokens")
         .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"testemail@example.com\", \"password\":\"incorrectPassword\"}"))
                 .andExpect(status().isBadRequest());
@@ -123,7 +121,7 @@ class LoginControllerTest {
 
     @Test
     void login_EmailPassword_ReturnsBadRequest() throws Exception {
-        mockMvc.perform(post("/tokens")
+        mockMvc.perform(post("/api/tokens")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"password\":\"incorrectPassword\"}"))
                 .andExpect(status().isBadRequest());
@@ -131,7 +129,7 @@ class LoginControllerTest {
 
     @Test
     void login_MissingPassword_ReturnsBadRequest() throws Exception {
-        mockMvc.perform(post("/tokens")
+        mockMvc.perform(post("/api/tokens")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"testemail@example.com\"}"))
                 .andExpect(status().isBadRequest());

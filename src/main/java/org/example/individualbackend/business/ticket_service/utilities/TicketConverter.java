@@ -1,6 +1,6 @@
 package org.example.individualbackend.business.ticket_service.utilities;
 
-import org.example.individualbackend.domain.Ticket;
+import org.example.individualbackend.domain.ticket.Ticket;
 import org.example.individualbackend.persistance.entity.TicketEntity;
 
 public class TicketConverter {

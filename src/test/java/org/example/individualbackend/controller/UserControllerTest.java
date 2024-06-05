@@ -22,6 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -46,10 +47,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserControllerTest{
-
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private GetUsersUseCase getUsersUseCase;
     @MockBean
@@ -60,7 +59,6 @@ class UserControllerTest{
     private UpdateUserUseCase updateUserUseCase;
     @MockBean
     private DeleteUserUseCase deleteUserUseCase;
-
     @Autowired
     private UserController userController;
 
@@ -94,7 +92,7 @@ class UserControllerTest{
 
         // Act
         // Assert
-        mockMvc.perform(get("/users"))
+        mockMvc.perform(get("/api/users"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
@@ -138,7 +136,7 @@ class UserControllerTest{
      void testGetUser() throws Exception{
         Mockito.when(getUserUseCase.getUser(Mockito.anyInt())).thenReturn(createMockGetUserResponse());
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", 1)
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/users/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON))
                         .andReturn();
 
@@ -155,7 +153,7 @@ class UserControllerTest{
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/users")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andReturn();
@@ -173,7 +171,7 @@ class UserControllerTest{
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/users/{id}", 1)
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/users/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                         .andReturn();
@@ -186,7 +184,7 @@ class UserControllerTest{
      void testDeleteUser() throws Exception{
         Mockito.doNothing().when(deleteUserUseCase).deleteUser(Mockito.anyInt());
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", 1))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/{id}", 1))
                 .andReturn();
 
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
@@ -198,7 +196,7 @@ class UserControllerTest{
                 .email("michael@example.com")
                 .fName("Michael")
                 .lName("Johnson")
-                .password("1234")
+                .password("Password_1234")
                 .picture("newPicture")
                 .build();
     }
@@ -208,7 +206,7 @@ class UserControllerTest{
                 .email("john@example.com")
                 .fName("John")
                 .lName("Doe")
-                .password("1111")
+                .password("Password_1111")
                 .picture("nicePicture")
                 .role("FOOTBALL_FAN")
                 .build();

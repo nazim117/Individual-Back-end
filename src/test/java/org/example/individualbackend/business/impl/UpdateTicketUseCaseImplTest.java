@@ -3,7 +3,7 @@ package org.example.individualbackend.business.impl;
 import org.example.individualbackend.business.ticket_service.implementation.UpdateTicketUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.update.UpdateTicketRequest;
-import org.example.individualbackend.persistance.TicketRepo;
+import org.example.individualbackend.persistance.repositories.TicketRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;

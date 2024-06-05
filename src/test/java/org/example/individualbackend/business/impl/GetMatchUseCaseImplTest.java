@@ -1,18 +1,23 @@
 package org.example.individualbackend.business.impl;
 
 import org.example.individualbackend.business.match_service.implementation.GetMatchUseCaseImpl;
+import org.example.individualbackend.business.match_service.utilities.MatchConverter;
 import org.example.individualbackend.config.TestConfig;
-import org.example.individualbackend.persistance.MatchRepo;
+import org.example.individualbackend.domain.match.Match;
+import org.example.individualbackend.persistance.repositories.MatchRepo;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -29,26 +34,26 @@ class GetMatchUseCaseImplTest {
     }
 
     @Test
-     void getMatch_ReturnsMatchEntity(){
+     void getMatch_ReturnsMatch(){
         Integer matchId = 1;
         MatchEntity expectedMatchEntity = createMatchEntity(matchId);
+        Match expectedMatch = MatchConverter.convert(expectedMatchEntity);
 
         when(matchRepo.getMatchEntityById(matchId)).thenReturn(expectedMatchEntity);
 
-        MatchEntity actualMatchEntity = getMatchUseCase.getMatch(matchId);
+        Match actualMatch = getMatchUseCase.getMatch(matchId);
 
-        assertEquals(expectedMatchEntity, actualMatchEntity);
+        assertEquals(expectedMatch, actualMatch);
     }
 
     @Test
-     void getMatch_ReturnsEmptyMatchEntity(){
+     void getMatch_Returns404NotFound(){
         Integer matchId = 1;
 
         when(matchRepo.getMatchEntityById(matchId)).thenReturn(null);
 
-        MatchEntity actualMatchEntity = getMatchUseCase.getMatch(matchId);
-
-        assertNull(actualMatchEntity);
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> getMatchUseCase.getMatch(matchId));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
     private MatchEntity createMatchEntity(Integer matchId){
@@ -66,6 +71,7 @@ class GetMatchUseCaseImplTest {
                 .awayTeamWinner(true)
                 .goalsHome(0)
                 .goalsAway(3)
+                .availableTickets(new ArrayList<>())
                 .build();
     }
 }

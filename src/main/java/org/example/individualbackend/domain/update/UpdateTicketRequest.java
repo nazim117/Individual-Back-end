@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateTicketRequest {
+    @NotNull
     private Integer id;
     @NotNull
     private Double price;

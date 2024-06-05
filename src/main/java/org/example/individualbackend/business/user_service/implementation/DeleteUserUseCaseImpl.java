@@ -3,9 +3,9 @@ package org.example.individualbackend.business.user_service.implementation;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.user_service.interfaces.DeleteUserUseCase;
-import org.example.individualbackend.persistance.FanRepo;
-import org.example.individualbackend.persistance.UserRepo;
-import org.example.individualbackend.persistance.UserRoleRepo;
+import org.example.individualbackend.persistance.repositories.FanRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
+import org.example.individualbackend.persistance.repositories.UserRoleRepo;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.springframework.stereotype.Service;
 

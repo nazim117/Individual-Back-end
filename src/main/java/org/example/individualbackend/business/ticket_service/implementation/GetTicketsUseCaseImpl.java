@@ -5,11 +5,14 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.ticket_service.interfaces.GetTicketsUseCase;
 import org.example.individualbackend.business.ticket_service.utilities.TicketConverter;
-import org.example.individualbackend.domain.Ticket;
+import org.example.individualbackend.domain.match.MatchRevenueData;
+import org.example.individualbackend.domain.match.MatchTicketData;
+import org.example.individualbackend.domain.ticket.Ticket;
+import org.example.individualbackend.domain.ticket.TicketSalesOverview;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
-import org.example.individualbackend.persistance.FanRepo;
-import org.example.individualbackend.persistance.TicketRepo;
-import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.repositories.FanRepo;
+import org.example.individualbackend.persistance.repositories.TicketRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
 import org.example.individualbackend.persistance.entity.UserEntity;
@@ -52,6 +55,26 @@ public class GetTicketsUseCaseImpl implements GetTicketsUseCase {
             throw new EntityNotFoundException("Fan does not exist");
         }
         return ticketRepo.findByFan_Id(fan.getId());
+    }
+
+    @Override
+    public Long getTotalTicketsSold() {
+        return ticketRepo.countTotalTicketsSold();
+    }
+
+    @Override
+    public Double getTotalRevenue() {
+        return ticketRepo.sumTotalRevenue();
+    }
+
+    @Override
+    public List<MatchTicketData> getTicketsPerMatch() {
+        return ticketRepo.countTicketsPerMatch();
+    }
+
+    @Override
+    public List<MatchRevenueData> getRevenuePerMatch() {
+        return ticketRepo.sumRevenuesPerMatch();
     }
 }
 

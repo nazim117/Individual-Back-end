@@ -18,13 +18,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 class NotificationsControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void sendNotification_Success() throws Exception {
         String jsonPayload = "{\"content\": \"Test message\"}";
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/notifications")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/notifications")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonPayload))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
@@ -34,7 +33,7 @@ class NotificationsControllerTest {
     void sendNotification_Failure() throws Exception {
         String jsonPayload = "{}";
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/notifications")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/notifications")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonPayload))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());

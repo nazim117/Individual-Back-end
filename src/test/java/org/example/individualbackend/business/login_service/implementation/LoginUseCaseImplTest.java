@@ -6,9 +6,9 @@ import org.example.individualbackend.config.security.token.AccessTokenEncoder;
 import org.example.individualbackend.domain.login.LoginRequest;
 import org.example.individualbackend.domain.login.TokenResponse;
 import org.example.individualbackend.domain.login.RegisterRequest;
-import org.example.individualbackend.persistance.FanRepo;
-import org.example.individualbackend.persistance.UserRepo;
-import org.example.individualbackend.persistance.UserRoleRepo;
+import org.example.individualbackend.persistance.repositories.FanRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
+import org.example.individualbackend.persistance.repositories.UserRoleRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.RoleEnum;
 import org.example.individualbackend.persistance.entity.UserEntity;
@@ -124,6 +124,21 @@ class LoginUseCaseImplTest {
     }
 
     @Test
+    void login_WithNullUser_ThrowsInvalidCredentialsException(){
+        String email = "test@email.com";
+        String password = "Password_123";
+
+        LoginRequest request = LoginRequest.builder()
+                .email(email)
+                .password(password)
+                .build();
+
+        when(userRepo.findByEmail(email)).thenReturn(null);
+
+        assertThrows(InvalidCredentialsException.class, () -> loginUseCase.login(request));
+    }
+
+    @Test
     void register_WithValidRequest_ReturnsRegisterResponse(){
         String email = "test@test.com";
         String password = "password";
@@ -178,5 +193,33 @@ class LoginUseCaseImplTest {
         when(userRepo.existsByEmail(email)).thenReturn(true);
 
         assertThrows(ResponseStatusException.class, () -> loginUseCase.register(request));
+    }
+
+    @Test
+    void generateAccessToken_WithNullUserId_ReturnsAccessToken(){
+        String email = "test@test.com";
+        String password = "password";
+        String accessToken = "accessToken";
+
+        UserEntity userEntity = UserEntity.builder()
+                .email(email)
+                .password(password)
+                .build();
+
+        UserRoleEntity userRoleEntity = UserRoleEntity.builder()
+                .id(1)
+                .role(RoleEnum.FOOTBALL_FAN)
+                .user(userEntity)
+                .build();
+
+        Set<UserRoleEntity> userRoleEntities = new HashSet<>();
+        userRoleEntities.add(userRoleEntity);
+        userEntity.setUserRoles(userRoleEntities);
+
+        when(accessTokenEncoder.encode(any())).thenReturn(accessToken);
+
+        String generatedAccessToken = loginUseCase.generateAccessToken(userEntity);
+
+        assertEquals(accessToken, generatedAccessToken);
     }
 }

@@ -2,7 +2,8 @@ package org.example.individualbackend.controller;
 
 import org.example.individualbackend.business.match_service.interfaces.GetMatchUseCase;
 import org.example.individualbackend.business.match_service.interfaces.GetMatchesUseCase;
-import org.example.individualbackend.domain.Match;
+import org.example.individualbackend.business.match_service.utilities.MatchConverter;
+import org.example.individualbackend.domain.match.Match;
 import org.example.individualbackend.domain.get.GetMatchesResponse;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,10 +41,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MatchControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private GetMatchesUseCase getMatchesUseCase;
-
     @MockBean
     private GetMatchUseCase getMatchUseCase;
     @Autowired
@@ -58,7 +58,7 @@ class MatchControllerTest {
 
         //Act
         //Assert
-        mockMvc.perform(get("/matches/descending"))
+        mockMvc.perform(get("/api/matches/descending"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
@@ -115,11 +115,14 @@ class MatchControllerTest {
                 .awayTeamWinner(true)
                 .goalsHome(0)
                 .goalsAway(3)
+                .availableTickets(new ArrayList<>())
                 .build();
 
-        when(getMatchUseCase.getMatch(anyInt())).thenReturn(mockMatchEntity);
+        Match mockMatch = MatchConverter.convert(mockMatchEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/matches/{id}", 1)
+        when(getMatchUseCase.getMatch(anyInt())).thenReturn(mockMatch);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/matches/{id}", 1)
                         .accept(MediaType.APPLICATION_JSON))
                         .andReturn();
 
@@ -132,7 +135,7 @@ class MatchControllerTest {
     void getMatch_ReturnsNotFoundForNONExistentMatch() throws Exception{
         when(getMatchUseCase.getMatch(anyInt())).thenReturn(null);
 
-        mockMvc.perform(get("/matches/999")
+        mockMvc.perform(get("/api/matches/999")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

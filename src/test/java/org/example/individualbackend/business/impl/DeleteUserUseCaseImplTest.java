@@ -2,9 +2,9 @@ package org.example.individualbackend.business.impl;
 
 import org.example.individualbackend.business.user_service.implementation.DeleteUserUseCaseImpl;
 import org.example.individualbackend.config.TestConfig;
-import org.example.individualbackend.persistance.FanRepo;
-import org.example.individualbackend.persistance.UserRepo;
-import org.example.individualbackend.persistance.UserRoleRepo;
+import org.example.individualbackend.persistance.repositories.FanRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
+import org.example.individualbackend.persistance.repositories.UserRoleRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.RoleEnum;
 import org.example.individualbackend.persistance.entity.UserEntity;

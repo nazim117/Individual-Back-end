@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.user_service.interfaces.UpdateUserUseCase;
 import org.example.individualbackend.config.security.SecurityUtils;
 import org.example.individualbackend.domain.update.UpdateUserRequest;
-import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
 import org.example.individualbackend.persistance.entity.UserEntity;
 import org.springframework.stereotype.Service;
 

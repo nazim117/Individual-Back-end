@@ -1,7 +1,10 @@
 package org.example.individualbackend.business.match_service.utilities;
 
-import org.example.individualbackend.domain.Match;
+import org.example.individualbackend.business.ticket_service.utilities.TicketConverter;
+import org.example.individualbackend.domain.match.Match;
 import org.example.individualbackend.persistance.entity.MatchEntity;
+
+import java.util.Collections;
 
 public class MatchConverter {
 
@@ -22,6 +25,11 @@ public class MatchConverter {
                 .awayTeamWinner(match.getAwayTeamWinner())
                 .goalsHome(match.getGoalsHome())
                 .goalsAway(match.getGoalsAway())
+                .availableTickets(match.getAvailableTickets() != null ? match.getAvailableTickets().stream()
+                        .map(TicketConverter::convert)
+                        .toList() : Collections.emptyList())
+                .availableTicketsCount(match.getAvailableTicketCount())
+                .soldTicketCount(match.getSoldTicketCount())
                 .build();
     }
 }

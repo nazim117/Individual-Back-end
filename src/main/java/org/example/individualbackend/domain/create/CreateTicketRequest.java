@@ -17,20 +17,16 @@ public class CreateTicketRequest {
     @Min(0)
     @Max(1000)
     private double price;
-
     @NotNull
     @Min(1)
     @Max(100)
     private Integer rowNum;
-
     @NotNull
     @Min(1)
     @Max(1000)
     private Integer seatNumber;
-
     @NotNull
     private int fanId;
-
     @NotNull
     private int footballMatchId;
 }

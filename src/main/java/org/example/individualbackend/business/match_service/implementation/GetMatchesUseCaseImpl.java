@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.match_service.interfaces.GetMatchesUseCase;
 import org.example.individualbackend.business.match_service.utilities.MatchConverter;
-import org.example.individualbackend.domain.Match;
+import org.example.individualbackend.domain.match.Match;
 import org.example.individualbackend.domain.get.GetMatchesResponse;
 import org.springframework.stereotype.Service;
 

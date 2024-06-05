@@ -5,10 +5,10 @@ import org.example.individualbackend.business.ticket_service.implementation.Crea
 import org.example.individualbackend.config.TestConfig;
 import org.example.individualbackend.domain.create.CreateTicketRequest;
 import org.example.individualbackend.domain.create.CreateTicketResponse;
-import org.example.individualbackend.persistance.FanRepo;
-import org.example.individualbackend.persistance.MatchRepo;
-import org.example.individualbackend.persistance.TicketRepo;
-import org.example.individualbackend.persistance.UserRepo;
+import org.example.individualbackend.persistance.repositories.FanRepo;
+import org.example.individualbackend.persistance.repositories.MatchRepo;
+import org.example.individualbackend.persistance.repositories.TicketRepo;
+import org.example.individualbackend.persistance.repositories.UserRepo;
 import org.example.individualbackend.persistance.entity.FanEntity;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.example.individualbackend.persistance.entity.TicketEntity;
@@ -125,9 +125,11 @@ class CreateTicketUseCaseImplTest {
 
         TicketEntity existingTicket = createTicketEntity(ticketId, 20.0, 5, 22);
         FanEntity existingFan = createFanEntity(userId);
+        UserEntity existingUser = createUserEntity(existingFan);
 
         when(ticketRepo.findById(ticketId)).thenReturn(Optional.of(existingTicket));
-        when(userRepo.getUserEntityById(userId)).thenReturn(createUserEntity(existingFan));
+        when(userRepo.getUserEntityById(userId)).thenReturn(existingUser);
+        when(ticketRepo.save(any(TicketEntity.class))).thenReturn(existingTicket);
 
         //Act
         Integer result = createTicketUseCase.addFanToTicket(ticketId, userId);
@@ -135,6 +137,7 @@ class CreateTicketUseCaseImplTest {
         //Assert
         assertEquals(ticketId, result);
         assertEquals(existingFan, existingTicket.getFan());
+        assertEquals(21.0, existingTicket.getPrice());
     }
 
     @Test

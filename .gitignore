@@ -6,9 +6,8 @@ build/
 !**/src/test/**/build/
 
 ### Resources ###
-application.properties
-application-dev.properties
-application-staging.properties
+src/main/resources/
+src/test/resources/local.properties
 
 ### STS ###
 .apt_generated

@@ -7,10 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class IndividualBackEndApplicationTests {
-
     @Test
     void contextLoads() {
         assertTrue(true, "Context loaded successfully");
     }
-
 }

@@ -11,11 +11,15 @@ public class TicketGenerator {
 
     private TicketGenerator(){ throw new AssertionError("Ticket generator should not be instantiated");}
 
-    public static List<TicketEntity> generateTickets(int rowCount, int seatsPerRow) {
+    public static List<TicketEntity> generateTickets(int stadiumCapacity) {
+        int ticketCount = Math.max(1, stadiumCapacity / 1000);
         List<TicketEntity> tickets = new ArrayList<>();
 
+        int rowCount = (int)Math.ceil(Math.sqrt(ticketCount));
+        int seatCount = (int)Math.ceil((double) ticketCount / rowCount);
+
         for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < seatsPerRow; j++) {
+            for (int j = 0; j < seatCount && tickets.size() < ticketCount; j++) {
                 double price = generatePrice(i);
                 tickets.add(buildTicket(i+1, j+1, price));
             }

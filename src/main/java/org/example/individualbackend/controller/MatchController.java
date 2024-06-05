@@ -3,13 +3,13 @@ package org.example.individualbackend.controller;
 import lombok.AllArgsConstructor;
 import org.example.individualbackend.business.match_service.interfaces.GetMatchUseCase;
 import org.example.individualbackend.business.match_service.interfaces.GetMatchesUseCase;
+import org.example.individualbackend.domain.match.Match;
 import org.example.individualbackend.domain.get.GetMatchesResponse;
-import org.example.individualbackend.persistance.entity.MatchEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-@RequestMapping("/matches")
+@RequestMapping("/api/matches")
 @AllArgsConstructor
 public class MatchController {
     private final GetMatchesUseCase getMatchesUseCase;
@@ -30,8 +30,8 @@ public class MatchController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MatchEntity> getMatch(@PathVariable(value = "id") final Integer id){
-        MatchEntity match = getMatchUseCase.getMatch(id);
+    public ResponseEntity<Match> getMatch(@PathVariable(value = "id") final Integer id){
+        Match match = getMatchUseCase.getMatch(id);
         if(match == null){
             return  ResponseEntity.notFound().build();
         }
