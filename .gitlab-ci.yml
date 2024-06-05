@@ -42,6 +42,7 @@ test:
 secret-detection:
   stage: secret-detection
   script:
+    - ggshield --version
     - ggshield scan repo .
   only:
     - branches
