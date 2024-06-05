@@ -61,6 +61,6 @@ deploy:
     - docker rm individual-back-end-staging || true
     - docker run -d -p 8090:8080 --net=individual_db_staging --env spring_profiles_active=staging --name=individual-back-end-staging individual-back-end
   only:
-    - master
+    - main
   environment:
     name: staging
