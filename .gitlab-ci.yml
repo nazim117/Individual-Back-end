@@ -33,9 +33,6 @@ build:
 test:
   stage: test
   script:
-    - Write-Output $env:SPRING_DATASOURCE_URL
-    - Write-Output $env:SPRING_DATASOURCE_USERNAME
-    - echo $env:SPRING_DATASOURCE_PASSWORD
     - ./gradlew test
   artifacts:
     when: always
@@ -46,6 +43,7 @@ secret-detection:
   stage: secret-detection
   image: python:3.8
   script:
+    - python -m pip install --upgrade pip
     - pip install ggshield
     - ggshield scan repo .
   only:
