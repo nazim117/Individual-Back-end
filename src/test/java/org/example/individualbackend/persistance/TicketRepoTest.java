@@ -115,7 +115,7 @@ class TicketRepoTest {
      void findById_InvalidId_ShouldReturnNull(){
         //Arrange
         //Act
-        TicketEntity ticketEntity = ticketRepo.findById(999).orElse(null);
+        TicketEntity ticketEntity = ticketRepo.findById(-999).orElse(null);
 
         //Assert
         assertNull(ticketEntity);

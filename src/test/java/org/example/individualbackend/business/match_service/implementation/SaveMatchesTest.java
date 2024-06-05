@@ -37,8 +37,6 @@ class SaveMatchesTest {
     private FootballAPI footballAPI;
     @InjectMocks
     private SaveMatches saveMatches;
-    @MockBean
-    private UnirestWrapper unirestWrapper;
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
@@ -60,16 +58,18 @@ class SaveMatchesTest {
         List<MatchEntity> mockMatchEntities = createMockMatchEntityList();
         List<TicketEntity> mockTicketEntities = TicketGenerator.generateTickets(2000);
 
-        when(matchRepo.findAllByOrderByDateDesc()).thenReturn(new ArrayList<>());
+        when(matchRepo.findAllByOrderByDateDesc())
+                .thenReturn(new ArrayList<>())
+                .thenReturn(mockMatchEntities);
         when(footballAPI.fetchMatchesData()).thenReturn(mockMatchEntities);
 
         List<MatchEntity> result = saveMatches.getMatchesDataDescDate();
 
-        assertEquals(mockMatchEntities.size(), result.size());
-        assertTrue(result.containsAll(mockMatchEntities));
-
         verify(matchRepo, times(1)).saveAll(mockMatchEntities);
         verify(ticketRepo, times(mockMatchEntities.size() * mockTicketEntities.size())).save(any(TicketEntity.class));
+
+        assertEquals(mockMatchEntities.size(), result.size());
+        assertTrue(result.containsAll(mockMatchEntities));
     }
 
     @Test
@@ -77,8 +77,8 @@ class SaveMatchesTest {
         List<MatchEntity> mockMatchEntities = createMockMatchEntityList();
         List<TicketEntity> mockTicketEntities = TicketGenerator.generateTickets(2000);
 
-        mockMatchEntities.add(createMatchEntity(4, "2024-04-13T15:00:00", "Anfield", 2000, "FT", "Real Madrid", "realmadrid.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
-        mockMatchEntities.add(createMatchEntity(5, "2024-04-12T15:00:00", "Anfield", 2000, "FT", "Real Sociedad", "realsociedad.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
+        mockMatchEntities.add(createMatchEntity(4, LocalDateTime.now().plusDays(1), "Anfield", 2000, "FT", "Real Madrid", "realmadrid.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
+        mockMatchEntities.add(createMatchEntity(5, LocalDateTime.now().plusDays(2), "Anfield", 2000, "FT", "Real Sociedad", "realsociedad.png", false, "Manchester City", "manchity.png", true, 2 ,5 , mockTicketEntities));
 
         when(matchRepo.findAllByOrderByDateDesc()).thenReturn(mockMatchEntities);
         when(footballAPI.fetchMatchesData()).thenReturn(mockMatchEntities);
@@ -147,9 +147,8 @@ class SaveMatchesTest {
     void getMatchesData_Desc_FutureDate_GenerateTickets() throws IOException {
         //Arrange
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        String futureDate = LocalDateTime.now().plusDays(1).format(formatter);
         List<TicketEntity> mockTicketEntities = TicketGenerator.generateTickets(2000);
-        MatchEntity match = createMatchEntity(1, futureDate, "Turf Moor", 2000,"FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , mockTicketEntities);
+        MatchEntity match = createMatchEntity(1, LocalDateTime.now().plusDays(1), "Turf Moor", 2000,"FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , mockTicketEntities);
 
         when(footballAPI.fetchMatchesData()).thenReturn(Collections.singletonList(match));
         when(matchRepo.findAllByOrderByDateDesc()).thenReturn(Collections.singletonList(match));
@@ -169,8 +168,7 @@ class SaveMatchesTest {
     void getMatchesData_Desc_PastDate_NoTicketsGenerated() throws IOException {
         //Arrange
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        String pastDate = LocalDateTime.now().minusDays(1).format(formatter);
-        MatchEntity match = createMatchEntity(1, pastDate, "Turf Moor", 2000,"FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , null);
+        MatchEntity match = createMatchEntity(1, LocalDateTime.now().minusDays(1), "Turf Moor", 2000,"FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , null);
 
         when(footballAPI.fetchMatchesData()).thenReturn(Collections.singletonList(match));
         when(saveMatches.getMatchesDataDescDate()).thenReturn(Collections.singletonList(match));
@@ -188,8 +186,7 @@ class SaveMatchesTest {
     void getMatchesData_Desc_errorSavingTickets_ThrowsException() throws IOException {
         //Arrange
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        String futureDate = LocalDateTime.now().plusDays(1).format(formatter);
-        MatchEntity match = createMatchEntity(1, futureDate, "Turf Moor", 2000, "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , null);
+        MatchEntity match = createMatchEntity(1, LocalDateTime.now().plusDays(1), "Turf Moor", 2000, "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , null);
 
         when(footballAPI.fetchMatchesData()).thenReturn(Collections.singletonList(match));
         when(ticketRepo.save(any(TicketEntity.class))).thenThrow(new RuntimeException("Error saving tickets"));
@@ -203,9 +200,9 @@ class SaveMatchesTest {
     private List<MatchEntity> createMockMatchEntityList() {
         List<MatchEntity> mockMatchEntities = new ArrayList<>();
         List<TicketEntity> mockTicketEntities = TicketGenerator.generateTickets(2000);
-        MatchEntity mockMatchEntity1 = createMatchEntity(1, "2023-08-11T19:00:00", "Turf Moor", 2000, "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , mockTicketEntities);
-        MatchEntity mockMatchEntity2 = createMatchEntity(1, "2024-03-11T15:00:00", "Anfield", 2000, "FT", "Liverpool", "liverpool.png", false, "Manchester City", "manchity.png", true, 1 ,2 , mockTicketEntities);
-        MatchEntity mockMatchEntity3 = createMatchEntity(1, "2024-03-11T15:00:00", "Anfield", 2000, "FT", "Liverpool", "liverpool.png", false, "Manchester City", "manchity.png", true, 1 ,4 , mockTicketEntities);
+        MatchEntity mockMatchEntity3 = createMatchEntity(1, LocalDateTime.now().plusDays(1), "Anfield", 2000, "FT", "Liverpool", "liverpool.png", false, "Manchester City", "manchity.png", true, 1 ,4 , mockTicketEntities);
+        MatchEntity mockMatchEntity2 = createMatchEntity(2, LocalDateTime.now().plusDays(2), "Anfield", 2000, "FT", "Liverpool", "liverpool.png", false, "Manchester City", "manchity.png", true, 1 ,2 , mockTicketEntities);
+        MatchEntity mockMatchEntity1 = createMatchEntity(3, LocalDateTime.now().plusDays(3), "Turf Moor", 2000, "FT", "Burnley", "https://media.api-sports.io/football/teams/44.png", false, "Manchester City", "https://media.api-sports.io/football/teams/50.png", true, 0 ,3 , mockTicketEntities);
 
         mockMatchEntities.add(mockMatchEntity1);
         mockMatchEntities.add(mockMatchEntity2);
@@ -214,12 +211,12 @@ class SaveMatchesTest {
         return mockMatchEntities;
     }
 
-    private MatchEntity createMatchEntity(int id, String date, String venueName, int venueCapacity, String statusShort, String homeTeamName, String homeTeamLogo, boolean homeTeamWinner, String awayTeamName, String awayTeamLogo, boolean awayTeamWinner, int goalsHomeTeam, int goalsAwayTeam, List<TicketEntity> availableTickets) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    private MatchEntity createMatchEntity(int id, LocalDateTime date, String venueName, int venueCapacity, String statusShort, String homeTeamName, String homeTeamLogo, boolean homeTeamWinner, String awayTeamName, String awayTeamLogo, boolean awayTeamWinner, int goalsHomeTeam, int goalsAwayTeam, List<TicketEntity> availableTickets) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS");
 
         return MatchEntity.builder()
                 .id(id)
-                .date(LocalDateTime.parse(date, formatter))
+                .date(date)
                 .venueName(venueName)
                 .venueCapacity(venueCapacity)
                 .statusShort(statusShort)

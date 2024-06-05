@@ -44,7 +44,7 @@ class UserRepoTest {
     void save_shouldSaveUserWithAllFields(){
         List<TicketEntity> boughtTickets = createBoughTickets();
 
-        FanEntity fan = createFanEntity(4);
+        FanEntity fan = createFanEntity(6);
 
         fanRepository.save(fan);
 
@@ -94,7 +94,7 @@ class UserRepoTest {
     @Test
     void update_shouldUpdateUserInformation(){
         List<TicketEntity> boughtTickets = createBoughTickets();
-        FanEntity fan = createFanEntity(4);
+        FanEntity fan = createFanEntity(12);
 
         fanRepository.save(fan);
 
@@ -121,7 +121,7 @@ class UserRepoTest {
     @Test
     void retrieveById_shouldReturnUserWithMatchingId(){
         List<TicketEntity> boughtTickets = createBoughTickets();
-        FanEntity fan = createFanEntity(4);
+        FanEntity fan = createFanEntity(9);
 
         fanRepository.save(fan);
 
@@ -139,7 +139,7 @@ class UserRepoTest {
     @Test
     void delete_shouldDeleteUser(){
         List<TicketEntity> boughtTickets = createBoughTickets();
-        FanEntity fan = createFanEntity(4);
+        FanEntity fan = createFanEntity(32);
 
         fanRepository.save(fan);
 
@@ -157,7 +157,7 @@ class UserRepoTest {
     void existsByEmail_shouldReturnTrueForExistingEmail(){
         List<TicketEntity> boughtTickets = createBoughTickets();
 
-        FanEntity fan = createFanEntity(4);
+        FanEntity fan = createFanEntity(6);
 
         fanRepository.save(fan);
 
@@ -171,13 +171,13 @@ class UserRepoTest {
     @Test
     void findAll_shouldReturnAllUsers(){
         List<TicketEntity> boughtTickets1 = createBoughTickets();
-        FanEntity fan1 = createFanEntity(4);
+        FanEntity fan1 = createFanEntity(12);
 
         fanRepository.save(fan1);
 
         UserEntity user1 = createUserEntity("john@example.com", "John", "Doe", "profilePic.jpg", "password123477", fan1.getId(), boughtTickets1);
 
-        FanEntity fan2 = createFanEntity(5);
+        FanEntity fan2 = createFanEntity(11);
 
         fanRepository.save(fan2);
 
@@ -200,7 +200,7 @@ class UserRepoTest {
 
     @Test
     void save_shouldNotAllowDuplicateEmail(){
-        FanEntity fan1 = createFanEntity(4);
+        FanEntity fan1 = createFanEntity(7);
 
         fanRepository.save(fan1);
 
@@ -220,7 +220,7 @@ class UserRepoTest {
     }
     private List<TicketEntity> createBoughTickets() {
         List<TicketEntity> tickets = new ArrayList<>();
-        FanEntity fan = createFanEntity(4);
+        FanEntity fan = createFanEntity(8);
         MatchEntity footballMatch = createMatchEntity();
 
         tickets.add(TicketEntity.builder()

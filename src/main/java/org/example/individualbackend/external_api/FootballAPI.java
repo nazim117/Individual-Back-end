@@ -32,29 +32,34 @@ public class FootballAPI {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
                 for (JsonNode fixtureNode : fixtures) {
-                    String fixture = "fixture";
-                    String teams = "teams";
-                    String venueName = fixtureNode.get(fixture).get("venue").get("name").asText();
-                    int venueCapacity = venueCapacities.getOrDefault(venueName, 0);
-                    MatchEntity match =  MatchEntity
-                            .builder()
-                            .id(fixtureNode.get(fixture).get("id").asInt())
-                            .date(LocalDateTime.parse(fixtureNode.get(fixture).get("date").asText(), formatter))
-                            .venueName(venueName)
-                            .venueCapacity(venueCapacity)
-                            .statusShort(fixtureNode.get("fixture").get("status").get("short").asText())
-                            .homeTeamName(fixtureNode.get(teams).get("home").get("name").asText())
-                            .homeTeamLogo(fixtureNode.get(teams).get("home").get("logo").asText())
-                            .homeTeamWinner(fixtureNode.get(teams).get("home").get("winner").asBoolean())
-                            .awayTeamName(fixtureNode.get(teams).get("away").get("name").asText())
-                            .awayTeamLogo(fixtureNode.get(teams).get("away").get("logo").asText())
-                            .awayTeamWinner(fixtureNode.get(teams).get("away").get("winner").asBoolean())
-                            .goalsHome(fixtureNode.get("goals").get("home").asInt())
-                            .goalsAway(fixtureNode.get("goals").get("away").asInt())
-                            .availableTickets(null)
-                            .build();
+                    if(fixtureNode != null){
+                        JsonNode fixture = fixtureNode.get("fixture");
+                        JsonNode teams = fixtureNode.get("teams");
+                        JsonNode goals = fixtureNode.get("goals");
+                        if(fixture != null && teams != null && goals != null){
+                            String venueName = fixture.get("venue").get("name").asText();
+                            int venueCapacity = venueCapacities.getOrDefault(venueName, 0);
+                            MatchEntity match =  MatchEntity
+                                    .builder()
+                                    .id(fixture.get("id").asInt())
+                                    .date(LocalDateTime.parse(fixture.get("date").asText(), formatter))
+                                    .venueName(venueName)
+                                    .venueCapacity(venueCapacity)
+                                    .statusShort(fixtureNode.get("fixture").get("status").get("short").asText())
+                                    .homeTeamName(teams.get("home").get("name").asText())
+                                    .homeTeamLogo(teams.get("home").get("logo").asText())
+                                    .homeTeamWinner(teams.get("home").get("winner").asBoolean())
+                                    .awayTeamName(teams.get("away").get("name").asText())
+                                    .awayTeamLogo(teams.get("away").get("logo").asText())
+                                    .awayTeamWinner(teams.get("away").get("winner").asBoolean())
+                                    .goalsHome(fixtureNode.get("goals").get("home").asInt())
+                                    .goalsAway(fixtureNode.get("goals").get("away").asInt())
+                                    .availableTickets(null)
+                                    .build();
 
-                    matchEntityList.add(match);
+                            matchEntityList.add(match);
+                        }
+                    }
                 }
             }else{
                 throw new IllegalStateException("Failed to fetch matches data. HTTP status code " + response.getStatus());
