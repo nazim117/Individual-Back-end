@@ -87,7 +87,6 @@ public class LoginUseCaseImpl implements LoginUseCase {
                 .email(registerRequest.getEmail())
                 .fName(registerRequest.getFName())
                 .lName(registerRequest.getLName())
-                .picture(registerRequest.getPicture())
                 .password(encodedPassword)
                 .fan(fan)
                 .build();

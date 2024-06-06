@@ -18,8 +18,6 @@ public class CreateUserRequest {
     private String fName;
     @NotBlank
     private String lName;
-    @NotBlank
-    private String picture;
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&_])[A-Za-z\\d@$!%*?&_]{12,}$")
     private String password;
     @NotBlank

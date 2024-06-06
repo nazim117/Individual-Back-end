@@ -63,7 +63,6 @@ class GetUsersUseCaseImplTest {
                 .email("test@example.com")
                 .fName("John")
                 .lName("Doe")
-                .picture("pic.jpg")
                 .password("password123")
                 .build());
 
@@ -72,7 +71,6 @@ class GetUsersUseCaseImplTest {
                 .email("try@example.com")
                 .fName("Michelle")
                 .lName("Barbara")
-                .picture("pic3.jpg")
                 .password("password456")
                 .build());
 

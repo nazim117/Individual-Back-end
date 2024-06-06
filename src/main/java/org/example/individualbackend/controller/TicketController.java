@@ -44,20 +44,20 @@ public class TicketController {
     @GetMapping({"/matches/{matchId}"})
     @RolesAllowed({"FOOTBALL_FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<List<TicketEntity>> getTicketByMatchId(@PathVariable(value = "matchId") final Integer matchId){
-        List<TicketEntity> ticket = getTicketsUseCase.getByMatchId(matchId);
-        if(ticket == null){
+        List<TicketEntity> tickets = getTicketsUseCase.getByMatchId(matchId);
+        if(tickets == null){
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(getTicketsUseCase.getByMatchId(matchId));
+        return ResponseEntity.ok(tickets);
     }
     @GetMapping("/users/{userId}")
     @RolesAllowed({"FOOTBALL_FAN", "ADMIN", "CUSTOMER_SERVICE"})
     public ResponseEntity<List<TicketEntity>> getTicketByUserId(@PathVariable(value = "userId") final int userId){
         try{
-            List<TicketEntity> ticket = getTicketsUseCase.getByFanId(userId);
+            List<TicketEntity> tickets = getTicketsUseCase.getByFanId(userId);
 
-            if(ticket == null){
+            if(tickets == null){
                 return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok(getTicketsUseCase.getByFanId(userId));
@@ -73,7 +73,7 @@ public class TicketController {
                 .totalTicketsSold(getTicketsUseCase.getTotalTicketsSold())
                 .totalRevenue(getTicketsUseCase.getTotalRevenue())
                 .ticketsPerMatch(getTicketsUseCase.getTicketsPerMatch())
-                .renvenuePerMatch(getTicketsUseCase.getRevenuePerMatch())
+                .revenuePerMatch(getTicketsUseCase.getRevenuePerMatch())
                 .build();
         return ResponseEntity.ok(ticketSalesOverview);
     }

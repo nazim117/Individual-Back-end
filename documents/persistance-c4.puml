@@ -3,7 +3,7 @@ class persistance.entity.UserEntity {
 - Integer id
 - String fName
 - String lName
-- String picture
+- String
 - String password
 - List<Ticket> tickets
 }

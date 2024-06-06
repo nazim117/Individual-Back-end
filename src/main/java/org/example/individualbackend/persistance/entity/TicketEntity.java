@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
-@Table(name="ticket")
+@Table(name="tickets")
 @Builder
 @Data
 @NoArgsConstructor
@@ -27,13 +27,13 @@ public class TicketEntity {
     @NotNull
     @Min(1)
     @Max(20)
-    @Column(name = "rowNum")
+    @Column(name = "row_num")
     private Integer rowNum;
 
     @NotNull
     @Min(1)
     @Max(5000)
-    @Column(name = "seatNumber")
+    @Column(name = "seat_num")
     private Integer seatNumber;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -43,7 +43,7 @@ public class TicketEntity {
     private FanEntity fan;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "football_match_id")
+    @JoinColumn(name = "match_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private MatchEntity footballMatch;

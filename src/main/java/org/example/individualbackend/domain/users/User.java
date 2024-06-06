@@ -17,7 +17,6 @@ public class User {
     private String email;
     private String fName;
     private String lName;
-    private String picture;
     private String password;
     private List<Ticket> boughtTickets;
 

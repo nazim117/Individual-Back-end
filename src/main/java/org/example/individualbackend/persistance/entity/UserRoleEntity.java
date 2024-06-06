@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
-@Table(name = "user_role")
+@Table(name = "user_roles")
 @Builder
 @Data
 @AllArgsConstructor
@@ -23,7 +23,7 @@ public class UserRoleEntity {
     private RoleEnum role;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "application_user_id")
+    @JoinColumn(name = "user_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore

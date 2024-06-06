@@ -62,7 +62,6 @@ class CreateUserUseCaseImplTest {
                 .email("test@example.com")
                 .fName("John")
                 .lName("Doe")
-                .picture("pic.jpg")
                 .password("password123")
                 .userRoles(userRoles)
                 .build();
@@ -91,7 +90,6 @@ class CreateUserUseCaseImplTest {
                 .email("test@example.com")
                 .fName("John")
                 .lName("Doe")
-                .picture("pic.jpg")
                 .password("password123")
                 .build();
 
@@ -118,7 +116,6 @@ class CreateUserUseCaseImplTest {
                 .email("test@example.com")
                 .fName("John")
                 .lName("Doe")
-                .picture("pic.jpg")
                 .password("password123")
                 .userRoles(userRoles)
                 .build();
@@ -159,7 +156,6 @@ class CreateUserUseCaseImplTest {
                 .email("test@example.com")
                 .fName("John")
                 .lName("Doe")
-                .picture("pic.jpg")
                 .password("password123")
                 .userRoles(userRoles)
                 .build();

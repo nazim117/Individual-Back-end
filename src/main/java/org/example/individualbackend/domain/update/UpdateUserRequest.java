@@ -23,6 +23,4 @@ public class UpdateUserRequest {
     private String lName;
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&_])[A-Za-z\\d@$!%*?&_]{12,}$")
     private String password;
-    @NotBlank
-    private String picture;
 }

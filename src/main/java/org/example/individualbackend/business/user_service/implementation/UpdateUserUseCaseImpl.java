@@ -35,7 +35,6 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
         user.setFName(request.getFName());
         user.setLName(request.getLName());
         user.setPassword(request.getPassword());
-        user.setPicture(request.getPicture());
         userRepo.save(user);
     }
 

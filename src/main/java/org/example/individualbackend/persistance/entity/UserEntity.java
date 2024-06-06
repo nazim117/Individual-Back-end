@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
 import java.util.Set;
 
 @Entity
-@Table(name="application_user")
+@Table(name="users")
 @Builder
 @Data
 @NoArgsConstructor
@@ -31,18 +31,13 @@ public class UserEntity {
 
     @NotBlank
     @Length(min = 2, max = 50)
-    @Column(name = "fName")
+    @Column(name = "f_name")
     private String fName;
 
     @NotBlank
     @Length(min = 2, max = 50)
-    @Column(name = "lName")
+    @Column(name = "l_name")
     private String lName;
-
-    @NotBlank
-    @Length(min = 2, max = 255)
-    @Column(name = "picture")
-    private String picture;
 
     @NotBlank
     @Length(min = 2, max = 255)
@@ -54,6 +49,6 @@ public class UserEntity {
     private FanEntity fan;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "application_user_id")
+    @JoinColumn(name = "user_id")
     private Set<UserRoleEntity> userRoles;
 }

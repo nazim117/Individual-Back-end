@@ -358,7 +358,6 @@ class TicketControllerTest {
                 .email("testemail@example.com")
                 .fName("John")
                 .lName("Doe")
-                .picture("pic.png")
                 .password("passwrod2223")
                 .fan(FanEntity.builder().id(1).build())
                 .userRoles(Collections.singleton(UserRoleEntity.builder().role(RoleEnum.FOOTBALL_FAN).build()))

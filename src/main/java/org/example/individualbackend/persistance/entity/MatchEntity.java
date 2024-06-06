@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "football_match")
+@Table(name = "matches")
 @Builder
 @Data
 @NoArgsConstructor
@@ -26,61 +26,63 @@ public class MatchEntity {
     private Integer id;
 
     @NotNull
+    @Column(name = "date")
     private LocalDateTime date;
 
     @NotBlank
     @Length(min = 2, max = 255)
-    @Column(name = "venueName")
+    @Column(name = "venue_name")
     private String venueName;
 
     @NotNull
     @Min(0)
     @Max(200_000)
+    @Column(name = "venue_capacity")
     private int venueCapacity;
 
     @NotBlank
     @Length(min = 2, max = 10)
-    @Column(name = "statusShort")
+    @Column(name = "status_short")
     private String statusShort;
 
     @NotBlank
     @Length(min = 2, max = 50)
-    @Column(name = "homeTeamName")
+    @Column(name = "home_team_name")
     private String homeTeamName;
 
     @NotBlank
     @Length(min = 2, max = 255)
-    @Column(name = "homeTeamLogo")
+    @Column(name = "home_team_logo")
     private String homeTeamLogo;
 
     @NotNull
-    @Column(name = "homeTeamWinner")
+    @Column(name = "home_team_winner")
     private Boolean homeTeamWinner;
 
     @NotBlank
     @Length(min = 2, max = 50)
-    @Column(name = "awayTeamName")
+    @Column(name = "away_team_name")
     private String awayTeamName;
 
     @NotBlank
     @Length(min = 2, max = 255)
-    @Column(name = "awayTeamLogo")
+    @Column(name = "away_team_logo")
     private String awayTeamLogo;
 
     @NotNull
-    @Column(name = "awayTeamWinner")
+    @Column(name = "away_team_winner")
     private Boolean awayTeamWinner;
 
     @NotNull
     @Min(0)
     @Max(100)
-    @Column(name = "goalsHome")
+    @Column(name = "goals_home")
     private Integer goalsHome;
 
     @NotNull
     @Min(0)
     @Max(100)
-    @Column(name = "goalsAway")
+    @Column(name = "goals_away")
     private Integer goalsAway;
 
     @OneToMany(mappedBy = "footballMatch", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

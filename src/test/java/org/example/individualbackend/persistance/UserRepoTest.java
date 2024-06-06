@@ -57,7 +57,6 @@ class UserRepoTest {
         assertEquals("john@example.com", user.getEmail());
         assertEquals("John", user.getFName());
         assertEquals("Doe", user.getLName());
-        assertEquals("profilePic.jpg", user.getPicture());
         assertEquals("password1234", user.getPassword());
         assertEquals(fan.getId(), user.getFan().getId());
 
@@ -68,7 +67,6 @@ class UserRepoTest {
                 .email(email)
                 .fName(fName)
                 .lName(lName)
-                .picture(picture)
                 .password(password)
                 .fan(persistFanEntity(fanId, boughtTickets))
                 .build();
@@ -105,7 +103,6 @@ class UserRepoTest {
 
         savedUser.setFName("Jane");
         savedUser.setLName("Smith");
-        savedUser.setPicture("new_pic.jpg");
 
         UserEntity updatedUser = userRepo.save(savedUser);
 
@@ -114,7 +111,6 @@ class UserRepoTest {
         assertNotNull(retrievedUser);
         assertEquals("Jane", retrievedUser.getFName());
         assertEquals("Smith", retrievedUser.getLName());
-        assertEquals("new_pic.jpg", retrievedUser.getPicture());
 
     }
 

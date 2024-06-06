@@ -74,7 +74,6 @@ class UserControllerTest{
                                 .email("alex@johnson.com")
                                 .fName("Alex")
                                 .lName("Johnson")
-                                .picture("picture5")
                                 .password("strongPass")
                                 .build(),
                         User.builder()
@@ -82,7 +81,6 @@ class UserControllerTest{
                                 .email("test@example.com")
                                 .fName("test")
                                 .lName("example")
-                                .picture("picture5")
                                 .password("password")
                                 .build()
                 ))
@@ -102,7 +100,6 @@ class UserControllerTest{
                                       {
                                           "id": 20,
                                           "email": "alex@johnson.com",
-                                          "picture": "picture5",
                                           "password": "strongPass",
                                           "lname": "Johnson",
                                           "fname": "Alex"
@@ -110,7 +107,6 @@ class UserControllerTest{
                                       {
                                           "id": 21,
                                           "email": "test@example.com",
-                                          "picture": "picture5",
                                           "password": "password",
                                           "lname": "example",
                                           "fname": "test"
@@ -197,7 +193,6 @@ class UserControllerTest{
                 .fName("Michael")
                 .lName("Johnson")
                 .password("Password_1234")
-                .picture("newPicture")
                 .build();
     }
 
@@ -207,7 +202,6 @@ class UserControllerTest{
                 .fName("John")
                 .lName("Doe")
                 .password("Password_1111")
-                .picture("nicePicture")
                 .role("FOOTBALL_FAN")
                 .build();
     }
@@ -225,7 +219,6 @@ class UserControllerTest{
                 .fName("Will")
                 .lName("Smith")
                 .password("1122")
-                .picture("beautifulPicture")
                 .fan(FanEntity.builder().id(1).build())
                 .build();
     }

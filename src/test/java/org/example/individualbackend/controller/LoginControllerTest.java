@@ -50,7 +50,7 @@ class LoginControllerTest {
 
         mockMvc.perform(post("/api/tokens/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"Password_1223\"}"))
+                .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"password\":\"Password_1223\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{\"accessToken\":\"token\"}"));
@@ -72,7 +72,7 @@ class LoginControllerTest {
 
         mockMvc.perform(post("/api/tokens/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
+                        .content("{\"email\":\"john@example.com\", \"fname\":\"Johnson\", \"lname\":\"Doherty\",\"password\":\"password1223\"}"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -85,7 +85,7 @@ class LoginControllerTest {
         //Assert
         mockMvc.perform(post("/api/tokens/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"invalidEmail.com\",\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
+                        .content("{\"email\":\"invalidEmail.com\",\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"password\":\"password1223\"}"))
                 .andExpect(status().isBadRequest());
     }
     @Test
@@ -94,7 +94,7 @@ class LoginControllerTest {
         //Assert
         mockMvc.perform(post("/api/tokens/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\",\"password\":\"password1223\"}"))
+                        .content("{\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"password\":\"password1223\"}"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -104,7 +104,7 @@ class LoginControllerTest {
         //Assert
         mockMvc.perform(post("/api/tokens/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\":\"invalidEmail.com\",\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"picture\":\"johnpic.png\"}"))
+                .content("{\"email\":\"invalidEmail.com\",\"fname\":\"Johnson\", \"lname\":\"Doherty\"}"))
                 .andExpect(status().isBadRequest());
     }
 

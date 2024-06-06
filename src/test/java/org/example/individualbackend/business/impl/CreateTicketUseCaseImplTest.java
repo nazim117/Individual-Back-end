@@ -169,7 +169,6 @@ class CreateTicketUseCaseImplTest {
                 .email("validEmail@example.com")
                 .fName("John")
                 .lName("Doe")
-                .picture("pic.png")
                 .password("validPassword")
                 .fan(existingFan)
                 .build();

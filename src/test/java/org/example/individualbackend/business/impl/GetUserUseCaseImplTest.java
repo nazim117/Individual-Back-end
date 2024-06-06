@@ -76,7 +76,6 @@ class GetUserUseCaseImplTest {
                 .email("test@example.com")
                 .fName("John")
                 .lName("Doe")
-                .picture("pic.jpg")
                 .password("password123")
                 .build();
     }

@@ -74,7 +74,6 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
                     .email(request.getEmail())
                     .fName(request.getFName())
                     .lName(request.getLName())
-                    .picture(request.getPicture())
                     .password(encodedPassword)
                     .fan(fan)
                     .build();
@@ -90,7 +89,6 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
                 .email(request.getEmail())
                 .fName(request.getFName())
                 .lName(request.getLName())
-                .picture(request.getPicture())
                 .password(encodedPassword)
                 .build();
 

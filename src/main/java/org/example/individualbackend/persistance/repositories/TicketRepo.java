@@ -13,6 +13,7 @@ import java.util.List;
 public interface TicketRepo extends JpaRepository<TicketEntity, Integer> {
     TicketEntity save(TicketEntity ticketEntity);
 
+    @Query("SELECT t FROM TicketEntity t WHERE t.footballMatch.id = :matchId AND t.fan IS NULL")
     List<TicketEntity> findByFootballMatchId(int matchId);
 
     void deleteById(Integer id);
@@ -31,7 +32,7 @@ public interface TicketRepo extends JpaRepository<TicketEntity, Integer> {
     @Query("SELECT SUM(t.price) " +
             "FROM TicketEntity t " +
             "WHERE t.fan.id IS NOT NULL")
-    double sumTotalRevenue();
+    Double sumTotalRevenue();
 
     @Query("SELECT new org.example.individualbackend.domain.match.MatchTicketData(m.id, COUNT(t)) " +
             "FROM TicketEntity t " +

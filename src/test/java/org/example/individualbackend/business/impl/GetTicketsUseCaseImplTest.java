@@ -149,7 +149,6 @@ class GetTicketsUseCaseImplTest {
                 .fName("John")
                 .lName("Doe")
                 .password("password")
-                .picture("pic.png")
                 .fan(createFan(userId))
                 .build();
     }
@@ -161,7 +160,6 @@ class GetTicketsUseCaseImplTest {
                 .fName("John")
                 .lName("Doe")
                 .password("password")
-                .picture("pic.png")
                 .build();
     }
 

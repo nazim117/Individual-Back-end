@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TicketSalesOverview {
     private long totalTicketsSold;
-    private double totalRevenue;
+    private Double totalRevenue;
     private List<MatchTicketData> ticketsPerMatch;
-    private List<MatchRevenueData> renvenuePerMatch;
+    private List<MatchRevenueData> revenuePerMatch;
 }

@@ -43,7 +43,6 @@ class UpdateUserUseCaseImplTest {
         assertEquals(request.getEmail(), existingUser.getEmail());
         assertEquals(request.getFName(), existingUser.getFName());
         assertEquals(request.getLName(), existingUser.getLName());
-        assertEquals(request.getPicture(), existingUser.getPicture());
         assertEquals(request.getPassword(), existingUser.getPassword());
 
     }
@@ -67,7 +66,6 @@ class UpdateUserUseCaseImplTest {
                 .email("test@example.com")
                 .fName("John")
                 .lName("Doe")
-                .picture("pic.jpg")
                 .password("password123")
                 .build();
     }
@@ -78,7 +76,6 @@ class UpdateUserUseCaseImplTest {
                 .email("test@example.com")
                 .fName("John")
                 .lName("Doe")
-                .picture("pic.jpg")
                 .password("password123")
                 .build();
     }
