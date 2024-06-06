@@ -4,16 +4,15 @@ import kong.unirest.HttpResponse;
 import kong.unirest.UnirestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class UnirestWrapper {
     @Value("${rapidApi.key}")
-    private String api_key;
+    private String apiKey;
 
     public HttpResponse<String> get(String url) throws UnirestException {
         return kong.unirest.Unirest.get(url)
-                .header("x-rapidapi-key", api_key)
+                .header("x-rapidapi-key", apiKey)
                 .asString();
     }
 }

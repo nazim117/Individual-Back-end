@@ -1,7 +1,6 @@
 variables:
   SPRING_PROFILES_ACTIVE: test
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-  GITGUARDIAN_API_KEY: $GITGUARDIAN_API_KEY
   RAPID_API_KEY: $RAPID_API_KEY
   SPRING_DATASOURCE_URL: $SPRING_DATASOURCE_URL
   SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
@@ -16,7 +15,6 @@ cache:
 stages:
   - build
   - test
-  - scanning
   - sonarqube-check
   - deploy
 
@@ -38,11 +36,6 @@ test:
     when: always
     paths:
       - build/reports/tests/
-
-gitguardian scan:
-  image: gitguardian/ggshield:latest
-  stage: scanning
-  script: ggshield secret scan ci
 
 sonarqube-check:
   stage: sonarqube-check

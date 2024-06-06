@@ -8,7 +8,6 @@ import org.example.individualbackend.business.ticket_service.utilities.TicketCon
 import org.example.individualbackend.domain.match.MatchRevenueData;
 import org.example.individualbackend.domain.match.MatchTicketData;
 import org.example.individualbackend.domain.ticket.Ticket;
-import org.example.individualbackend.domain.ticket.TicketSalesOverview;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
 import org.example.individualbackend.persistance.repositories.FanRepo;
 import org.example.individualbackend.persistance.repositories.TicketRepo;

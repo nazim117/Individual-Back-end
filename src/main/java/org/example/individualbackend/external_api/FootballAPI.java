@@ -52,8 +52,8 @@ public class FootballAPI {
                                     .awayTeamName(teams.get("away").get("name").asText())
                                     .awayTeamLogo(teams.get("away").get("logo").asText())
                                     .awayTeamWinner(teams.get("away").get("winner").asBoolean())
-                                    .goalsHome(fixtureNode.get("goals").get("home").asInt())
-                                    .goalsAway(fixtureNode.get("goals").get("away").asInt())
+                                    .goalsHome(goals.get("home").asInt())
+                                    .goalsAway(goals.get("away").asInt())
                                     .availableTickets(null)
                                     .build();
 

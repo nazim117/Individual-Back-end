@@ -2,7 +2,6 @@ package org.example.individualbackend.business.ticket_service.interfaces;
 
 import org.example.individualbackend.domain.match.MatchRevenueData;
 import org.example.individualbackend.domain.match.MatchTicketData;
-import org.example.individualbackend.domain.ticket.TicketSalesOverview;
 import org.example.individualbackend.domain.get.GetAllTicketsResponse;
 import org.example.individualbackend.persistance.entity.TicketEntity;
 
