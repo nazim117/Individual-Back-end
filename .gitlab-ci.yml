@@ -16,7 +16,7 @@ cache:
 stages:
   - build
   - test
-  - secret-detection
+  - scanning
   - sonarqube-check
   - deploy
 
@@ -39,13 +39,10 @@ test:
     paths:
       - build/reports/tests/
 
-secret-detection:
-  stage: secret-detection
-  image: nazim112/ggshield-runner:latest
-  script:
-    - ggshield scan repo .
-  only:
-    - branches
+gitguardian scan:
+  image: gitguardian/ggshield:latest
+  stage: scanning
+  script: ggshield secret scan ci
 
 sonarqube-check:
   stage: sonarqube-check

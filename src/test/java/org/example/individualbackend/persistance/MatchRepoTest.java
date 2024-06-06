@@ -122,7 +122,7 @@ class MatchRepoTest {
         return MatchEntity.builder()
                 .date(matchDate)
                 .venueName("Old Trafford")
-                .statusShort("Finished")
+                .statusShort("FT")
                 .homeTeamName("Manchester United")
                 .homeTeamLogo("logo1.png")
                 .homeTeamWinner(false)
