@@ -109,7 +109,7 @@ class GetMatchesUseCaseImplTest {
     }
 
     @Test
-    void getmatchesBySoldTickets_ReturnsMatchesSortedByTicketSales(){
+    void getMatchesBySoldTickets_ReturnsMatchesSortedByTicketSales(){
         List<MatchEntity> mockMatches = createMockMatchesWithTicketSales();
         when(saveMatches.getMatchesByMostSoldTickets()).thenReturn(mockMatches);
 

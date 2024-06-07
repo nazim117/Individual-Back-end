@@ -1,4 +1,5 @@
 variables:
+  GIT_DEPTH: "0"
   SPRING_PROFILES_ACTIVE: test
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   RAPID_API_KEY: $RAPID_API_KEY
@@ -40,7 +41,7 @@ test:
 sonarqube-check:
   stage: sonarqube-check
   script:
-    - ./gradlew test jacocoTestReport sonar
+    - ./gradlew jacocoTestReport sonar
 
 deploy:
   stage: deploy
