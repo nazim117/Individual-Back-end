@@ -1,0 +1,59 @@
+@startuml
+class org.example.individualbackend.controller.MatchController {
+- GetMatchesUseCase getMatchesUseCase
+- GetMatchUseCase getMatchUseCase
++ ResponseEntity<GetMatchesResponse> getMatchesDescDate()
++ ResponseEntity<GetMatchesResponse> getMatchesAscDate()
++ ResponseEntity<GetMatchesResponse> getMatchesByMostSoldTickets()
++ ResponseEntity<Match> getMatch(Integer)
++ ResponseEntity<GetMatchesResponse> getUpcomingMatches()
+}
+
+
+class org.example.individualbackend.controller.TicketController {
+- GetTicketsUseCase getTicketsUseCase
+- GetTicketUseCase getTicketUseCase
+- CreateTicketUseCase createTicketUseCase
+- UpdateTicketUseCase updateTicketUseCase
+- DeleteTicketUseCase deleteTicketUseCase
++ ResponseEntity<GetAllTicketsResponse> getTickets()
++ ResponseEntity<TicketEntity> getTicket(Integer)
++ ResponseEntity<List<TicketEntity>> getTicketByMatchId(Integer)
++ ResponseEntity<List<TicketEntity>> getTicketByUserId(int)
++ ResponseEntity<TicketSalesOverview> getTicketSalesOverview()
++ ResponseEntity<CreateTicketResponse> createTicket(CreateTicketRequest)
++ ResponseEntity<Integer> buyTicket(Integer,Integer)
++ ResponseEntity<Void> updateTicket(Integer,UpdateTicketRequest)
++ ResponseEntity<Void> deleteTicket(Integer)
+}
+
+
+class org.example.individualbackend.controller.NotificationsController {
+- SimpMessagingTemplate messagingTemplate
++ ResponseEntity<Void> sendNotificationToUsers(NotificationMessage)
+}
+
+
+class org.example.individualbackend.controller.LoginController {
+- LoginUseCase loginUseCase
++ ResponseEntity<TokenResponse> login(LoginRequest)
++ ResponseEntity<TokenResponse> register(RegisterRequest)
+}
+
+
+class org.example.individualbackend.controller.UserController {
+- GetUsersUseCase getUsersUseCase
+- GetUserUseCase getUserUseCase
+- CreateUserUseCase createUserUseCase
+- UpdateUserUseCase updateUserUseCase
+- DeleteUserUseCase deleteUserUseCase
++ ResponseEntity<GetAllUsersResponse> getUsers()
++ ResponseEntity<UserEntity> getUser(Integer)
++ ResponseEntity<GetAllUsersResponse> searchUser(String)
++ ResponseEntity<CreateUserResponse> createUser(CreateUserRequest)
++ ResponseEntity<Void> updateUser(Integer,UpdateUserRequest)
++ ResponseEntity<Void> deleteUser(Integer)
+}
+
+
+@enduml

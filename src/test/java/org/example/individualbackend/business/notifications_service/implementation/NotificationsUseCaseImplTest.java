@@ -64,4 +64,18 @@ class NotificationsUseCaseImplTest {
         verify(mailSender).send(message);
     }
 
+    @Test
+    void sendEmail_EmptyEmail_ThrowsIllegalArgumentException() {
+        String email = "";
+        String subject = "Notification Subject";
+        String body = "Notification Body";
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            notificationsUseCase.sendEmail(email, subject, body);
+        });
+
+        assertEquals("Email cannot be empty", exception.getMessage());
+        verifyNoInteractions(mailSender);
+    }
+
 }

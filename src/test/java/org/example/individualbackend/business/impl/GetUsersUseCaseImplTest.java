@@ -56,6 +56,52 @@ class GetUsersUseCaseImplTest {
         assertEquals(users, response.getUsers());
     }
 
+    @Test
+    void getUsersByUniversalSearch_ValidSearch_ReturnsMatchedUsers(){
+        String searchString = "example";
+        List<UserEntity> mockUsers = createMockUsers();
+        when(userRepo.searchUserEntitiesBy(searchString)).thenReturn(mockUsers);
+
+        GetAllUsersResponse response = getUsersUseCase.getUsersByUniversalSearch(searchString);
+
+        assertFalse(response.getUsers().isEmpty());
+        assertTrue(response.getUsers().stream().anyMatch(user -> user.getEmail().contains(searchString)));
+    }
+
+    @Test
+    void getUsersByUniversalSearch_CaseInsensitiveSearch_ReturnsMatchedUsers(){
+        String searchString = "Test";
+        List<UserEntity> mockUsers = createMockUsers();
+        when(userRepo.searchUserEntitiesBy(searchString)).thenReturn(mockUsers);
+
+        GetAllUsersResponse response = getUsersUseCase.getUsersByUniversalSearch(searchString);
+
+        assertFalse(response.getUsers().isEmpty());
+        assertTrue(response.getUsers().stream().anyMatch(user -> user.getEmail().contains(searchString.toLowerCase())));
+    }
+
+    @Test
+    void getUsersByUniversalSearch_PartialMatchSearch_ReturnsMatchedUsers(){
+        String searchString = "test";
+        List<UserEntity> mockUsers = createMockUsers();
+        when(userRepo.searchUserEntitiesBy(searchString)).thenReturn(mockUsers);
+
+        GetAllUsersResponse response = getUsersUseCase.getUsersByUniversalSearch(searchString);
+
+        assertFalse(response.getUsers().isEmpty());
+        assertTrue(response.getUsers().stream().anyMatch(user -> user.getEmail().contains(searchString)));
+    }
+
+    @Test
+    void getUsersByUniversalSearch_NoMatchFound_ReturnsEmptyResponse(){
+        String searchString = "nonexistent";
+        when(userRepo.searchUserEntitiesBy(searchString)).thenReturn(new ArrayList<>());
+
+        GetAllUsersResponse response = getUsersUseCase.getUsersByUniversalSearch(searchString);
+
+        assertTrue(response.getUsers().isEmpty());
+    }
+
     private List<UserEntity> createMockUsers() {
         List<UserEntity> mockUsers = new ArrayList<>();
         mockUsers.add(UserEntity.builder()

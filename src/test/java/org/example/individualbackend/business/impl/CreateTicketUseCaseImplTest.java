@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -288,6 +289,42 @@ class CreateTicketUseCaseImplTest {
         //Act
         //Assert
         assertThrows(ResponseStatusException.class, () -> createTicketUseCase.createTicket(createTicketRequest));
+    }
+    @Test
+    void createTicket_TicketAlreadyExists_ThrowsExceptionWithSpecificMessage(){
+        CreateTicketRequest request = CreateTicketRequest.builder()
+                .price(20.0)
+                .rowNum(5)
+                .seatNumber(290)
+                .fanId(1)
+                .footballMatchId(1)
+                .build();
+
+        when(ticketRepo.existsByRowNumAndSeatNumber(5,290)).thenReturn(true);
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> createTicketUseCase.createTicket(request));
+
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        assertEquals("Ticket already exists", exception.getReason());
+    }
+    @Test
+    void addFanToTicket_FanDoesNotExist_ThrowsBadRequestException(){
+        Integer ticketId = 1;
+        Integer userId = 1;
+        TicketEntity existingTicket = TicketEntity.builder().build();
+        UserEntity employeeUser = UserEntity.builder()
+                .id(userId)
+                .fan(null)
+                .build();
+
+        when(ticketRepo.findById(ticketId)).thenReturn(Optional.of(existingTicket));
+        when(userRepo.getUserEntityById(userId)).thenReturn(employeeUser);
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> createTicketUseCase.addFanToTicket(ticketId,userId));
+
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        assertEquals("Fan does not exist", exception.getReason());
     }
     @Test
     void createTicket_ValidTicketRequest_MatchNotInDb_ThrowsException(){

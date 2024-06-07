@@ -1,0 +1,106 @@
+@startuml
+class org.example.individualbackend.persistance.entity.UserEntity {
+- Integer id
+- String email
+- String fName
+- String lName
+- String password
+- FanEntity fan
+- Set<UserRoleEntity> userRoles
+}
+
+class org.example.individualbackend.persistance.entity.FanEntity {
+- Integer id
+- List<TicketEntity> boughtTickets
+}
+
+interface org.example.individualbackend.persistance.repositories.FanRepo {
+~ FanEntity save(FanEntity)
+~ FanEntity findById(int)
+}
+
+interface org.example.individualbackend.persistance.repositories.UserRepo {
+~ List<UserEntity> searchUserEntitiesBy(String)
+~ List<UserEntity> getUserEntitiesBy()
+~ UserEntity save(UserEntity)
+~ void deleteById(Integer)
+~ boolean existsByEmail(String)
+~ UserEntity getUserEntityById(Integer)
+~ UserEntity findByEmail(String)
+}
+
+class org.example.individualbackend.persistance.entity.TicketEntity {
+- Integer id
+- double price
+- Integer rowNum
+- Integer seatNumber
+- FanEntity fan
+- MatchEntity footballMatch
+}
+
+interface org.example.individualbackend.persistance.repositories.MatchRepo {
+~ List<MatchEntity> findAllByOrderByDateAsc()
+~ List<MatchEntity> findAllByOrderByDateDesc()
+~ List<MatchEntity> findAllByMostSoldTickets()
+~ List<MatchEntity> find6UpcomingMatches()
+~ MatchEntity getMatchEntityById(Integer)
+}
+
+class org.example.individualbackend.persistance.entity.UserRoleEntity {
+- Integer id
+- RoleEnum role
+- UserEntity user
+}
+
+interface org.example.individualbackend.persistance.repositories.UserRoleRepo {
+~ UserRoleEntity save(UserRoleEntity)
+~ void deleteUserRoleEntityByUser(UserEntity)
+}
+
+interface org.example.individualbackend.persistance.repositories.TicketRepo {
+~ TicketEntity save(TicketEntity)
+~ List<TicketEntity> findByFootballMatchId(int)
+~ void deleteById(Integer)
+~ TicketEntity getTicketEntityById(Integer)
+~ boolean existsByRowNumAndSeatNumber(Integer,Integer)
+~ List<TicketEntity> findByFan_Id(Integer)
+~ long countTotalTicketsSold()
+~ Double sumTotalRevenue()
+~ List<MatchTicketData> countTicketsPerMatch()
+~ List<MatchRevenueData> sumRevenuesPerMatch()
+}
+
+class org.example.individualbackend.persistance.entity.MatchEntity {
+- Integer id
+- LocalDateTime date
+- String venueName
+- int venueCapacity
+- String statusShort
+- String homeTeamName
+- String homeTeamLogo
+- Boolean homeTeamWinner
+- String awayTeamName
+- String awayTeamLogo
+- Boolean awayTeamWinner
+- Integer goalsHome
+- Integer goalsAway
+- List<TicketEntity> availableTickets
++ int getAvailableTicketCount()
++ int getSoldTicketCount()
+}
+
+
+enum org.example.individualbackend.persistance.entity.RoleEnum {
++  FOOTBALL_FAN
++  CUSTOMER_SERVICE
++  ADMIN
+}
+
+
+
+org.springframework.data.jpa.repository.JpaRepository <|-- org.example.individualbackend.persistance.repositories.FanRepo
+org.springframework.data.jpa.repository.JpaRepository <|-- org.example.individualbackend.persistance.repositories.UserRepo
+org.springframework.data.jpa.repository.JpaRepository <|-- org.example.individualbackend.persistance.repositories.MatchRepo
+org.springframework.data.jpa.repository.JpaRepository <|-- org.example.individualbackend.persistance.repositories.UserRoleRepo
+org.springframework.data.jpa.repository.JpaRepository <|-- org.example.individualbackend.persistance.repositories.TicketRepo
+@enduml

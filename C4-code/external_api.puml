@@ -1,0 +1,15 @@
+@startuml
+class org.example.individualbackend.external_api.FootballAPI {
+- UnirestWrapper unirestWrapper
++ List<MatchEntity> fetchMatchesData()
+- Map<String,Integer> fetchVenueCapacities()
+}
+
+
+class org.example.individualbackend.external_api.UnirestWrapper {
+- String apiKey
++ HttpResponse<String> get(String)
+}
+
+
+@enduml

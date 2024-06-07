@@ -1,0 +1,241 @@
+@startuml
+interface org.example.individualbackend.business.ticket_service.interfaces.DeleteTicketUseCase {
+~ void deleteTicket(Integer)
+}
+
+class org.example.individualbackend.business.ticket_service.implementation.GetTicketsUseCaseImpl {
+- TicketRepo ticketRepo
+- FanRepo fanRepo
+- UserRepo userRepo
++ GetAllTicketsResponse getAll()
++ List<TicketEntity> getByMatchId(Integer)
++ List<TicketEntity> getByFanId(int)
++ Long getTotalTicketsSold()
++ Double getTotalRevenue()
++ List<MatchTicketData> getTicketsPerMatch()
++ List<MatchRevenueData> getRevenuePerMatch()
+}
+
+
+class org.example.individualbackend.business.match_service.implementation.GetMatchUseCaseImpl {
+- MatchRepo matchRepo
++ Match getMatch(Integer)
+}
+
+
+class org.example.individualbackend.business.ticket_service.implementation.DeleteTicketUseCaseImpl {
+- TicketRepo ticketRepo
++ void deleteTicket(Integer)
+}
+
+
+class org.example.individualbackend.business.ticket_service.implementation.CreateTicketUseCaseImpl {
+- TicketRepo ticketRepo
+- FanRepo fanRepo
+- MatchRepo matchRepo
+- UserRepo userRepo
+- NotificationsUseCase notificationsUseCase
++ CreateTicketResponse createTicket(CreateTicketRequest)
++ Integer addFanToTicket(Integer,Integer)
+- double calculateNewTicketPrice(double)
+- TicketEntity addNewTicket(CreateTicketRequest)
+}
+
+
+interface org.example.individualbackend.business.user_service.interfaces.GetUsersUseCase {
+~ GetAllUsersResponse getUsers()
+~ GetAllUsersResponse getUsersByUniversalSearch(String)
+}
+
+class org.example.individualbackend.business.general_exceptions.InvalidCredentialsException {
+}
+class org.example.individualbackend.business.ticket_service.utilities.TicketConverter {
++ {static} Ticket convert(TicketEntity)
+}
+
+interface org.example.individualbackend.business.login_service.interfaces.LoginUseCase {
+~ TokenResponse login(LoginRequest)
+~ TokenResponse register(RegisterRequest)
+}
+
+class org.example.individualbackend.business.user_service.implementation.GetUsersUseCaseImpl {
+- UserRepo userRepo
++ GetAllUsersResponse getUsers()
++ GetAllUsersResponse getUsersByUniversalSearch(String)
+}
+
+
+class org.example.individualbackend.business.match_service.utilities.MatchConverter {
++ {static} Match convert(MatchEntity)
+}
+
+interface org.example.individualbackend.business.user_service.interfaces.UpdateUserUseCase {
+~ void updateUser(UpdateUserRequest)
+}
+
+class org.example.individualbackend.business.user_service.implementation.CreateUserUseCaseImpl {
+- UserRepo userRepo
+- FanRepo fanRepo
+- UserRoleRepo userRoleRepo
+- PasswordEncoder passwordEncoder
++ CreateUserResponse createUser(CreateUserRequest)
+- FanEntity saveFan()
+- UserRoleEntity saveUserRole(RoleEnum,UserEntity)
+- UserEntity saveNewUser(CreateUserRequest,FanEntity)
+~ UserEntity saveNewUser(CreateUserRequest)
+}
+
+
+class org.example.individualbackend.business.ticket_service.implementation.UpdateTicketUseCaseImpl {
+- TicketRepo ticketRepo
++ void updateTicket(UpdateTicketRequest)
+- void updateFields(UpdateTicketRequest,TicketEntity)
+}
+
+
+class org.example.individualbackend.business.match_service.implementation.SaveMatches {
+- MatchRepo matchRepo
+- TicketRepo ticketRepo
+- FootballAPI footballAPI
+- {static} String ERROR_FETCHING_MATCH_DATA
++ List<MatchEntity> getMatchesDataDescDate()
++ List<MatchEntity> getTop6MatchesData()
++ List<MatchEntity> getMatchesAscDate()
++ List<MatchEntity> getMatchesByMostSoldTickets()
+}
+
+
+interface org.example.individualbackend.business.ticket_service.interfaces.UpdateTicketUseCase {
+~ void updateTicket(UpdateTicketRequest)
+}
+
+interface org.example.individualbackend.business.ticket_service.interfaces.CreateTicketUseCase {
+~ CreateTicketResponse createTicket(CreateTicketRequest)
+~ Integer addFanToTicket(Integer,Integer)
+}
+
+interface org.example.individualbackend.business.notifications_service.interfaces.NotificationsUseCase {
+~ void sendEmail(String,String,String)
+}
+
+interface org.example.individualbackend.business.match_service.interfaces.GetMatchesUseCase {
+~ GetMatchesResponse getMatchesDescDate()
+~ GetMatchesResponse getTop6Matches()
+~ GetMatchesResponse getMatchesAscDate()
+~ GetMatchesResponse getMatchesBySoldTickets()
+}
+
+interface org.example.individualbackend.business.match_service.interfaces.GetMatchUseCase {
+~ Match getMatch(Integer)
+}
+
+interface org.example.individualbackend.business.ticket_service.interfaces.GetTicketsUseCase {
+~ GetAllTicketsResponse getAll()
+~ List<TicketEntity> getByMatchId(Integer)
+~ List<TicketEntity> getByFanId(int)
+~ Long getTotalTicketsSold()
+~ Double getTotalRevenue()
+~ List<MatchTicketData> getTicketsPerMatch()
+~ List<MatchRevenueData> getRevenuePerMatch()
+}
+
+class org.example.individualbackend.business.user_service.implementation.UpdateUserUseCaseImpl {
+- UserRepo userRepo
++ void updateUser(UpdateUserRequest)
+- void updateFields(UpdateUserRequest,UserEntity)
+- boolean currentUserHasPermission(UserEntity)
+}
+
+
+class org.example.individualbackend.business.match_service.implementation.GetMatchesUseCaseImpl {
+- SaveMatches saveMatches
++ GetMatchesResponse getMatchesDescDate()
++ GetMatchesResponse getTop6Matches()
++ GetMatchesResponse getMatchesAscDate()
++ GetMatchesResponse getMatchesBySoldTickets()
+}
+
+
+class org.example.individualbackend.business.user_service.implementation.GetUserUseCaseImpl {
+- UserRepo userRepo
++ UserEntity getUser(Integer)
+- boolean currentUserHasPermission(UserEntity)
+}
+
+
+interface org.example.individualbackend.business.user_service.interfaces.GetUserUseCase {
+~ UserEntity getUser(Integer)
+}
+
+class org.example.individualbackend.business.notifications_service.implementation.NotificationsUseCaseImpl {
+- JavaMailSender mailSender
++ void sendEmail(String,String,String)
+}
+
+
+interface org.example.individualbackend.business.user_service.interfaces.DeleteUserUseCase {
+~ void deleteUser(Integer)
+}
+
+interface org.example.individualbackend.business.ticket_service.interfaces.GetTicketUseCase {
+~ TicketEntity getTicket(Integer)
+}
+
+class org.example.individualbackend.business.user_service.utilities.UserConverter {
++ {static} User convert(UserEntity)
+}
+
+class org.example.individualbackend.business.ticket_service.implementation.GetTicketUseCaseImpl {
+- TicketRepo ticketRepo
++ TicketEntity getTicket(Integer)
+}
+
+
+interface org.example.individualbackend.business.user_service.interfaces.CreateUserUseCase {
+~ CreateUserResponse createUser(CreateUserRequest)
+}
+
+class org.example.individualbackend.business.user_service.implementation.DeleteUserUseCaseImpl {
+- UserRepo userRepo
+- FanRepo fanRepo
+- UserRoleRepo userRoleRepo
++ void deleteUser(Integer)
+}
+
+
+class org.example.individualbackend.business.login_service.implementation.LoginUseCaseImpl {
+- UserRepo userRepository
+- PasswordEncoder passwordEncoder
+- AccessTokenEncoder accessTokenEncoder
+- FanRepo fanRepository
+- UserRoleRepo userRoleRepository
+- NotificationsUseCase notificationsUseCase
++ TokenResponse login(LoginRequest)
++ TokenResponse register(RegisterRequest)
+- UserRoleEntity saveUserRole(RoleEnum,UserEntity)
+- UserEntity saveNewUser(RegisterRequest,FanEntity)
+- FanEntity saveFan()
+- boolean matchesPassword(String,String)
+# String generateAccessToken(UserEntity)
+- void sendEmail(UserEntity)
+}
+
+
+
+
+org.example.individualbackend.business.ticket_service.interfaces.GetTicketsUseCase <|.. org.example.individualbackend.business.ticket_service.implementation.GetTicketsUseCaseImpl
+org.example.individualbackend.business.match_service.interfaces.GetMatchUseCase <|.. org.example.individualbackend.business.match_service.implementation.GetMatchUseCaseImpl
+org.example.individualbackend.business.ticket_service.interfaces.DeleteTicketUseCase <|.. org.example.individualbackend.business.ticket_service.implementation.DeleteTicketUseCaseImpl
+org.example.individualbackend.business.ticket_service.interfaces.CreateTicketUseCase <|.. org.example.individualbackend.business.ticket_service.implementation.CreateTicketUseCaseImpl
+org.springframework.web.server.ResponseStatusException <|-- org.example.individualbackend.business.general_exceptions.InvalidCredentialsException
+org.example.individualbackend.business.user_service.interfaces.GetUsersUseCase <|.. org.example.individualbackend.business.user_service.implementation.GetUsersUseCaseImpl
+org.example.individualbackend.business.user_service.interfaces.CreateUserUseCase <|.. org.example.individualbackend.business.user_service.implementation.CreateUserUseCaseImpl
+org.example.individualbackend.business.ticket_service.interfaces.UpdateTicketUseCase <|.. org.example.individualbackend.business.ticket_service.implementation.UpdateTicketUseCaseImpl
+org.example.individualbackend.business.user_service.interfaces.UpdateUserUseCase <|.. org.example.individualbackend.business.user_service.implementation.UpdateUserUseCaseImpl
+org.example.individualbackend.business.match_service.interfaces.GetMatchesUseCase <|.. org.example.individualbackend.business.match_service.implementation.GetMatchesUseCaseImpl
+org.example.individualbackend.business.user_service.interfaces.GetUserUseCase <|.. org.example.individualbackend.business.user_service.implementation.GetUserUseCaseImpl
+org.example.individualbackend.business.notifications_service.interfaces.NotificationsUseCase <|.. org.example.individualbackend.business.notifications_service.implementation.NotificationsUseCaseImpl
+org.example.individualbackend.business.ticket_service.interfaces.GetTicketUseCase <|.. org.example.individualbackend.business.ticket_service.implementation.GetTicketUseCaseImpl
+org.example.individualbackend.business.user_service.interfaces.DeleteUserUseCase <|.. org.example.individualbackend.business.user_service.implementation.DeleteUserUseCaseImpl
+org.example.individualbackend.business.login_service.interfaces.LoginUseCase <|.. org.example.individualbackend.business.login_service.implementation.LoginUseCaseImpl
+@enduml

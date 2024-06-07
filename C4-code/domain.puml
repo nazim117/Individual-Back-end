@@ -1,0 +1,142 @@
+@startuml
+class org.example.individualbackend.domain.users.ClientService {
+}
+class org.example.individualbackend.domain.update.UpdateUserRequest {
+- Integer id
+- String email
+- String fName
+- String lName
+- String password
+}
+
+class org.example.individualbackend.domain.get.GetAllTicketsResponse {
+~ List<Ticket> tickets
+}
+
+class org.example.individualbackend.domain.get.GetMatchesResponse {
+~ List<Match> matches
+}
+
+class org.example.individualbackend.domain.login.LoginRequest {
+- String email
+- String password
+}
+
+class org.example.individualbackend.domain.create.CreateUserRequest {
+- String email
+- String fName
+- String lName
+- String password
+- String role
+}
+
+class org.example.individualbackend.domain.ticket.TicketSalesOverview {
+- long totalTicketsSold
+- Double totalRevenue
+- List<MatchTicketData> ticketsPerMatch
+- List<MatchRevenueData> revenuePerMatch
+}
+
+class org.example.individualbackend.domain.create.CreateTicketRequest {
+- double price
+- Integer rowNum
+- Integer seatNumber
+- int fanId
+- int footballMatchId
+}
+
+class org.example.individualbackend.domain.login.RegisterRequest {
+- String email
+- String fName
+- String lName
+- String password
+}
+
+class org.example.individualbackend.domain.users.Fan {
+}
+class org.example.individualbackend.domain.update.UpdateTicketRequest {
+- Integer id
+- Double price
+- Integer rowNum
+- Integer seatNumber
+- int fanId
+- int matchId
+}
+
+class org.example.individualbackend.domain.users.Admin {
+}
+class org.example.individualbackend.domain.NotificationMessage {
+- String id
+- String from
+- String to
+- String text
+}
+
+class org.example.individualbackend.domain.create.CreateTicketResponse {
+- Integer id
+}
+
+class org.example.individualbackend.domain.login.TokenResponse {
+- String accessToken
+}
+
+class org.example.individualbackend.domain.create.CreateUserResponse {
+- Integer id
+}
+
+class org.example.individualbackend.domain.match.MatchTicketData {
+- Integer matchId
+- long ticketsSold
+}
+
+class org.example.individualbackend.domain.ticket.Ticket {
+- Integer id
+- Double price
+- Integer rowNum
+- Integer seatNumber
+- FanEntity fan
+- MatchEntity footballMatch
+}
+
+class org.example.individualbackend.domain.match.MatchRevenueData {
+- Integer matchId
+- double revenue
+}
+
+class org.example.individualbackend.domain.users.User {
+- Integer id
+- String email
+- String fName
+- String lName
+- String password
+- List<Ticket> boughtTickets
+}
+
+class org.example.individualbackend.domain.match.Match {
+- Integer id
+- LocalDateTime date
+- String venueName
+- String statusShort
+- String homeTeamName
+- String homeTeamLogo
+- Boolean homeTeamWinner
+- String awayTeamName
+- String awayTeamLogo
+- Boolean awayTeamWinner
+- Integer goalsHome
+- Integer goalsAway
+- List<Ticket> availableTickets
+- int availableTicketsCount
+- int soldTicketCount
+}
+
+class org.example.individualbackend.domain.get.GetAllUsersResponse {
+~ List<User> users
+}
+
+
+
+org.example.individualbackend.domain.users.User <|-- org.example.individualbackend.domain.users.ClientService
+org.example.individualbackend.domain.users.User <|-- org.example.individualbackend.domain.users.Fan
+org.example.individualbackend.domain.users.User <|-- org.example.individualbackend.domain.users.Admin
+@enduml
