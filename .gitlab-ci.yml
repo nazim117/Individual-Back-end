@@ -29,19 +29,16 @@ build:
     paths:
       - build/libs/*.jar
 
-test:
-  stage: test
-  script:
-    - ./gradlew test
-  artifacts:
-    when: always
-    paths:
-      - build/reports/tests/
-
 sonarqube-check:
   stage: sonarqube-check
   script:
     - ./gradlew jacocoTestReport sonar
+  artifacts:
+    reports:
+      junit: build/test-results/**/*.xml
+      coverage: build/reports/jacoco/jacocoTestReport.xml
+  dependencies:
+    - build
 
 deploy:
   stage: deploy
