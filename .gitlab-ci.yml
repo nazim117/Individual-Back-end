@@ -33,12 +33,6 @@ sonarqube-check:
   stage: sonarqube-check
   script:
     - ./gradlew jacocoTestReport sonar
-  artifacts:
-    reports:
-      junit: build/test-results/**/*.xml
-      coverage: build/reports/jacoco/jacocoTestReport.xml
-  dependencies:
-    - build
 
 deploy:
   stage: deploy
