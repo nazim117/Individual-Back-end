@@ -33,7 +33,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -144,7 +144,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets")
+        mockMvc.perform(post("/api/tickets")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -159,7 +159,7 @@ class TicketControllerTest {
         when(createTicketUseCase.addFanToTicket(invalidTicketId, userId))
                 .thenThrow(new NoSuchElementException("Ticket does not exist"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets/buy-ticket/{userId}", userId)
+        mockMvc.perform(post("/api/tickets/buy-ticket/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidTicketId.toString()))
                 .andExpect(status().isBadRequest());
@@ -175,7 +175,7 @@ class TicketControllerTest {
                 .thenThrow(new NoSuchElementException("Ticket does not exist"));
 
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets/buy-ticket/{userId}", invalidUserId)
+        mockMvc.perform(post("/api/tickets/buy-ticket/{userId}", invalidUserId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidTicketId.toString()))
                 .andExpect(status().isBadRequest());
@@ -194,7 +194,7 @@ class TicketControllerTest {
 
         when(createTicketUseCase.createTicket(request)).thenThrow(new RuntimeException("Invalid request"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets")
+        mockMvc.perform(post("/api/tickets")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -216,7 +216,7 @@ class TicketControllerTest {
 
         //Act
         //Assert
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/tickets/{id}", 1)
+        mockMvc.perform(put("/api/tickets/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -248,7 +248,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets")
+        MvcResult result = mockMvc.perform(post("/api/tickets")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andReturn();
@@ -273,7 +273,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/tickets/{id}", 1)
+        MvcResult result = mockMvc.perform(put("/api/tickets/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andReturn();
@@ -304,7 +304,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets")
+        mockMvc.perform(post("/api/tickets")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -322,7 +322,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets/buy-ticket/{id}", userId)
+        mockMvc.perform(post("/api/tickets/buy-ticket/{id}", userId)
         .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -340,7 +340,7 @@ class TicketControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets/buy-ticket/{id}", userId)
+        mockMvc.perform(post("/api/tickets/buy-ticket/{id}", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -370,11 +370,62 @@ class TicketControllerTest {
 
         when(createTicketUseCase.addFanToTicket(ticketId, userId)).thenReturn(ticketId);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tickets/buy-ticket/{userId}", userId)
+        mockMvc.perform(post("/api/tickets/buy-ticket/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ticketId.toString()))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(String.valueOf(ticketId)));
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"CUSTOMER_SERVICE"})
+    void getTicketByMatchId_WithEmptyList_ReturnsEmptyResponse() throws Exception {
+        when(getTicketsUseCase.getByMatchId(anyInt())).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/api/tickets/matches/{matchId}", 123))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    void updateTicket_UnauthorizedRole_ReturnsForbidden() throws Exception {
+        UpdateTicketRequest request = UpdateTicketRequest.builder()
+                .id(1)
+                .price(30.0)
+                .rowNum(5)
+                .seatNumber(15)
+                .fanId(1)
+                .matchId(1)
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        mockMvc.perform(put("/api/tickets/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void createTicket_WithNegativePrice_ReturnsBadRequest() throws Exception {
+        CreateTicketRequest request = CreateTicketRequest.builder()
+                .price(-20.0)
+                .rowNum(5)
+                .seatNumber(15)
+                .fanId(1)
+                .footballMatchId(1)
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        mockMvc.perform(post("/api/tickets")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isBadRequest());
     }
 
     private List<Ticket> createTicketList() {

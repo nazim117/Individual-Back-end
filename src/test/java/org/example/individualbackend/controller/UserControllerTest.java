@@ -33,6 +33,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -40,6 +41,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -167,7 +169,7 @@ class UserControllerTest{
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/users/{id}", 1)
+        MvcResult result = mockMvc.perform(put("/api/users/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                         .andReturn();
@@ -185,6 +187,37 @@ class UserControllerTest{
 
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    void getUsers_UnauthorizedAccess_ReturnsForbidden() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users"))
+                .andExpect(status().isForbidden());
+
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void createUser_InvalidInput_ReturnsBadRequest() throws Exception {
+        Mockito.when(createUserUseCase.createUser(Mockito.any())).thenReturn(createMockCreateUserResponse());
+
+        CreateUserRequest request = CreateUserRequest.builder()
+                .email("invalidmail.com")
+                .fName("John")
+                .lName("Doe")
+                .password("invalidpassword")
+                .role("FOOTBALL_FAN")
+                .build();;
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+       mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isBadRequest());
+    }
+
     private UpdateUserRequest createSampleUpdateUserRequest() {
         return UpdateUserRequest
                 .builder()

@@ -52,7 +52,7 @@ class MatchControllerTest {
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getMatch_ReturnsMatchEntityList() throws Exception {
         //Arrange
-        GetMatchesResponse response = createMockMachesResponse();
+        GetMatchesResponse response = createMockMatchesResponse();
         when(getMatchesUseCase.getMatchesDescDate())
                 .thenReturn(response);
 
@@ -143,7 +143,7 @@ class MatchControllerTest {
     @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getUpcomingMatches_ReturnTop3Matches(){
-        GetMatchesResponse expectedMatchesResponse = createMockMachesResponse();
+        GetMatchesResponse expectedMatchesResponse = createMockMatchesResponse();
         when(getMatchesUseCase.getTop6Matches()).thenReturn(expectedMatchesResponse);
 
         ResponseEntity<GetMatchesResponse> responseEntity = matchController.getUpcomingMatches();
@@ -154,7 +154,105 @@ class MatchControllerTest {
         verify(getMatchesUseCase, times(1)).getTop6Matches();
     }
 
-    private GetMatchesResponse createMockMachesResponse() {
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void getMatchesDescDate_NoMatches_ReturnsEmptyList() throws Exception{
+        when(getMatchesUseCase.getMatchesDescDate()).thenReturn(GetMatchesResponse.builder().matches(new ArrayList<>()).build());
+
+        mockMvc.perform(get("/api/matches/descending"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"matches\": []}"));
+    }
+
+    @Test
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
+    void getMatchesAscDate_WithSortingError_ReturnsServerError() throws Exception{
+        when(getMatchesUseCase.getMatchesAscDate()).thenThrow(new RuntimeException("Database error"));
+
+        mockMvc.perform(get("/api/matches/ascending"))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @WithMockUser(username = "testemail@example.com", roles = {"ADMIN"})
+    void getMatchesByMostSoldTickets_Successful_ReturnsSortedMatches() throws Exception {
+        GetMatchesResponse sortedMatches = createMockMatchesResponseSortedByTicketSales();
+        when(getMatchesUseCase.getMatchesBySoldTickets()).thenReturn(sortedMatches);
+
+        mockMvc.perform(get("/api/matches/most-sold"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                    {
+                        "matches": [
+                            {
+                                "id": 2,
+                                "date": "2023-08-11T09:30:00",
+                                "venueName": "Emirates Stadium",
+                                "statusShort": "FT",
+                                "homeTeamName": "Arsenal",
+                                "homeTeamLogo": "https://media.api-sports.io/football/teams/42.png",
+                                "homeTeamWinner": true,
+                                "awayTeamName": "Nottingham Forest",
+                                "awayTeamLogo": "https://media.api-sports.io/football/teams/65.png",
+                                "awayTeamWinner": false,
+                                "goalsHome": 2,
+                                "goalsAway": 1
+                            },
+                            {
+                                "id": 1,
+                                "date": "2023-08-10T09:30:00",
+                                "venueName": "Turf Moor",
+                                "statusShort": "FT",
+                                "homeTeamName": "Burnley",
+                                "homeTeamLogo": "https://media.api-sports.io/football/teams/44.png",
+                                "homeTeamWinner": false,
+                                "awayTeamName": "Manchester City",
+                                "awayTeamLogo": "https://media.api-sports.io/football/teams/50.png",
+                                "awayTeamWinner": true,
+                                "goalsHome": 0,
+                                "goalsAway": 3
+                            }
+                        ]
+                    }
+            """));
+    }
+
+    private GetMatchesResponse createMockMatchesResponseSortedByTicketSales() {
+        return GetMatchesResponse.builder()
+                .matches(List.of(
+                        Match.builder()
+                                .id(2)
+                                .date(LocalDateTime.parse("2023-08-11T09:30:00", DateTimeFormatter.ISO_DATE_TIME))
+                                .venueName("Emirates Stadium")
+                                .statusShort("FT")
+                                .homeTeamName("Arsenal")
+                                .homeTeamLogo("https://media.api-sports.io/football/teams/42.png")
+                                .homeTeamWinner(true)
+                                .awayTeamName("Nottingham Forest")
+                                .awayTeamLogo("https://media.api-sports.io/football/teams/65.png")
+                                .awayTeamWinner(false)
+                                .goalsHome(2)
+                                .goalsAway(1)
+                                .build(),
+                        Match.builder()
+                                .id(1)
+                                .date(LocalDateTime.parse("2023-08-10T09:30:00", DateTimeFormatter.ISO_DATE_TIME))
+                                .venueName("Turf Moor")
+                                .statusShort("FT")
+                                .homeTeamName("Burnley")
+                                .homeTeamLogo("https://media.api-sports.io/football/teams/44.png")
+                                .homeTeamWinner(false)
+                                .awayTeamName("Manchester City")
+                                .awayTeamLogo("https://media.api-sports.io/football/teams/50.png")
+                                .awayTeamWinner(true)
+                                .goalsHome(0)
+                                .goalsAway(3)
+                                .build()
+                ))
+                .build();
+    }
+
+    private GetMatchesResponse createMockMatchesResponse() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
         return GetMatchesResponse

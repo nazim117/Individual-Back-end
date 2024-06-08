@@ -63,7 +63,7 @@ dependencies {
 }
 jar{
     manifest{
-        attributes 'Main-Class': 'org/example/individualbackend/IndividualBackEndApplication.java'
+        attributes 'Main-Class': 'org/example/individualbackend/IndividualBackEndApplication'
     }
 }
 
@@ -74,9 +74,6 @@ sonar {
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.token", "sqp_d180d3869668aaae2e5aecf21574af5c8db50646"
         property "sonar.qualitygate.wait", true
-        property "sonar.java.coveragePlugin", "jacoco"
-        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
-        property "sonar.gradle.skipCompile", "true"
     }
 
 }
@@ -112,13 +109,12 @@ jacocoTestCoverageVerification {
                     '**/src/main/java/org/example/individualbackend/business/login_service/interfaces/**',
                     '**/src/main/java/org/example/individualbackend/business/match_service/interfaces/**',
                     '**/src/main/java/org/example/individualbackend/business/match_service/utilities/**',
+                    '**/src/main/java/org/example/individualbackend/business/notifications_service/interfaces/**',
                     '**/src/main/java/org/example/individualbackend/business/ticket_service/interfaces/**',
                     '**/src/main/java/org/example/individualbackend/business/ticket_service/utilities/**',
                     '**/src/main/java/org/example/individualbackend/business/user_service/interfaces/**',
                     '**/src/main/java/org/example/individualbackend/business/user_service/utilities/**',
-                    '**/src/main/java/org/example/individualbackend/business/notifications_service/interfaces/**',
-                    '**/src/main/java/org/example/individualbackend/domain/create/CreateUserRequest.java',
-                    '**/src/main/java/org/example/individualbackend/domain/login/RegisterRequest.java',
+                    '**/src/main/java/org/example/individualbackend/external_api/UnirestWrapper.java',
                     '***/**/src/main/resources/**'
             ])
         })

@@ -25,9 +25,9 @@ public class MatchConverter {
                 .awayTeamWinner(match.getAwayTeamWinner())
                 .goalsHome(match.getGoalsHome())
                 .goalsAway(match.getGoalsAway())
-                .availableTickets(match.getAvailableTickets() != null ? match.getAvailableTickets().stream()
+                .availableTickets(match.getAvailableTickets().stream()
                         .map(TicketConverter::convert)
-                        .toList() : Collections.emptyList())
+                        .toList())
                 .availableTicketsCount(match.getAvailableTicketCount())
                 .soldTicketCount(match.getSoldTicketCount())
                 .build();

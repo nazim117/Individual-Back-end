@@ -10,7 +10,6 @@ import org.hibernate.validator.constraints.Length;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -87,7 +86,7 @@ public class MatchEntity {
 
     @OneToMany(mappedBy = "footballMatch", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<TicketEntity> availableTickets = new ArrayList<>();
+    private List<TicketEntity> availableTickets;
 
     @JsonIgnore
     public int getAvailableTicketCount(){
