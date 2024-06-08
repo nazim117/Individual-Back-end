@@ -32,7 +32,7 @@ build:
 sonarqube-check:
   stage: sonarqube-check
   script:
-    - ./gradlew jacocoTestReport sonar
+    - ./gradlew test jacocoTestReport sonar
 
 deploy:
   stage: deploy
