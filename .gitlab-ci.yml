@@ -29,6 +29,15 @@ build:
     paths:
       - build/libs/*.jar
 
+test:
+  stage: test
+  script:
+    - ./gradlew test
+  artifacts:
+    when: always
+    paths:
+      - build/reports/tests/
+
 sonarqube-check:
   stage: sonarqube-check
   script:
