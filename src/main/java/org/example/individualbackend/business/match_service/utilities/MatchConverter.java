@@ -2,9 +2,11 @@ package org.example.individualbackend.business.match_service.utilities;
 
 import org.example.individualbackend.business.ticket_service.utilities.TicketConverter;
 import org.example.individualbackend.domain.match.Match;
+import org.example.individualbackend.domain.ticket.Ticket;
 import org.example.individualbackend.persistance.entity.MatchEntity;
 
 import java.util.Collections;
+import java.util.List;
 
 public class MatchConverter {
 
@@ -12,6 +14,11 @@ public class MatchConverter {
 
     }
     public static Match convert(MatchEntity match){
+        List<Ticket> convertedTickets = (match.getAvailableTickets() != null)
+                ? match.getAvailableTickets().stream()
+                .map(TicketConverter::convert)
+                .toList()
+                : Collections.emptyList();
         return Match.builder()
                 .id(match.getId())
                 .date(match.getDate())
@@ -25,9 +32,7 @@ public class MatchConverter {
                 .awayTeamWinner(match.getAwayTeamWinner())
                 .goalsHome(match.getGoalsHome())
                 .goalsAway(match.getGoalsAway())
-                .availableTickets(match.getAvailableTickets().stream()
-                        .map(TicketConverter::convert)
-                        .toList())
+                .availableTickets(convertedTickets)
                 .availableTicketsCount(match.getAvailableTicketCount())
                 .soldTicketCount(match.getSoldTicketCount())
                 .build();
