@@ -72,6 +72,10 @@ sonar {
         property "sonar.projectKey", "I499773_individual-back-end_7667eb0f-461d-42ab-86db-b3f81ee29604"
         property "sonar.projectName", "Individual-Back-end"
         property "sonar.host.url", "http://localhost:9000"
+        property "sonar.token", "sqp_d69d86544a25a2f3c58959b19e0f173ae94a04a4"
+        property "sonar.login", "admin"
+        property "sonar.password", "Admin"
+        property 'sonar.gradle.skipCompile', true
         property "sonar.qualitygate.wait", true
     }
 
