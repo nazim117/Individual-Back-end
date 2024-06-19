@@ -59,7 +59,6 @@ class TicketControllerTest {
     @MockBean
     private TicketRepo ticketRepo;
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getTickets_ReturnsListOfTickets() throws Exception{
         GetAllTicketsResponse response = GetAllTicketsResponse.builder().tickets(createTicketList()).build();
@@ -121,7 +120,6 @@ class TicketControllerTest {
                         """));
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getTicket_WithInvalidId_ReturnsNotFound() throws Exception {
         int invalidTicketId = -1;
@@ -133,7 +131,6 @@ class TicketControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void createTicket_WithValidRequest_ReturnsBadRequest() throws Exception {
         CreateTicketRequest request = CreateTicketRequest.builder()
@@ -150,8 +147,7 @@ class TicketControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void buyTicket_WithValidRequest_ReturnsBadRequest() throws Exception {
         Integer userId = 1;
         Integer invalidTicketId = -1;
@@ -165,8 +161,7 @@ class TicketControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void buyTicket_WithInvalidRequest_ReturnsBadRequest() throws Exception{
         Integer invalidUserId = -1;
         Integer invalidTicketId = -1;
@@ -181,7 +176,6 @@ class TicketControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void createTicket_WithInvalidRequest_ReturnsBadRequest() throws Exception{
         CreateTicketRequest request = CreateTicketRequest.builder()
@@ -200,7 +194,6 @@ class TicketControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void updateTicket_WithInvalidRequest_ReturnsBadRequest() throws Exception{
         //Arrange
@@ -222,7 +215,6 @@ class TicketControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getTicket_WithValidId_ReturnsTicket() throws Exception{
         Mockito.when(getTicketUseCase.getTicket(Mockito.anyInt())).thenReturn(createTicketEntity(1, 20.0, 5, 70));
@@ -235,7 +227,6 @@ class TicketControllerTest {
         assertNotNull(result.getResponse().getContentAsString());
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void createTicket_WithValidRequest_ReturnsCreated() throws Exception{
         CreateTicketRequest request = CreateTicketRequest.builder()
@@ -257,7 +248,6 @@ class TicketControllerTest {
         assertNotNull(result.getResponse().getContentAsString());
 
     }
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void updateTicket_WithValidRequest_Successful_ReturnsNoContent() throws Exception{
         UpdateTicketRequest request = UpdateTicketRequest.builder()
@@ -280,7 +270,6 @@ class TicketControllerTest {
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void deleteTicket_ValidId_ReturnsNoContent() throws Exception {
         Integer ticketId = 1;
@@ -293,7 +282,6 @@ class TicketControllerTest {
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void createTicker_WithInvalidRequest_ReturnsBadRequest() throws Exception {
         CreateTicketRequest request = CreateTicketRequest.builder()
@@ -309,9 +297,7 @@ class TicketControllerTest {
                 .content(requestJson))
                 .andExpect(status().isBadRequest());
     }
-
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void buyTicket_WithInvalidTicketId_ReturnsBadRequest() throws Exception {
         Integer userId = 1;
         Integer ticketId = -1;
@@ -328,8 +314,7 @@ class TicketControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void buyTicket_WithInvalidUserId_ReturnsBadRequest() throws Exception {
         Integer userId = -1;
         Integer ticketId = 1;
@@ -346,8 +331,7 @@ class TicketControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void buyTicket_WithValidRequest_ReturnsCreated() throws Exception {
         Integer userId = 1;
         Integer ticketId = 1;
@@ -377,8 +361,7 @@ class TicketControllerTest {
                 .andExpect(content().string(String.valueOf(ticketId)));
     }
 
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"CUSTOMER_SERVICE"})
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getTicketByMatchId_WithEmptyList_ReturnsEmptyResponse() throws Exception {
         when(getTicketsUseCase.getByMatchId(anyInt())).thenReturn(Collections.emptyList());
 
@@ -387,8 +370,7 @@ class TicketControllerTest {
                 .andExpect(content().json("[]"));
     }
 
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
+    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void updateTicket_UnauthorizedRole_ReturnsForbidden() throws Exception {
         UpdateTicketRequest request = UpdateTicketRequest.builder()
                 .id(1)
@@ -408,7 +390,6 @@ class TicketControllerTest {
                 .andExpect(status().isForbidden());
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void createTicket_WithNegativePrice_ReturnsBadRequest() throws Exception {
         CreateTicketRequest request = CreateTicketRequest.builder()

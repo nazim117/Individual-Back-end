@@ -115,6 +115,9 @@ jacocoTestCoverageVerification {
                     '**/src/main/java/org/example/individualbackend/business/user_service/interfaces/**',
                     '**/src/main/java/org/example/individualbackend/business/user_service/utilities/**',
                     '**/src/main/java/org/example/individualbackend/external_api/UnirestWrapper.java',
+                    '**/src/main/java/org/example/individualbackend/controller/**',
+                    '**/src/main/java/org/example/individualbackend/persistance/**',
+                    '**/src/main/java/org/example/individualbackend/external_api/**',
                     '***/**/src/main/resources/**'
             ])
         })

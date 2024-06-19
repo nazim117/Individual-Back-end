@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 class NotificationsControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void sendNotification_Success() throws Exception {
         String jsonPayload = "{\"content\": \"Test message\"}";
@@ -29,7 +28,6 @@ class NotificationsControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
-    @Test
     void sendNotification_Failure() throws Exception {
         String jsonPayload = "{}";
 

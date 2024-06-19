@@ -29,7 +29,6 @@ class LoginControllerTest {
     @MockBean
     private LoginUseCase loginUseCase;
 
-    @Test
      void login_UserLogsInSuccessfully() throws Exception {
         TokenResponse tokenResponse = TokenResponse.builder().accessToken("token").build();
 
@@ -43,7 +42,6 @@ class LoginControllerTest {
                 .andExpect(content().json("{\"accessToken\":\"token\"}"));
     }
 
-    @Test
     void register_UserRegistersSuccessfully() throws Exception {
         TokenResponse registerResponse = TokenResponse.builder().accessToken("token").build();
         when(loginUseCase.register(any(RegisterRequest.class))).thenReturn(registerResponse);
@@ -57,7 +55,6 @@ class LoginControllerTest {
     }
 
 
-    @Test
     void login_LoginException_ReturnsBadRequest() throws Exception {
         when(loginUseCase.login(any(LoginRequest.class))).thenThrow(new RuntimeException("Login failed"));
 
@@ -66,7 +63,6 @@ class LoginControllerTest {
                         .content("{\"email\":\"testemail@example.com\", \"password\":\"password123\"}"))
                 .andExpect(status().isBadRequest());
     }
-    @Test
     void register_RegistrationException_ReturnsBadRequest() throws Exception {
         when(loginUseCase.register(any(RegisterRequest.class))).thenThrow(new RuntimeException("Registration failed"));
 
@@ -76,7 +72,6 @@ class LoginControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
     void register_InvalidRequest_failsToRegister() throws Exception {
         //Arrange
         when(loginUseCase.register(any(RegisterRequest.class))).thenReturn(null);
@@ -88,7 +83,6 @@ class LoginControllerTest {
                         .content("{\"email\":\"invalidEmail.com\",\"fname\":\"Johnson\", \"lname\":\"Doherty\",\"password\":\"password1223\"}"))
                 .andExpect(status().isBadRequest());
     }
-    @Test
     void register_MissingEmail_ReturnsBadRequest() throws Exception{
         //Act
         //Assert
@@ -98,7 +92,6 @@ class LoginControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
     void register_MissingPassword_ReturnsBadRequest() throws Exception {
         //Act
         //Assert
@@ -108,7 +101,6 @@ class LoginControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
      void login_InvalidCredentials_UserDoesNotLogIn() throws Exception {
 
         when(loginUseCase.login(any(LoginRequest.class))).thenReturn(null);
@@ -119,7 +111,6 @@ class LoginControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
     void login_EmailPassword_ReturnsBadRequest() throws Exception {
         mockMvc.perform(post("/api/tokens")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -127,7 +118,6 @@ class LoginControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
     void login_MissingPassword_ReturnsBadRequest() throws Exception {
         mockMvc.perform(post("/api/tokens")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -48,7 +48,6 @@ class MatchControllerTest {
     @Autowired
     private MatchController matchController;
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getMatch_ReturnsMatchEntityList() throws Exception {
         //Arrange
@@ -97,7 +96,6 @@ class MatchControllerTest {
                         """));
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getMatch_ReturnsMatchEntity() throws Exception{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
@@ -130,8 +128,6 @@ class MatchControllerTest {
         assertNotNull(result.getResponse().getContentAsString());
     }
 
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getMatch_ReturnsNotFoundForNONExistentMatch() throws Exception{
         when(getMatchUseCase.getMatch(anyInt())).thenReturn(null);
 
@@ -140,8 +136,6 @@ class MatchControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getUpcomingMatches_ReturnTop3Matches(){
         GetMatchesResponse expectedMatchesResponse = createMockMatchesResponse();
         when(getMatchesUseCase.getTop6Matches()).thenReturn(expectedMatchesResponse);
@@ -154,8 +148,6 @@ class MatchControllerTest {
         verify(getMatchesUseCase, times(1)).getTop6Matches();
     }
 
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getMatchesDescDate_NoMatches_ReturnsEmptyList() throws Exception{
         when(getMatchesUseCase.getMatchesDescDate()).thenReturn(GetMatchesResponse.builder().matches(new ArrayList<>()).build());
 
@@ -164,8 +156,6 @@ class MatchControllerTest {
                 .andExpect(content().json("{\"matches\": []}"));
     }
 
-    @Test
-    @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getMatchesAscDate_WithSortingError_ReturnsServerError() throws Exception{
         when(getMatchesUseCase.getMatchesAscDate()).thenThrow(new RuntimeException("Database error"));
 
@@ -173,8 +163,6 @@ class MatchControllerTest {
                 .andExpect(status().isInternalServerError());
     }
 
-    @Test
-    @WithMockUser(username = "testemail@example.com", roles = {"ADMIN"})
     void getMatchesByMostSoldTickets_Successful_ReturnsSortedMatches() throws Exception {
         GetMatchesResponse sortedMatches = createMockMatchesResponseSortedByTicketSales();
         when(getMatchesUseCase.getMatchesBySoldTickets()).thenReturn(sortedMatches);

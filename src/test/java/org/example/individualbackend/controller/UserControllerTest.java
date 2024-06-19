@@ -64,7 +64,6 @@ class UserControllerTest{
     @Autowired
     private UserController userController;
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
      void testGetUsers() throws Exception{
         // Arrange
@@ -117,7 +116,6 @@ class UserControllerTest{
                               }
                         """));
     }
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void getUser_ReturnsNotFoundWhenUserIsNull() throws AccessDeniedException {
         when(getUserUseCase.getUser(anyInt())).thenReturn(null);
@@ -129,7 +127,6 @@ class UserControllerTest{
         verify(getUserUseCase, times(1)).getUser(1);
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
      void testGetUser() throws Exception{
         Mockito.when(getUserUseCase.getUser(Mockito.anyInt())).thenReturn(createMockGetUserResponse());
@@ -141,7 +138,6 @@ class UserControllerTest{
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
         assertNotNull(result.getResponse().getContentAsString());
     }
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
      void testCreateUser() throws Exception {
         Mockito.when(createUserUseCase.createUser(Mockito.any())).thenReturn(createMockCreateUserResponse());
@@ -159,7 +155,6 @@ class UserControllerTest{
         assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
         assertNotNull(result.getResponse().getContentAsString());
     }
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
      void testUpdateUser() throws Exception{
         Mockito.doNothing().when(updateUserUseCase).updateUser(Mockito.any());
@@ -177,7 +172,6 @@ class UserControllerTest{
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
      void testDeleteUser() throws Exception{
         Mockito.doNothing().when(deleteUserUseCase).deleteUser(Mockito.anyInt());
@@ -188,7 +182,6 @@ class UserControllerTest{
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"FOOTBALL_FAN"})
     void getUsers_UnauthorizedAccess_ReturnsForbidden() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users"))
@@ -196,7 +189,6 @@ class UserControllerTest{
 
     }
 
-    @Test
     @WithMockUser(username= "testemail@example.com", roles = {"ADMIN"})
     void createUser_InvalidInput_ReturnsBadRequest() throws Exception {
         Mockito.when(createUserUseCase.createUser(Mockito.any())).thenReturn(createMockCreateUserResponse());

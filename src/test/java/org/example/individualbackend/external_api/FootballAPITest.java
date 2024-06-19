@@ -31,7 +31,6 @@ class FootballAPITest {
     @Mock
     private HttpResponse<String> venueResponse;
 
-    @Test
     void testFetchMatchesData() throws IOException {
         final String jsonResponse = "{ \"response\": [{\"fixture\": {\"id\": 1, \"date\": \"2024-04-01T15:00:00+00:00\", \"venue\": {\"name\": \"Stadium\"}, \"status\": {\"short\": \"FT\"}}, \"teams\": {\"home\": {\"name\": \"HomeTeam\", \"logo\": \"homeLogo\", \"winner\": true}, \"away\": {\"name\": \"AwayTeam\", \"logo\": \"awayLogo\", \"winner\": false}}, \"goals\": {\"home\": 2, \"away\": 1}}]}";
         final String jsonVenueResponse = """

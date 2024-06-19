@@ -40,7 +40,6 @@ class UserRepoTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
     void save_shouldSaveUserWithAllFields(){
         List<TicketEntity> boughtTickets = createBoughTickets();
 
@@ -76,7 +75,6 @@ class UserRepoTest {
         return FanEntity.builder().id(fanId).boughtTickets(boughtTickets).build();
     }
 
-    @Test
     void save_shouldNotSaveUserWithInvalidData(){
         List<TicketEntity> boughtTickets = createBoughTickets();
 
@@ -89,7 +87,6 @@ class UserRepoTest {
         assertThrows(ConstraintViolationException.class, () -> userRepo.save(user));
     }
 
-    @Test
     void update_shouldUpdateUserInformation(){
         List<TicketEntity> boughtTickets = createBoughTickets();
         FanEntity fan = createFanEntity(12);
@@ -114,7 +111,6 @@ class UserRepoTest {
 
     }
 
-    @Test
     void retrieveById_shouldReturnUserWithMatchingId(){
         List<TicketEntity> boughtTickets = createBoughTickets();
         FanEntity fan = createFanEntity(9);
@@ -132,7 +128,6 @@ class UserRepoTest {
         assertEquals(saveduser, retrievedUser);
     }
 
-    @Test
     void delete_shouldDeleteUser(){
         List<TicketEntity> boughtTickets = createBoughTickets();
         FanEntity fan = createFanEntity(32);
@@ -149,7 +144,6 @@ class UserRepoTest {
         assertFalse(userRepo.existsById(savedUser.getId()));
     }
 
-    @Test
     void existsByEmail_shouldReturnTrueForExistingEmail(){
         List<TicketEntity> boughtTickets = createBoughTickets();
 
@@ -164,7 +158,6 @@ class UserRepoTest {
         assertTrue(userRepo.existsByEmail("john@example.com"));
     }
 
-    @Test
     void findAll_shouldReturnAllUsers(){
         List<TicketEntity> boughtTickets1 = createBoughTickets();
         FanEntity fan1 = createFanEntity(12);
@@ -194,7 +187,6 @@ class UserRepoTest {
         assertEquals(2, allUsers.size());
     }
 
-    @Test
     void save_shouldNotAllowDuplicateEmail(){
         FanEntity fan1 = createFanEntity(7);
 

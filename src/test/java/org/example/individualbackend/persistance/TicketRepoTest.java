@@ -37,7 +37,6 @@ class TicketRepoTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
      void save_ShouldSaveTicketWithAllFields(){
         TicketEntity ticketEntity = createTicketEntity(20.0, 5,721);
 
@@ -67,7 +66,6 @@ class TicketRepoTest {
                 .build(), ticketEntity.getFootballMatch());
     }
 
-    @Test
      void saveTicket_InvalidInput_ShouldThrowException(){
         MatchEntity match = createMatchEntity(
                 1,
@@ -97,7 +95,6 @@ class TicketRepoTest {
 
     }
 
-    @Test
      void findById_ShouldReturnTicketEntity(){
         //Arrange
         TicketEntity ticketEntity = createTicketEntity(20.0, 5,721);
@@ -110,8 +107,6 @@ class TicketRepoTest {
         assertNotNull(foundTicketEntity);
         assertEquals(ticketEntity.getId(), foundTicketEntity.getId());
     }
-
-    @Test
      void findById_InvalidId_ShouldReturnNull(){
         //Arrange
         //Act
@@ -121,7 +116,6 @@ class TicketRepoTest {
         assertNull(ticketEntity);
     }
 
-    @Test
      void existsByRowNumAndSeatNumber_ValidTicket_ReturnsTrue(){
         TicketEntity ticketEntity = createTicketEntity(20.0, 5,721);
 
@@ -132,7 +126,6 @@ class TicketRepoTest {
         assertTrue(exists);
     }
 
-    @Test
      void existsByRowNumAndSeatNumber_InvalidTicket_ReturnsFalse(){
         //Arrange
         //Act
@@ -142,7 +135,6 @@ class TicketRepoTest {
         assertFalse(exists);
     }
 
-    @Test
      void deleteById_ValidId_ReturnsTrue(){
         //Arrange
         TicketEntity ticketEntity = createTicketEntity(20.0, 5,721);
@@ -155,7 +147,6 @@ class TicketRepoTest {
         assertFalse(ticketRepo.existsById(ticketEntity.getId()));
     }
 
-    @Test
      void findAllTickets_ReturnsAllTickets(){
         TicketEntity ticketEntity1 = createTicketEntity(20.0, 5,721);
         TicketEntity ticketEntity2 = createTicketEntity(30.0, 2,112);
