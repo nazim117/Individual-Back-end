@@ -69,10 +69,10 @@ jar{
 
 sonar {
     properties {
-        property "sonar.projectKey", "I499773_individual-back-end_8e9ff289-ee19-442d-ba50-7d97a0c86c1e"
+        property "sonar.projectKey", "I499773_individual-back-end_7667eb0f-461d-42ab-86db-b3f81ee29604"
         property "sonar.projectName", "Individual-Back-end"
         property "sonar.host.url", "http://localhost:9000"
-        property "sonar.token", "sqp_d180d3869668aaae2e5aecf21574af5c8db50646"
+        property "sonar.token", "sqp_b2b5c4e47c2f2fcc156eb254e55ed2ad291364c8"
         property "sonar.qualitygate.wait", true
     }
 
