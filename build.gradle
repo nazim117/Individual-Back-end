@@ -73,6 +73,8 @@ sonar {
         property "sonar.projectName", "Individual-Back-end"
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.token", "sqp_d69d86544a25a2f3c58959b19e0f173ae94a04a4"
+        property "sonar.login", "admin"
+        property "sonar.password", "Admin"
         property "sonar.qualitygate.wait", true
     }
 
@@ -114,7 +116,6 @@ jacocoTestCoverageVerification {
                     '**/src/main/java/org/example/individualbackend/business/ticket_service/utilities/**',
                     '**/src/main/java/org/example/individualbackend/business/user_service/interfaces/**',
                     '**/src/main/java/org/example/individualbackend/business/user_service/utilities/**',
-                    '**/src/main/java/org/example/individualbackend/external_api/UnirestWrapper.java',
                     '**/src/main/java/org/example/individualbackend/controller/**',
                     '**/src/main/java/org/example/individualbackend/persistance/**',
                     '**/src/main/java/org/example/individualbackend/external_api/**',
