@@ -73,9 +73,6 @@ sonar {
         property "sonar.projectName", "Individual-Back-end"
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.token", "sqp_d69d86544a25a2f3c58959b19e0f173ae94a04a4"
-        property "sonar.login", "admin"
-        property "sonar.password", "Admin"
-        property 'sonar.gradle.skipCompile', true
         property "sonar.qualitygate.wait", true
     }
 
@@ -89,5 +86,40 @@ jacocoTestReport {
     reports {
         xml.required = true
 
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8
+            }
+        }
+    }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/src/main/java/org/example/individualbackend/config/**',
+                    '**/src/main/java/org/example/individualbackend/domain/**',
+                    '**/src/main/java/org/example/individualbackend/persistance/entity/**',
+                    '**/src/main/java/org/example/individualbackend/IndividualBackEndApplication.java',
+                    '**/src/main/java/org/example/individualbackend/business/general_exceptions/**',
+                    '**/src/main/java/org/example/individualbackend/business/login_service/interfaces/**',
+                    '**/src/main/java/org/example/individualbackend/business/match_service/interfaces/**',
+                    '**/src/main/java/org/example/individualbackend/business/match_service/utilities/**',
+                    '**/src/main/java/org/example/individualbackend/business/notifications_service/interfaces/**',
+                    '**/src/main/java/org/example/individualbackend/business/ticket_service/interfaces/**',
+                    '**/src/main/java/org/example/individualbackend/business/ticket_service/utilities/**',
+                    '**/src/main/java/org/example/individualbackend/business/user_service/interfaces/**',
+                    '**/src/main/java/org/example/individualbackend/business/user_service/utilities/**',
+                    '**/src/main/java/org/example/individualbackend/external_api/UnirestWrapper.java',
+                    '**/src/main/java/org/example/individualbackend/controller/**',
+                    '**/src/main/java/org/example/individualbackend/persistance/**',
+                    '**/src/main/java/org/example/individualbackend/external_api/**',
+                    '***/**/src/main/resources/**'
+            ])
+        })
     }
 }
