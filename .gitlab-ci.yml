@@ -1,43 +1,6 @@
-variables:
-  GIT_DEPTH: "0"
-  SPRING_PROFILES_ACTIVE: test
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-  RAPID_API_KEY: $RAPID_API_KEY
-  SPRING_DATASOURCE_URL: $SPRING_DATASOURCE_URL
-  SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
-  SPRING_DATASOURCE_PASSWORD: $SPRING_DATASOURCE_PASSWORD
-
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - .gradlew/wrapper
-    - .gradle/caches
-
 stages:
-  - build
-  - test
   - sonarqube-check
   - sonarqube-vulnerability-report
-  - deploy
-
-build:
-  stage: build
-  script:
-    - ./gradlew assemble
-    - ./gradlew jar
-    - docker build -t individual-back-end .
-  artifacts:
-    paths:
-      - build/libs/*.jar
-
-test:
-  stage: test
-  script:
-    - ./gradlew test
-  artifacts:
-    when: always
-    paths:
-      - build/reports/tests/
 
 sonarqube-check:
   stage: sonarqube-check
@@ -70,16 +33,6 @@ sonarqube-vulnerability-report:
   artifacts:
     expire_in: 1 day
     reports:
-
-deploy:
-  stage: deploy
-  script:
-    - ls
-    - pwd
-    - docker stop individual-back-end-staging || true
-    - docker rm individual-back-end-staging || true
-    - docker run -d -p 8090:8080 --net=individual_db_staging --env spring_profiles_active=staging --name=individual-back-end-staging individual-back-end
-  only:
-    - main
-  environment:
-    name: staging
+      sast: gl-sast-sonar-report.json
+  dependencies:
+    - sonarqube-check
