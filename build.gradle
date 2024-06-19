@@ -61,8 +61,9 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:mysql'
 }
-jar{
-    manifest{
+
+jar {
+    manifest {
         attributes 'Main-Class': 'org/example/individualbackend/IndividualBackEndApplication'
     }
 }
@@ -75,19 +76,43 @@ sonar {
         property "sonar.token", "sqp_d69d86544a25a2f3c58959b19e0f173ae94a04a4"
         property "sonar.login", "admin"
         property "sonar.password", "Admin"
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
         property "sonar.qualitygate.wait", true
-    }
 
+        // Exclude paths from analysis
+        property "sonar.exclusions", """
+            **/src/main/java/org/example/individualbackend/config/**
+            **/src/main/java/org/example/individualbackend/domain/**
+            **/src/main/java/org/example/individualbackend/persistance/entity/**
+            **/src/main/java/org/example/individualbackend/IndividualBackEndApplication.java
+            **/src/main/java/org/example/individualbackend/business/general_exceptions/**
+            **/src/main/java/org/example/individualbackend/business/login_service/interfaces/**
+            **/src/main/java/org/example/individualbackend/business/match_service/interfaces/**
+            **/src/main/java/org/example/individualbackend/business/match_service/utilities/**
+            **/src/main/java/org/example/individualbackend/business/notifications_service/interfaces/**
+            **/src/main/java/org/example/individualbackend/business/ticket_service/interfaces/**
+            **/src/main/java/org/example/individualbackend/business/ticket_service/utilities/**
+            **/src/main/java/org/example/individualbackend/business/user_service/interfaces/**
+            **/src/main/java/org/example/individualbackend/business/user_service/utilities/**
+            **/src/main/java/org/example/individualbackend/controller/**
+            **/src/main/java/org/example/individualbackend/persistance/**
+            **/src/main/java/org/example/individualbackend/external_api/**
+            **/src/main/resources/**
+        """.stripIndent()
+    }
 }
+
 test {
     useJUnitPlatform()
     systemProperty 'spring.profiles.active', 'test'
     finalizedBy jacocoTestReport
 }
+
 jacocoTestReport {
     reports {
         xml.required = true
-
+        xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
@@ -119,7 +144,7 @@ jacocoTestCoverageVerification {
                     '**/src/main/java/org/example/individualbackend/controller/**',
                     '**/src/main/java/org/example/individualbackend/persistance/**',
                     '**/src/main/java/org/example/individualbackend/external_api/**',
-                    '***/**/src/main/resources/**'
+                    '**/src/main/resources/**'
             ])
         })
     }

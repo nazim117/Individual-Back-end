@@ -41,8 +41,7 @@ test:
 
 sonarqube-check:
   stage: sonarqube-check
-  script:
-    - ./gradlew test jacocoTestReport sonar
+  script: ./gradlew test jacocoTestReport sonar
 
 deploy:
   stage: deploy
